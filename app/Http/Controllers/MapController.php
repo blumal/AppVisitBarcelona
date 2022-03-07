@@ -4,82 +4,60 @@ namespace App\Http\Controllers;
 
 use App\Models\Map;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MapController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+
+    // Entrar al login //
+
+    public function login(){
+        return view('login');
+      }
+
+    // Verificar si el usuario es Admin o Customer //
+
+    public function loginpost(Request $request){
+        $email = $request->input('email_us');
+        $password = $request->input('pass_us');
+        $user=DB::select('select * from tbl_usuario where email_us=? and pass_us=?',[$email,$password]);
+        if (count($user)==1){
+            if($user[0]->id_rol_fk==1){
+                session(['user' => $user[0]->nombre_us]);
+                session(['tipo' => $user[0]->id_rol_fk]);
+                return redirect('admin'); 
+            } else {
+                session(['user' => $user[0]->nombre_us]);
+                session(['tipo' => $user[0]->id_rol_fk]);
+                return redirect('index'); 
+            }       
+        }
+        return redirect('login'); 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    // Cerrar sesion (Logout) //
+
+    public function logout(){
+        session()->forget('user');
+        return redirect('login');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    // Registrar usuario (Crear usuario) //
+
+    public function registro(Request $request){
+        try {
+            $email = $request->input('email');
+            DB::insert('insert into tbl_usuario (email_su,pass_su,nombre_su,apellido1_su,apellido2,tipo_rol) values (?,?,?,?,?,?)',[$request->input('email_us'),$request->input('pass_us'),$request->input('apellido1_us'),$request->input('apellido2')('2')]);
+            return redirect('index');            
+        } catch (\Throwable $th) {
+            return redirect('login');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Map  $map
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Map $map)
-    {
-        //
-    }
+    // Entrar en la pagina Admin //
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Map  $map
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Map $map)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Map  $map
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Map $map)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Map  $map
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Map $map)
-    {
-        //
+    public function admin(){
+        $lista = DB::table('tbl_lugar')->get();
+        return view('admin', compact('lista'));
     }
 }

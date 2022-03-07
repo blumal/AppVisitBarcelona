@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Vista
+Route::get('login',[MapController::class,'login']);
+Route::post('loginpost',[MapController::class,'loginpost']);
+Route::post('registro',[MapController::class,'registro']);
+Route::get('admin',[MapController::class,'admin']);
+// Route::post('filtro',[MapController::class,'show']);
+// Route::post('crear',[MapController::class,'store']);
+// Route::put('actualizar',[MapController::class,'update']);
+// Route::delete('eliminar/{asignatura}',[MapController::class,'destroy']);
