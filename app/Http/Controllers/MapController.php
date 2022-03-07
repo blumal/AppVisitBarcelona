@@ -126,4 +126,17 @@ class MapController extends Controller
             Session::flash('error_eliminar','Error al eliminar el usuario'); 
         }
     }
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            DB::delete('delete from tbl_lugar where id_lu=?',[$id]);
+            DB::delete('delete from tbl_direccion where id_di=?',[$id]);
+            DB::commit();
+            return response()->json(array('resultado'=> 'OK'));
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+        }
+    }
 }
