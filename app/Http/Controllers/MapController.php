@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Map;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MapController extends Controller
 {
@@ -15,7 +16,36 @@ class MapController extends Controller
      */
     public function index()
     {
-        return view('map');
+       try {
+            $dbEtiquetas = DB::table('tbl_etiqueta')->select('*')->get();
+            //Para saber los lugares favoritos del usuario, añadir el where
+            $dbFavs = DB::table('tbl_lugar_tags')
+                ->join('tbl_usuario', 'tbl_lugar_tags.id_usuario_fk', '=', 'tbl_usuario.id_us')
+                ->join('tbl_lugar', 'tbl_lugar_tags.id_lugar_fk', '=', 'tbl_lugar.id_lu')
+                ->select('tbl_lugar.*')
+                ->where('tbl_usuario.id_us','=', '1')
+                ->get();
+            return view('map', compact('dbEtiquetas', 'dbFavs'));
+       } catch (\Throwable $e) {
+            return $e->getMessage();
+       }
+    }
+
+    public function etiquetas($id){
+        try {
+            $dbExtractEtiquetas = "";
+            return response()->json(array('resultado'=> 'OK'));
+        } catch (\Throwable $e) {
+            return response()->json(array('resultado'=> 'NOK: '.$e->getMessage()));
+        }
+    }
+
+    public function favoritos($id){
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**

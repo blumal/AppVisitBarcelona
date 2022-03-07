@@ -18,5 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Home de la web
+//Home customer de la web
 Route::get('map', [MapController::class, 'index']);
+//Vista filtrando por etiquetas
+Route::post('etiquetas/{id}', [MapController::class, 'etiquetas']);
+//Vista filtrando por favoritos
