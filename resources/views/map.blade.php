@@ -27,7 +27,7 @@
                 <label for="Favoritos">Favoritos</label>
                     <input type="checkbox" id="favorito" name="favorito" value="Favorito" onchange="favoritos()">
                 <label for="Etiquetas">Mis etiquetas: </label>
-                <select class="nombre_lu" name="id_lt" onchange="favoritos()">
+                <select class="nombre_lu" name="nombre_lu" onchange="favoritos()">
                     <option value=""></option>
                     @foreach ($dbFavs as $item)
                         <option value="{{$item->id_lu}}">{{$item->nombre_lu}}</option>
@@ -35,9 +35,12 @@
                 </select>
         </form>
     </div>
+    
 <!---->
     <div class="container">
         <div id="map"></div>
+        <!--Extracción de datos, query lugar-->
+        @foreach ($dbLugar as $result)@endforeach
             <script>
                 //Obtenemos la ubicación solicitándosela al usuario
                 /* if (navigator.geolocation) {
@@ -58,21 +61,44 @@
 
                         L.control.scale().addTo(map);
                         L.marker([41.38724300721724, 2.184340276522324], { draggable: true }).addTo(map);
-                        
-                        //Icono metro
-                        var myIcon = L.icon({
-                            //Fotos de la carpeta proyecto
-                            iconUrl: '{{asset('media/train-subway-solid.svg')}}',
-                            iconSize: [30, 80],
-                            iconAnchor: [22, 94],
-                            //popupAnchor: [-3, -76],
-                            /* shadowSize: [68, 95], */
-                            //shadowAnchor: [22, 94]
-                        });
-
-                        L.marker([41.38216646438212, 2.185901305267271], {icon: myIcon}).addTo(map);
                         /* L.marker([lat, long], { draggable: true }).addTo(map); */
-                        //------------------------
+                        //Icono 
+
+                        /* for (let index = 0; index < {{}}.length; index++) {
+                            const element = array[index];
+                            
+                        } */
+                        
+                        array.forEach(element => {
+                            
+                        });
+                        var markerIcon = L.icon({
+                            //Fotos de la carpeta proyecto
+                            iconUrl: 'media/icon/train-subway-solid.svg',
+                            iconSize: [20, 20],
+                            iconAnchor: [20, 20],
+                            popupAnchor: [10, 10]
+                        })
+
+                        //var m = L.marker([41.38216646438212, 2.185901305267271], {icon: markerIcon}).addTo(map);
+                        //Popup con contenido HTML
+                        var markerIconPopup = L.popup().setContent('<h1>{{$item->nombre_lu}}</h1><p>Description</p><a href="">Link</a>');
+                        var m = L.marker([41.38216646438212, 2.185901305267271], {icon: markerIcon}).bindPopup(markerIconPopup).addTo(map);
+                
+                        //----Polígono---ZONA asignada
+                        var polygon = L.polygon([
+                            [41.38848031881683, 2.1728329066133387],
+                            [41.38060621214661, 2.1832460464946237],
+                            [41.386391196711145, 2.1937038462573764],
+                            [41.39147730418495, 2.1867770464946505],
+                            [41.38987919499876, 2.1845477287036847],
+                            [41.39225621821237, 2.1813844575398154],
+                            [41.39110128001272, 2.179905953240446],
+                            [41.390143268433626, 2.17742745753982],
+                            [41.38899809706758, 2.1758068219578766],
+                            [41.38848031881683, 2.1728329066133387]
+                        ]).addTo(map);
+
                     /* }
                     //Si no acepta la ubi...
                     navigator.geolocation.getCurrentPosition(success, function(msg) {

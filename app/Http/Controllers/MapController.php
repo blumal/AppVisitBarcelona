@@ -17,15 +17,23 @@ class MapController extends Controller
     public function index()
     {
        try {
+            $dbLugar = DB::table('tbl_lugar')
+            ->from('tbl_lugar')
+            ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
+            ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
+            ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
+            ->select('*')
+            ->get();
+
             $dbEtiquetas = DB::table('tbl_etiqueta')->select('*')->get();
             //Para saber los lugares favoritos del usuario, añadir el where
             $dbFavs = DB::table('tbl_lugar_tags')
                 ->join('tbl_usuario', 'tbl_lugar_tags.id_usuario_fk', '=', 'tbl_usuario.id_us')
                 ->join('tbl_lugar', 'tbl_lugar_tags.id_lugar_fk', '=', 'tbl_lugar.id_lu')
                 ->select('tbl_lugar.*')
-                ->where('tbl_usuario.id_us','=', '1')
+                ->where('tbl_usuario.id_us','=', '2')
                 ->get();
-            return view('map', compact('dbEtiquetas', 'dbFavs'));
+            return view('map', compact('dbLugar', 'dbEtiquetas', 'dbFavs'));
        } catch (\Throwable $e) {
             return $e->getMessage();
        }
