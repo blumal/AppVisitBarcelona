@@ -27,3 +27,5 @@ Route::put('/modificar',[MapController::class,'modificarPut']);
 Route::delete('/eliminar/{id}',[MapController::class,'eliminar']);
 Route::get('usuarios',[MapController::class,'mostrarUser']);
 Route::post('filtro',[MapController::class,'show']);
+Route::post('crear',[MapController::class,'store']);
+Route::delete('/eliminar2/{id}',[MapController::class,'eliminar2']);

@@ -118,25 +118,24 @@ class MapController extends Controller
 
     public function eliminar($id){
         try {
-            $lista=DB::table('tbl_usuario')->where('id_us','=',$id)->delete();
-            return redirect('admin');
-            Session::flash('exito_eliminar','Usuario eliminado correctamente');
-        } catch (\Throwable $th) {
-            return redirect('admin');
-            Session::flash('error_eliminar','Error al eliminar el usuario'); 
-        }
-    }
-    public function destroy($id)
-    {
-        try {
-            DB::beginTransaction();
-            DB::delete('delete from tbl_lugar where id_lu=?',[$id]);
-            DB::delete('delete from tbl_direccion where id_di=?',[$id]);
-            DB::commit();
+            DB::table('tbl_usuario')->where('id_us','=',$id)->delete();
             return response()->json(array('resultado'=> 'OK'));
         } catch (\Throwable $th) {
-            DB::rollBack();
             return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+        }
+    }
+
+    //Eliminar lugar//
+    public function eliminar2($id){
+        try {
+            DB::beginTransaction();
+            DB::table('tbl_lugar')->where('id_lu','=',$id)->delete();
+            $id2=DB::table('tbl_lugar')->where('id_lu','=',$id)->select('id_direccion_fk');
+            DB::table('tbl_direccion')->where('id_di','=',4)-delete();
+            DB::commit();
+        } catch(\Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
         }
     }
 }

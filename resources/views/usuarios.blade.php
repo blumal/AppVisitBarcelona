@@ -23,6 +23,7 @@
      </form>
 </div>
 
+<div id="message" style="color:green"></div>
 <!--
 <div>
     <form method="post" onsubmit="return false;">
