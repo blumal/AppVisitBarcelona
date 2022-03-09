@@ -33,6 +33,9 @@ function favoritos() {
     alert('Favoritos is working');
 }
 
+function leerMarkets() {
+
+}
 
 //Api del mapa
 /* var map = L.map('map').

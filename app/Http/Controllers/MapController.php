@@ -30,7 +30,8 @@ class MapController extends Controller
             return $e->getMessage();
        }
     }
-
+    //Función orientada a obtener todos los datos de los markets, para posteriormente insertarlos en el mapa mediante ajax, y todos estos datos los pasaremos a JS con la variable generada
+    //dbLugar mediante una respuesta JSON
     public function montarMarkets()
     {
         $dbLugar = DB::table('tbl_lugar')
