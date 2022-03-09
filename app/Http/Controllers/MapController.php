@@ -31,7 +31,7 @@ class MapController extends Controller
             } else {
                 session(['user' => $user[0]->nombre_us]);
                 session(['tipo' => $user[0]->id_rol_fk]);
-                return redirect('index'); 
+                return redirect('map'); 
             }       
         }
         Session::flash('error_inicio','Las credenciales son incorrectas'); 
@@ -55,8 +55,9 @@ class MapController extends Controller
        }
     }
 
-    //Función orientada a obtener todos los datos de los markets, para posteriormente insertarlos en el mapa mediante ajax, y todos estos datos los pasaremos a JS con la variable generada
-    //dbLugar mediante una respuesta JSON
+    // Función orientada a obtener todos los datos de los markets, para posteriormente insertarlos en el mapa mediante ajax, y todos estos datos los pasaremos a JS con la variable generada
+    // dbLugar mediante una respuesta JSON
+
     public function montarMarkets()
     {
         $dbLugar = DB::table('tbl_lugar')
@@ -114,10 +115,12 @@ class MapController extends Controller
         return view('admin', compact('lista'));
     }
 
-    public function mostrarUser(){
-        $listaUsuario = DB::table('tbl_usuario')->get();
-        return view('usuarios', compact('listaUsuario'));
-    }
+    // public function mostrarUser(){
+    //     $listaUsuario = DB::table('tbl_usuario')->get();
+    //     return view('usuarios', compact('listaUsuario'));
+    // }
+
+    // Mostrar tablas pagina Admin con AJAX //
 
     public function show(Request $request)
     {

@@ -103,7 +103,7 @@ function filtro() {
                         recarga += '<td>' + respuesta[i].direccion_di + '</td>';
                         recarga += '<td>';
                         // editar
-                        recarga += '<button class="btn btn-secondary" type="submit" value="Edit" onclick="modalbox(' + respuesta[i].id + ',\'' + respuesta[i].nombre + '\',\'' + respuesta[i].peso + '\'' + respuesta[i].num_serie + '\');return false;">Editar</button>';
+                        recarga += '<button class="btn btn-secondary" value="Edit" onclick="modalbox_editar(' + respuesta[i].id + ',\'' + respuesta[i].nombre + '\',\'' + respuesta[i].peso + '\'' + respuesta[i].num_serie + '\');return false;">Editar</button>';
                         recarga += '</td>';
                         recarga += '<td>';
                         // eliminar
@@ -115,6 +115,65 @@ function filtro() {
                         recarga += '</tr>';
 
                     }
+                    table.innerHTML = recarga;
+                    /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
+                    /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */
+                }
+            }
+        }
+        /*
+        send(string)->Sends the request to the server (used for POST)
+        */
+    ajax.send(formData)
+}
+
+function boton_crear() {
+    /* Obtener elemento html donde introduciremos la recarga (datos o mensajes) */
+    var boton = document.getElementById('boton');
+    /* 
+    Obtener elemento/s que se pasarán como parámetros: token, method, inputs... 
+    var token = document.getElementById('token').getAttribute("content");
+
+
+    Usar el objeto FormData para guardar los parámetros que se enviarán:
+    var formData = new FormData();
+    formData.append('_token', token);
+    formData.append('clave', valor);
+    */
+    var token = document.getElementById('token').getAttribute("content");
+    var method = document.getElementById('postFiltro').value;
+    var crear = document.getElementById('search').value;
+
+    var formData = new FormData();
+    formData.append('_token', token);
+    formData.append('_method', method);
+    formData.append('nombre', crear);
+
+    /* Inicializar un objeto AJAX */
+    var ajax = objetoAjax();
+    /*
+    ajax.open("method", "rutaURL", true);
+    GET  -> No envía parámetros
+    POST -> Sí envía parámetros
+    true -> asynchronous
+    */
+    ajax.open("POST", "crear", true);
+    ajax.onreadystatechange = function() {
+
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                var respuesta = JSON.parse(this.responseText);
+                if (crear == "1") {
+                    /* Crear la estructura html que se devolverá dentro de una variable recarga*/
+                    var recarga = '';
+                    recarga += '<tr>';
+                    table.innerHTML = recarga;
+                    /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
+                    /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */
+                } else {
+
+                    /* Crear la estructura html que se devolverá dentro de una variable recarga*/
+                    var recarga = '';
+                    recarga += '<tr>';
                     table.innerHTML = recarga;
                     /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
                     /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */

@@ -40,6 +40,27 @@ window.onclick = function(event) {
     }
 }
 
+/* Modal crear */
+
+function abrirmodal_editar() {
+    modal = document.getElementById('modalbox_editar')
+    modal.style.display = "block";
+    modal_login = document.getElementById('modaleditar')
+    modal_login.style.display = "block";
+}
+
+function closeModal_editar() {
+    let modal = document.getElementById("modalbox_editar");
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("modalbox_editar");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
 /* Boton mostrar contraseña */
 
 function mostrarContraseña() {

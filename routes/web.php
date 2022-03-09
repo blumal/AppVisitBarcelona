@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\MapController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MapController;
 use App\Http\Controllers\DB;
 
 /*
