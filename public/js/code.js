@@ -19,6 +19,29 @@ window.onclick = function(event) {
     }
 }
 
+/* Modal crear */
+
+function abrirmodal_crear() {
+    modal = document.getElementById('modalbox_crear')
+    modal.style.display = "block";
+    modal_login = document.getElementById('modalcrear')
+    modal_login.style.display = "block";
+}
+
+function closeModal_crear() {
+    let modal = document.getElementById("modalbox_crear");
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("modalbox_crear");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+/* Boton mostrar contraseña */
+
 function mostrarContraseña() {
     var tipo = document.getElementById("password");
     if (tipo.type == "password") {
@@ -36,6 +59,8 @@ function mostrarContraseña2() {
         tipo.type = "pass_us";
     }
 }
+
+/* Validación iniciar sesion */
 
 function validar() {
     var email = document.getElementById('email').value;
@@ -70,7 +95,69 @@ function validar() {
 
             //alert ("No se ha especificado ningun valor");
 
-            document.getElementById('mensaje').innerHTML = "<p>No se ha especificado ningun Valor</p>";
+            document.getElementById('mensaje').innerHTML = "<p>No se ha especificado ningun valor</p>";
+            document.getElementById('mensaje').style.color = "red";
+            document.getElementById('password').style.border = "2px solid red";
+            document.getElementById('email').style.border = "2px solid red";
+            return false;
+        }
+    } else {
+        return true;
+    }
+}
+
+/*  Desaparece mensaje error_inicio cuando pulsamos en un input */
+
+function error_inicio() {
+    document.getElementById('error_inicio').innerHTML = "";
+    error_validar();
+}
+
+/* Desaparece mensaje de validar cuando pulsamos en un input */
+
+function error_validar() {
+    document.getElementById('mensaje').innerHTML = "";
+    document.getElementById('password').style.border = "2px solid black";
+    document.getElementById('email').style.border = "2px solid black";
+
+}
+
+/* Validación registro usuario */
+
+function validar_registro() {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    // alert(email);
+    // alert(password);
+
+    if (email == "" || password == "") {
+
+        if (email == "" && password != "") {
+
+            //alert ("No se ha especificado ningun Email");
+
+            document.getElementById('mensaje').innerHTML = "<p>No se ha especificado ningun Email</p>";
+            document.getElementById('mensaje').style.color = "red";
+            document.getElementById('email').style.border = "2px solid red";
+            document.getElementById('password').style.border = "2px solid grey";
+            return false;
+
+        } else if (email != "" && password == "") {
+
+            //alert ("No se ha especificado ninguna Contraseña");
+
+            document.getElementById('mensaje').innerHTML = "<p>No se ha especificado ninguna Contraseña</p>";
+            document.getElementById('mensaje').style.color = "red";
+            document.getElementById('password').style.border = "2px solid red";
+            document.getElementById('email').style.border = "2px solid grey";
+            return false;
+
+        } else {
+
+            //alert ("No se ha especificado ningun valor");
+
+            document.getElementById('mensaje').innerHTML = "<p>No se ha especificado ningun valor</p>";
             document.getElementById('mensaje').style.color = "red";
             document.getElementById('password').style.border = "2px solid red";
             document.getElementById('email').style.border = "2px solid red";

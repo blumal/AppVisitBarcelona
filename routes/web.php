@@ -16,11 +16,33 @@ use App\Http\Controllers\DB;
 */
 
 //Vista
+
+// Login (Inicio Sesion) //
 Route::get('login',[MapController::class,'login']);
 Route::post('loginpost',[MapController::class,'loginpost']);
+
+// Logout (Cerrar Sesion) //
+Route::post('logout',[MapController::class,'logout']);
+
+// Registrar nuevo usuario //
 Route::post('registro',[MapController::class,'registro']);
+
+// Si el usuario logueado es Admin ira a esta página //
 Route::get('admin',[MapController::class,'admin']);
-// Route::post('filtro',[MapController::class,'show']);
-// Route::post('crear',[MapController::class,'store']);
-// Route::put('actualizar',[MapController::class,'update']);
-// Route::delete('eliminar/{asignatura}',[MapController::class,'destroy']);
+
+// Mostrar usuarios AJAX //
+Route::get('usuarios',[MapController::class,'mostrarUser']);
+Route::post('filtro',[MapController::class,'show']);
+
+// Crear usuarios //
+Route::get('crear',[MapController::class,'crear']);
+Route::post('crear',[MapController::class,'crearPost']);
+
+// Modificar usuarios //
+Route::get('modificar/{id}',[MapController::class,'modificar']);
+Route::put('modificar',[MapController::class,'modificarPut']);
+
+// Eliminar Usuarios //
+Route::delete('eliminar/{id}',[MapController::class,'eliminar']);
+
+

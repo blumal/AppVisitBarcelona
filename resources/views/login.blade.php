@@ -23,12 +23,15 @@
         </div>
         <form action="{{url('loginpost')}}" method="post" onsubmit="return validar();">
             @csrf
-            <input class="inputlogin" type="email" name="email_us" id="email" placeholder="Email">
-            <input class="inputcontraseña" type="password" name="pass_us" id="password" placeholder="Contraseña">
+            <input class="inputlogin" type="email" name="email_us" id="email" placeholder="Email" onfocus="error_inicio()">
+            <input class="inputcontraseña" type="password" name="pass_us" id="password" placeholder="Contraseña" onfocus="error_inicio()">
             <button class="mostrarcontraseña" type="button" onclick="mostrarContraseña()"><i id="eye" class="fa-solid fa-eye"></i></button>
                 <div id="mensaje">
                 </div>
-            <button class="botonlogin" type="submit" value="INICIAR SESION"><b>INICIAR SESSION<b></button>
+                @if(Session::has('error_inicio'))
+                    <div id='error_inicio' class="error_inicio"><br>{{Session::get('error_inicio') }} <i class="fa-solid fa-triangle-exclamation"></i><br><br></div>
+                @endif
+            <button class="botonlogin" type="submit" value="INICIAR SESION"><span>INICIAR SESSION</span></button>
         </form>
         <div class="hr1">
             <hr>
@@ -36,10 +39,16 @@
         <div class="no-cuenta-text">
             <p>¿No tienes cuenta?</p>
         </div>
-        <div class="hr2">
+        <div class="hr1">
             <hr>
         </div>
-            <button class="botonregistrar" value="REGISTRARSE" onclick="abrirmodal(); return false;">REGISTRARSE</button>          
+            <button class="botonregistrar" value="REGISTRARSE" onclick="abrirmodal(); return false;">REGISTRARSE</button>
+            @if(Session::has('error_registro'))
+                <div id='error_registro' class="error_inicio"><br>{{Session::get('error_registro') }} <i class="fa-solid fa-triangle-exclamation"></i><br></div>
+            @endif
+            @if(Session::has('exito_registro'))
+                <div id='exito_registro' class="error_inicio"><br>{{Session::get('exito_registro') }} <br></div>
+            @endif            
         </div>
     </div>
 
@@ -47,12 +56,21 @@
         <div class="modalregistro" id="modalregistro">
             <span class="close" onclick="closeModal(); return false;">&times;</span>             
             <h2>Bienvenido</h2>
-            <form action="{{url('registro')}}" method="post">
+            <form action="{{url('crear')}}" method="post">
                 @csrf
                 <input class="inputregistro" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
                 <input class="inputregistro" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
-                <input class="inputregistro" type="text" name="apellido2" id="apellido2" placeholder="Apellido 2">
+                <input class="inputregistro" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
                 <input class="inputregistro" type="email" name="email_us" id="email_us" placeholder="Usuario">
+                <div class="hr1">
+                    <hr>
+                </div>
+                <div class="no-cuenta-text">
+                    <p>Datos de inicio de sesión</p>
+                </div>
+                <div class="hr2">
+                    <hr>
+                </div>
                 <input class="contraseñaregistro" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
                 <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
                 <input class="inputregistro" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña">
