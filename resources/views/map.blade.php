@@ -7,6 +7,7 @@
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
     <script type="text/javascript" src="{{asset('js/map.js')}}"></script>
+    <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{asset('css/map.css')}}">
     <title>Home</title>
 </head>
@@ -39,9 +40,7 @@
 <!---->
     <div class="container">
         <div id="map"></div>
-        <!--Extracción de datos, query lugar-->
-        @foreach ($dbLugar as $result)@endforeach
-            <script>
+            {{-- <script>
                 //Obtenemos la ubicación solicitándosela al usuario
                 /* if (navigator.geolocation) {
                     var success = function(position) {
@@ -97,7 +96,7 @@
                         alert.error(msg);
                     });
                 } */
-            </script>
+            </script> --}}
     </div>
 </center>
 </body>
