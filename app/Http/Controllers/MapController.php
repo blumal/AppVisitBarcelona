@@ -17,14 +17,6 @@ class MapController extends Controller
     public function index()
     {
        try {
-            $dbLugar = DB::table('tbl_lugar')
-            ->from('tbl_lugar')
-            ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
-            ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
-            ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
-            ->select('*')
-            ->get();
-
             $dbEtiquetas = DB::table('tbl_etiqueta')->select('*')->get();
             //Para saber los lugares favoritos del usuario, añadir el where
             $dbFavs = DB::table('tbl_lugar_tags')
@@ -33,10 +25,22 @@ class MapController extends Controller
                 ->select('tbl_lugar.*')
                 ->where('tbl_usuario.id_us','=', '2')
                 ->get();
-            return view('map', compact('dbLugar', 'dbEtiquetas', 'dbFavs'));
+            return view('map', compact(/* 'dbLugar' */'dbEtiquetas', 'dbFavs'));
        } catch (\Throwable $e) {
             return $e->getMessage();
        }
+    }
+
+    public function montarMarkets()
+    {
+        $dbLugar = DB::table('tbl_lugar')
+            ->from('tbl_lugar')
+            ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
+            ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
+            ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
+            ->select('*')
+            ->get();
+        return response()->json($dbLugar);
     }
 
     public function etiquetas($id){

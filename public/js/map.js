@@ -1,4 +1,7 @@
-alert('Funcionando')
+//Cuando la página principal se recargue, llama a la función leerMarkets
+window.onload = function() {
+    leerMarkets();
+}
 
 function objetoAjax() {
     var xmlhttp = false;

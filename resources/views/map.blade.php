@@ -63,15 +63,7 @@
                         L.marker([41.38724300721724, 2.184340276522324], { draggable: true }).addTo(map);
                         /* L.marker([lat, long], { draggable: true }).addTo(map); */
                         //Icono 
-
-                        /* for (let index = 0; index < {{}}.length; index++) {
-                            const element = array[index];
-                            
-                        } */
                         
-                        array.forEach(element => {
-                            
-                        });
                         var markerIcon = L.icon({
                             //Fotos de la carpeta proyecto
                             iconUrl: 'media/icon/train-subway-solid.svg',
