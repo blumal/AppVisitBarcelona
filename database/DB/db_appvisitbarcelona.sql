@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-03-2022 a las 19:18:49
+-- Tiempo de generación: 07-03-2022 a las 15:25:34
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.11
 
@@ -34,6 +34,14 @@ CREATE TABLE `tbl_direccion` (
   `longitud_di` decimal(5,3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_direccion`
+--
+
+INSERT INTO `tbl_direccion` (`id_di`, `direccion_di`, `latitud_di`, `longitud_di`) VALUES
+(1, 'Avinguda de la Granvia de l’Hospitalet, 75, 08908 L\'Hospitalet de Llobregat, Barcelona', '41.359', '2.130'),
+(3, 'Carrer de Calafell, 21, 08850 Gavà, Barcelona', '41.266', '2.009');
+
 -- --------------------------------------------------------
 
 --
@@ -52,7 +60,10 @@ CREATE TABLE `tbl_etiqueta` (
 INSERT INTO `tbl_etiqueta` (`id_et`, `etiqueta_et`) VALUES
 (1, 'Hotel'),
 (2, 'Restaurante'),
-(3, 'Bar');
+(3, 'Bar'),
+(4, 'Museo'),
+(5, 'Discoteca'),
+(6, 'Centro comercial');
 
 -- --------------------------------------------------------
 
@@ -62,7 +73,7 @@ INSERT INTO `tbl_etiqueta` (`id_et`, `etiqueta_et`) VALUES
 
 CREATE TABLE `tbl_foto` (
   `id_fo` int(11) NOT NULL,
-  `foto` varchar(300) DEFAULT NULL
+  `foto_fo` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -92,6 +103,14 @@ CREATE TABLE `tbl_lugar` (
   `id_icono_fk` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `tbl_lugar`
+--
+
+INSERT INTO `tbl_lugar` (`id_lu`, `nombre_lu`, `descripcion_lu`, `id_foto_fk`, `id_direccion_fk`, `id_etiqueta_fk`, `id_icono_fk`) VALUES
+(1, 'Gran vía 2', 'Centro comercial', NULL, 1, 6, NULL),
+(2, 'Catalina Gava Mar', 'Restaurante', NULL, 3, 2, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +124,14 @@ CREATE TABLE `tbl_lugar_tags` (
   `id_tag_fk` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `tbl_lugar_tags`
+--
+
+INSERT INTO `tbl_lugar_tags` (`id_lt`, `id_usuario_fk`, `id_lugar_fk`, `id_tag_fk`) VALUES
+(1, 1, 1, 1),
+(2, 1, 2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -116,6 +143,14 @@ CREATE TABLE `tbl_rol_us` (
   `rol_ro` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `tbl_rol_us`
+--
+
+INSERT INTO `tbl_rol_us` (`id_ro`, `rol_ro`) VALUES
+(1, 'admin'),
+(2, 'customer');
+
 -- --------------------------------------------------------
 
 --
@@ -124,8 +159,16 @@ CREATE TABLE `tbl_rol_us` (
 
 CREATE TABLE `tbl_tag` (
   `id_ta` int(11) NOT NULL,
-  `tag` varchar(50) DEFAULT NULL
+  `tag_ta` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_tag`
+--
+
+INSERT INTO `tbl_tag` (`id_ta`, `tag_ta`) VALUES
+(1, 'Tiempo libre'),
+(2, 'Capricho');
 
 -- --------------------------------------------------------
 
@@ -137,11 +180,19 @@ CREATE TABLE `tbl_usuario` (
   `id_us` int(11) NOT NULL,
   `nombre_us` varchar(60) DEFAULT NULL,
   `apellido1_us` varchar(60) DEFAULT NULL,
-  `apellido2` varchar(60) DEFAULT NULL,
+  `apellido2_us` varchar(60) DEFAULT NULL,
   `email_us` varchar(50) DEFAULT NULL,
   `pass_us` varchar(30) DEFAULT NULL,
   `id_rol_fk` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_usuario`
+--
+
+INSERT INTO `tbl_usuario` (`id_us`, `nombre_us`, `apellido1_us`, `apellido2_us`, `email_us`, `pass_us`, `id_rol_fk`) VALUES
+(1, 'Alfredo', 'Blum', 'Torres', 'blum@app.net', 'qwe123', 2),
+(2, 'Jean Pierre', 'Blum', 'Torres', 'jblum@app.net', 'asd1233', 2);
 
 --
 -- Índices para tablas volcadas
@@ -217,13 +268,13 @@ ALTER TABLE `tbl_usuario`
 -- AUTO_INCREMENT de la tabla `tbl_direccion`
 --
 ALTER TABLE `tbl_direccion`
-  MODIFY `id_di` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_di` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etiqueta`
 --
 ALTER TABLE `tbl_etiqueta`
-  MODIFY `id_et` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_et` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_foto`
@@ -241,25 +292,31 @@ ALTER TABLE `tbl_icono`
 -- AUTO_INCREMENT de la tabla `tbl_lugar`
 --
 ALTER TABLE `tbl_lugar`
-  MODIFY `id_lu` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_lu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_lugar_tags`
 --
 ALTER TABLE `tbl_lugar_tags`
-  MODIFY `id_lt` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_lt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_rol_us`
 --
 ALTER TABLE `tbl_rol_us`
-  MODIFY `id_ro` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_tag`
+--
+ALTER TABLE `tbl_tag`
+  MODIFY `id_ta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuario`
 --
 ALTER TABLE `tbl_usuario`
-  MODIFY `id_us` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_us` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas

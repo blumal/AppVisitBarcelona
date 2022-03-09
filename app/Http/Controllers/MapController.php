@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Map;
+use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -35,6 +36,54 @@ class MapController extends Controller
         }
         Session::flash('error_inicio','Las credenciales son incorrectas'); 
         return redirect('login'); 
+    }
+
+    public function index()
+    {
+       try {
+            $dbEtiquetas = DB::table('tbl_etiqueta')->select('*')->get();
+            //Para saber los lugares favoritos del usuario, añadir el where
+            $dbFavs = DB::table('tbl_lugar_tags')
+                ->join('tbl_usuario', 'tbl_lugar_tags.id_usuario_fk', '=', 'tbl_usuario.id_us')
+                ->join('tbl_lugar', 'tbl_lugar_tags.id_lugar_fk', '=', 'tbl_lugar.id_lu')
+                ->select('tbl_lugar.*')
+                ->where('tbl_usuario.id_us','=', '2')
+                ->get();
+            return view('map', compact(/* 'dbLugar' */'dbEtiquetas', 'dbFavs'));
+       } catch (\Throwable $e) {
+            return $e->getMessage();
+       }
+    }
+
+    //Función orientada a obtener todos los datos de los markets, para posteriormente insertarlos en el mapa mediante ajax, y todos estos datos los pasaremos a JS con la variable generada
+    //dbLugar mediante una respuesta JSON
+    public function montarMarkets()
+    {
+        $dbLugar = DB::table('tbl_lugar')
+            ->from('tbl_lugar')
+            ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
+            ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
+            ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
+            ->select('*')
+            ->get();
+        return response()->json($dbLugar);
+    }
+
+    public function etiquetas($id){
+        try {
+            $dbExtractEtiquetas = "";
+            return response()->json(array('resultado'=> 'OK'));
+        } catch (\Throwable $e) {
+            return response()->json(array('resultado'=> 'NOK: '.$e->getMessage()));
+        }
+    }
+
+    public function favoritos($id){
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     // Cerrar sesion (Logout) //

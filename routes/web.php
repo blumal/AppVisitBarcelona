@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MapController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\DB;
@@ -45,4 +46,10 @@ Route::put('modificar',[MapController::class,'modificarPut']);
 // Eliminar Usuarios //
 Route::delete('eliminar/{id}',[MapController::class,'eliminar']);
 
+//  Si el usuario logueado es Customer ira a esta página //
+Route::get('map', [MapController::class, 'index']);
 
+// Vista filtrando por etiquetas //
+Route::post('etiquetas/{id}', [MapController::class, 'etiquetas']);
+
+// Vista filtrando por favoritos
