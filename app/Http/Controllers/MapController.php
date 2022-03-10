@@ -35,11 +35,11 @@ class MapController extends Controller
     public function montarMarkets()
     {
         $dbLugar = DB::table('tbl_lugar')
-            ->from('tbl_lugar')
             ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
             ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
             ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
-            ->select('tbl_lugar.*', 'tbl_direccion.*', 'tbl_etiqueta.*', 'tbl_icono.*')
+            ->join('tbl_foto', 'tbl_lugar.id_foto_fk', '=', 'tbl_foto.id_fo')
+            ->select('*')
             ->get();
         return response()->json($dbLugar);
     }
