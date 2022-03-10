@@ -65,7 +65,7 @@ class MapController extends Controller
             ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
             ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
             ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
-            ->select('*')
+            ->select('tbl_lugar.*', 'tbl_direccion.*', 'tbl_etiqueta.*', 'tbl_icono.*')
             ->get();
         return response()->json($dbLugar);
     }

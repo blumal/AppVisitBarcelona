@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
     <script type="text/javascript" src="{{asset('js/map.js')}}"></script>
@@ -41,8 +42,7 @@
 <!---->
     <div class="container">
         <div id="map"></div>
-        <!--Extracción de datos, query lugar-->
-            <script>
+            {{-- <script>
                 //Obtenemos la ubicación solicitándosela al usuario
                 /* if (navigator.geolocation) {
                     var success = function(position) {
@@ -98,7 +98,7 @@
                         alert.error(msg);
                     });
                 } */
-            </script>
+            </script> --}}
     </div>
 
 
