@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Map;
+use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class MapController extends Controller
 {
+    public function mostrarUser(){
+        $listaUsuario=DB::select('select * from tbl_usuario;');
+        return view('admin', compact('listaUsuario'));
+    }
 
     // Entrar al login //
 
@@ -29,10 +35,60 @@ class MapController extends Controller
             } else {
                 session(['user' => $user[0]->nombre_us]);
                 session(['tipo' => $user[0]->id_rol_fk]);
-                return redirect('index'); 
+                return redirect('map'); 
             }       
         }
+        Session::flash('error_inicio','Las credenciales son incorrectas'); 
         return redirect('login'); 
+    }
+
+    public function index()
+    {
+       try {
+            $dbEtiquetas = DB::table('tbl_etiqueta')->select('*')->get();
+            //Para saber los lugares favoritos del usuario, añadir el where
+            $dbFavs = DB::table('tbl_lugar_tags')
+                ->join('tbl_usuario', 'tbl_lugar_tags.id_usuario_fk', '=', 'tbl_usuario.id_us')
+                ->join('tbl_lugar', 'tbl_lugar_tags.id_lugar_fk', '=', 'tbl_lugar.id_lu')
+                ->select('tbl_lugar.*')
+                ->where('tbl_usuario.id_us','=', '2')
+                ->get();
+            return view('map', compact(/* 'dbLugar' */'dbEtiquetas', 'dbFavs'));
+       } catch (\Throwable $e) {
+            return $e->getMessage();
+       }
+    }
+
+    // Función orientada a obtener todos los datos de los markets, para posteriormente insertarlos en el mapa mediante ajax, y todos estos datos los pasaremos a JS con la variable generada
+    // dbLugar mediante una respuesta JSON
+
+    public function montarMarkets()
+    {
+        $dbLugar = DB::table('tbl_lugar')
+            ->from('tbl_lugar')
+            ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
+            ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
+            ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
+            ->select('*')
+            ->get();
+        return response()->json($dbLugar);
+    }
+
+    public function etiquetas($id){
+        try {
+            $dbExtractEtiquetas = "";
+            return response()->json(array('resultado'=> 'OK'));
+        } catch (\Throwable $e) {
+            return response()->json(array('resultado'=> 'NOK: '.$e->getMessage()));
+        }
+    }
+
+    public function favoritos($id){
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     // Cerrar sesion (Logout) //
@@ -46,11 +102,13 @@ class MapController extends Controller
 
     public function registro(Request $request){
         try {
-            $email = $request->input('email');
-            DB::insert('insert into tbl_usuario (email_su,pass_su,nombre_su,apellido1_su,apellido2,tipo_rol) values (?,?,?,?,?,?)',[$request->input('email_us'),$request->input('pass_us'),$request->input('apellido1_us'),$request->input('apellido2')('2')]);
-            return redirect('index');            
+            $datos = $request->except('_token');
+            DB::table('tbl_usuario')->insertGetId(["nombre_us"=>$datos['nombre_us'],"apellido1_us"=>$datos['apellido1_us'],"apellido2_us"=>$datos['apellido2_us'],"email_us"=>$datos['email_us'],"pass_us"=>$datos['pass_us']]);
+            return redirect('login');
+            Session::flash('exito_registro','Usuario registrado correctamente');          
         } catch (\Throwable $th) {
             return redirect('login');
+            Session::flash('error_registro','Error al registrar el usuario'); 
         }
     }
 
@@ -61,19 +119,17 @@ class MapController extends Controller
         return view('admin', compact('lista'));
     }
 
-    public function mostrarUser(){
-        $listaUsuario = DB::table('tbl_usuario')->get();
-        return view('usuarios', compact('listaUsuario'));
-    }
+    // public function (){
+    //     $listaUsuario = DB::table('tbl_usuario')->get();
+    //     return view('usuarios', compact('listaUsuario'));
+    // }
+
+    // Mostrar tablas pagina Admin con AJAX //
 
     public function show(Request $request)
     {
         $valor = $request->input('nombre');
         if ($valor == 1) {
-        //DB::table('tbl_animales')->join('tbl_chip','tbl_animales.id','=','tbl_chip.id_animal')->select('*')->get();
-        //$listaUsuario= DB::select('select * from tbl_usuario where nombre_us like ?',['%'.$request->input('nombre').'%']);
-        //$listaAnimal=DB::select('select * from tbl_asignatura where nombre like ?',['%'.$request->input('nombre').'%']);
-        // return view('clientes.index', compact('clientes'));
         $listaUsuario= DB::select('select * from tbl_usuario');
         return response()->json($listaUsuario);
         }
@@ -83,13 +139,14 @@ class MapController extends Controller
         }
     }
 
-    // crear usuario //
+    // Crear usuario //
+
     public function crear(){
         try {
             $email = $request->input('email');
             DB::insert('insert into tbl_usuario (email_su,pass_su,nombre_su,apellido1_su,apellido2,tipo_rol) values (?,?,?,?,?,?)',[$request->input('email_us'),$request->input('pass_us'),$request->input('apellido1_us'),$request->input('apellido2')('2')]);
             return redirect('admin');
-            Session::flash('exito_crear','Usuario creado correctamente');
+            Session::flash('exito_crear','Usuario creado correctamente');           
         } catch (\Throwable $th) {
             return redirect('admin');
             Session::flash('error_crear','Error al crear el usuario'); 
@@ -118,24 +175,13 @@ class MapController extends Controller
 
     public function eliminar($id){
         try {
-            DB::table('tbl_usuario')->where('id_us','=',$id)->delete();
-            return response()->json(array('resultado'=> 'OK'));
+            $lista=DB::table('tbl_usuario')->where('id_us','=',$id)->delete();
+            return redirect('admin');
+            Session::flash('exito_eliminar','Usuario eliminado correctamente');
         } catch (\Throwable $th) {
-            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+            return redirect('admin');
+            Session::flash('error_eliminar','Error al eliminar el usuario'); 
         }
     }
 
-    //Eliminar lugar//
-    public function eliminar2($id){
-        try {
-            DB::beginTransaction();
-            DB::table('tbl_lugar')->where('id_lu','=',$id)->delete();
-            $id2=DB::table('tbl_lugar')->where('id_lu','=',$id)->select('id_direccion_fk');
-            DB::table('tbl_direccion')->where('id_di','=',4)-delete();
-            DB::commit();
-        } catch(\Exception $e){
-            DB::rollBack();
-            return $e->getMessage();
-        }
-    }
 }
