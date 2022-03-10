@@ -7,6 +7,8 @@
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
     <script type="text/javascript" src="{{asset('js/map.js')}}"></script>
+    <script defer src="../public/fontawesome/js/all.js"></script>
+    <script src="../public/js/code.js"></script>
     <link rel="stylesheet" href="{{asset('css/map.css')}}">
     <title>Home</title>
 </head>
@@ -40,7 +42,6 @@
     <div class="container">
         <div id="map"></div>
         <!--Extracción de datos, query lugar-->
-        @foreach ($dbLugar as $result)@endforeach
             <script>
                 //Obtenemos la ubicación solicitándosela al usuario
                 /* if (navigator.geolocation) {
@@ -74,7 +75,7 @@
 
                         //var m = L.marker([41.38216646438212, 2.185901305267271], {icon: markerIcon}).addTo(map);
                         //Popup con contenido HTML
-                        var markerIconPopup = L.popup().setContent('<h1>{{$item->nombre_lu}}</h1><p>Description</p><a href="">Link</a>');
+                        var markerIconPopup = L.popup().setContent('<h1>{{}}</h1><p>Description</p><button class="ver" onclick="abrirmodal_lugar(); return false;">Ver mas...</button>');
                         var m = L.marker([41.38216646438212, 2.185901305267271], {icon: markerIcon}).bindPopup(markerIconPopup).addTo(map);
                 
                         //----Polígono---ZONA asignada
@@ -99,6 +100,30 @@
                 } */
             </script>
     </div>
+
+
+<div class="modalbox_lugar" id="modalbox_lugar">
+    <div class="modallugar" id="modallugar">
+        <span class="close" onclick="closeModal_lugar(); return false;">&times;</span>
+        <div class="fotos">
+            <img src="">
+        </div>
+        <hr>
+        <div class="titulo">
+            <h1>TITULO DE MUESTRA<h1>
+        </div>
+        <div class="categoria">
+            <h3>Soy un restaurante<h3>
+        </div>
+        <div class="descripcion">
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
+        </div>
+        <div class="favoritos">
+            <i class="fa-regular fa-star"></i>
+        </div>
+    </div>
+</div>
+
 </center>
 </body>
 </html>

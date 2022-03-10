@@ -49,7 +49,7 @@ class MapController extends Controller
                 ->select('tbl_lugar.*')
                 ->where('tbl_usuario.id_us','=', '2')
                 ->get();
-            return view('map', compact(/* 'dbLugar' */'dbEtiquetas', 'dbFavs'));
+            return view('map', compact('dbEtiquetas', 'dbFavs'));
        } catch (\Throwable $e) {
             return $e->getMessage();
        }
@@ -98,13 +98,13 @@ class MapController extends Controller
 
     public function registro(Request $request){
         try {
-            $datos = $request->except('_token');
-            DB::table('tbl_usuario')->insertGetId(["nombre_us"=>$datos['nombre_us'],"apellido1_us"=>$datos['apellido1_us'],"apellido2_us"=>$datos['apellido2_us'],"email_us"=>$datos['email_us'],"pass_us"=>$datos['pass_us']]);
+            $email = $request->input('email');
+            DB::insert('insert into tbl_usuario (nombre_us,apellido1_us,apellido2_us,email_us,pass_us,id_rol_fk) values (?,?,?,?,?,?)',[$request->input('nombre_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),$request->input('email_us'),$request->input('pass_us'),'2']);
             return redirect('login');
-            Session::flash('exito_registro','Usuario registrado correctamente');          
+            Session::flash('exito_registro','Usuario registrado correctamente');           
         } catch (\Throwable $th) {
             return redirect('login');
-            Session::flash('error_registro','Error al registrar el usuario'); 
+            Session::flash('error_registro','Error al registrar su usuario'); 
         }
     }
 
@@ -114,13 +114,6 @@ class MapController extends Controller
         $lista = DB::table('tbl_lugar')->get();
         return view('admin', compact('lista'));
     }
-
-    // public function mostrarUser(){
-    //     $listaUsuario = DB::table('tbl_usuario')->get();
-    //     return view('usuarios', compact('listaUsuario'));
-    // }
-
-    // Mostrar tablas pagina Admin con AJAX //
 
     public function show(Request $request)
     {
@@ -137,10 +130,10 @@ class MapController extends Controller
 
     // Crear usuario //
 
-    public function crear(){
+    public function crear(Request $request){
         try {
             $email = $request->input('email');
-            DB::insert('insert into tbl_usuario (email_su,pass_su,nombre_su,apellido1_su,apellido2,tipo_rol) values (?,?,?,?,?,?)',[$request->input('email_us'),$request->input('pass_us'),$request->input('apellido1_us'),$request->input('apellido2')('2')]);
+            DB::insert('insert into tbl_usuario (email_us,pass_us,nombre_us,apellido1_us,apellido2_us,id_rol_fk) values (?,?,?,?,?,?)',[$request->input('nombre_us'),$request->input('email_us'),$request->input('pass_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),'2']);
             return redirect('admin');
             Session::flash('exito_crear','Usuario creado correctamente');           
         } catch (\Throwable $th) {

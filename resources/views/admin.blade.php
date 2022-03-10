@@ -49,9 +49,9 @@
         <div class="modalcrear" id="modalcrear">
             <form action="{{url('crear')}}" method="post">
                 @csrf
-                <input class="inputregistro" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
-                <input class="inputregistro" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
-                <input class="inputregistro" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
+                <input class="inputcrear" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
+                <input class="inputcrear" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
+                <input class="inputcrear" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
                 <div class="hr1">
                     <hr>
                 </div>
@@ -61,23 +61,25 @@
                 <div class="hr2">
                     <hr>
                 </div>
-                <input class="inputregistro" type="email" name="email_us" id="email_us" placeholder="Usuario">
-                <input class="contraseñaregistro" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
+                <input class="inputcrear" type="email" name="email_us" id="email_us" placeholder="Usuario">
+                <input class="contraseñacrear" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
                 <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
-                <input class="inputregistro" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña">
-                <button class="botonregistro" type="submit" value="INICIAR SESION"><b>CREAR</b></button>
+                <input class="inputcrear" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña">
+                <button class="botoncrear" type="submit" value="CREAR"><b>CREAR</b></button>
             </form>
     </div>
 
     <div class="modalbox_editar" id="modalbox_editar">
+        <div class="modalcrear_header">
+            <span class="close_crear" onclick="closeModal_editar(); return false;">&times;</span>             
+            <h2 class="titulomodal">MODIFICAR <b>USUARIO</b></h2>
+        </div>
         <div class="modaleditar" id="modaleditar">
-            <span class="close" onclick="closeModal_editar(); return false;">&times;</span>             
-            <h2><b>CREAR USUARIO</b></h2>
-            <form action="{{url('crear')}}" method="post">
+            <form action="{{url('modificar')}}" method="post">
                 @csrf
-                <input class="inputregistro" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
-                <input class="inputregistro" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
-                <input class="inputregistro" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
+                <input class="inputcrear" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
+                <input class="inputcrear" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
+                <input class="inputcrear" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
                 <div class="hr1">
                     <hr>
                 </div>
@@ -87,13 +89,14 @@
                 <div class="hr2">
                     <hr>
                 </div>
-                <input class="inputregistro" type="email" name="email_us" id="email_us" placeholder="Usuario">
-                <input class="contraseñaregistro" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
+                <input class="inputcrear" type="email" name="email_us" id="email_us" placeholder="Usuario">
+                <input class="contraseñacrear" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
                 <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
-                <input class="inputregistro" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña">
-                <button class="botonregistro" type="submit" value="INICIAR SESION"><b>CREAR</b></button>
+                <input class="inputcrear" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña">
+                <button class="botoncrear" type="submit" value="MODIFICAR"><b>MOFIFICAR</b></button>
             </form>
     </div>
         
 </body>
+
 </html>

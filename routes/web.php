@@ -35,8 +35,7 @@ Route::get('usuarios',[MapController::class,'mostrarUser']);
 Route::post('filtro',[MapController::class,'show']);
 
 // Crear usuarios //
-Route::get('crear',[MapController::class,'crear']);
-Route::post('crear',[MapController::class,'crearPost']);
+Route::post('crear',[MapController::class,'crear']);
 
 // Modificar usuarios //
 Route::get('modificar/{id}',[MapController::class,'modificar']);

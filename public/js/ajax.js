@@ -2,6 +2,7 @@ window.onload = function() {
     filtro()
 }
 
+
 function objetoAjax() {
     var xmlhttp = false;
     try {
@@ -72,7 +73,7 @@ function filtro() {
                         recarga += '<td>' + respuesta[i].email_us + '</td>';
                         recarga += '<td>';
                         // editar
-                        recarga += '<button class="btn btn-secondary" type="submit" value="Edit" onclick="modalbox(' + respuesta[i].id + ',\'' + respuesta[i].nombre + '\',\'' + respuesta[i].peso + '\'' + respuesta[i].num_serie + '\');return false;">Editar</button>';
+                        recarga += '<button class="btn btn-secondary" type="submit" value="Edit" onclick="abrirmodal_editar_usuario(' + respuesta[i].id_us + ',\'' + respuesta[i].nombre_us + '\',\'' + respuesta[i].peso + '\'' + respuesta[i].num_serie + '\'); return false;">Editar</button>';
                         recarga += '</td>';
                         recarga += '<td>';
                         // eliminar
