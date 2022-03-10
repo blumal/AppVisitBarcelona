@@ -61,11 +61,11 @@ class MapController extends Controller
     public function montarMarkets()
     {
         $dbLugar = DB::table('tbl_lugar')
-            ->from('tbl_lugar')
             ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
             ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
             ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
-            ->select('tbl_lugar.*', 'tbl_direccion.*', 'tbl_etiqueta.*', 'tbl_icono.*')
+            ->join('tbl_foto', 'tbl_lugar.id_foto_fk', '=', 'tbl_foto.id_fo')
+            ->select('*')
             ->get();
         return response()->json($dbLugar);
     }
@@ -101,7 +101,7 @@ class MapController extends Controller
             $email = $request->input('email');
             DB::insert('insert into tbl_usuario (nombre_us,apellido1_us,apellido2_us,email_us,pass_us,id_rol_fk) values (?,?,?,?,?,?)',[$request->input('nombre_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),$request->input('email_us'),$request->input('pass_us'),'2']);
             return redirect('login');
-            Session::flash('exito_registro','Usuario registrado correctamente');           
+            Session::flash('exito_registro','Usuario registrado correctamente'); 
         } catch (\Throwable $th) {
             return redirect('login');
             Session::flash('error_registro','Error al registrar su usuario'); 

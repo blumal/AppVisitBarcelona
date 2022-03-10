@@ -42,7 +42,7 @@ window.onclick = function(event) {
 
 /* Modal editar */
 
-function abrirmodal_editar_usuario() {
+function abrirmodal_editar() {
     modal = document.getElementById('modalbox_editar')
     modal.style.display = "block";
     modal_login = document.getElementById('modaleditar')
@@ -209,10 +209,12 @@ function comprobarClave() {
 
     if (clave1 == clave2) {
         document.getElementById('mensaje_registro').innerHTML = "";
+        return true;
     } else {
         document.getElementById('mensaje_registro').style.color = "red";
         document.getElementById('mensaje_registro').innerHTML = "Las contraseñas no coinciden";
         document.getElementById('pass_us').style.border = "2px solid red";
         document.getElementById('pass_us2').style.border = "2px solid red";
+        return false;
     }
 }

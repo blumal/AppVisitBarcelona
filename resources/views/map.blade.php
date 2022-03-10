@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
     <script type="text/javascript" src="{{asset('js/map.js')}}"></script>
     <script defer src="../public/fontawesome/js/all.js"></script>
     <script src="../public/js/code.js"></script>
     <link rel="stylesheet" href="{{asset('css/map.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="../public/css/style.css">
     <title>Home</title>
 </head>
 <body>
@@ -36,6 +37,10 @@
                         <option value="{{$item->id_lu}}">{{$item->nombre_lu}}</option>
                     @endforeach
                 </select>
+        </form>
+        <form action="{{url('logout')}}" method="POST">
+            @csrf
+            <button class="logout_input" type="submit" name="logout" value="logout"><b>LOGOUT</b>   <i class="fa-solid fa-right-from-bracket"></i></button>
         </form>
     </div>
     

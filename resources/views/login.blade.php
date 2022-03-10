@@ -44,7 +44,7 @@
         </div>
             <button class="botonregistrar" value="REGISTRARSE" onclick="abrirmodal(); return false;">REGISTRARSE</button>
             @if(Session::has('error_registro'))
-                <div id='error_registro' class="error_inicio"><br>{{Session::get('error_registro') }} <i class="fa-solid fa-triangle-exclamation"></i><br></div>
+                <div id='error_registro' class="error_inicio"><br>{{Session::get('error_registro') }} <i class="fa-solid fa-triangle-exclamation"></i><br><br></div>
             @endif
             @if(Session::has('exito_registro'))
                 <div id='exito_registro' class="error_inicio"><br>{{Session::get('exito_registro') }} <br></div>
@@ -76,7 +76,7 @@
                 <input class="inputregistro" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña" onfocus="error_registro()">
                 <div id="mensaje_registro">
                 </div>
-                <button class="botonregistro" type="submit" value="REGISTRARSE" onsubmit="comprobarClave(); return false;"><b>REGISTRARSE<b></button>
+                <button class="botonregistro" type="submit" value="REGISTRARSE" onclick="return comprobarClave();"><b>REGISTRARSE<b></button>
             </form>
         </div>
 </body>
