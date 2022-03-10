@@ -141,16 +141,11 @@ class MapController extends Controller
 
     // Crear usuario //
 
-    public function crear(){
-        try {
-            $email = $request->input('email');
-            DB::insert('insert into tbl_usuario (email_su,pass_su,nombre_su,apellido1_su,apellido2,tipo_rol) values (?,?,?,?,?,?)',[$request->input('email_us'),$request->input('pass_us'),$request->input('apellido1_us'),$request->input('apellido2')('2')]);
-            return redirect('admin');
-            Session::flash('exito_crear','Usuario creado correctamente');           
-        } catch (\Throwable $th) {
-            return redirect('admin');
-            Session::flash('error_crear','Error al crear el usuario'); 
-        }
+    public function crear(Request $request){
+
+        DB::insert('insert into tbl_usuario (nombre_us,apellido1_us,apellido2_us,email_us,pass_us,id_rol_fk) values (?,?,?,?,?,?)',[$request->input('nombre_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),$request->input('email_us'),$request->input('pass_us'),('2')]);
+        return false;         
+        
     }
 
     // Moficiar usuario //
@@ -176,12 +171,25 @@ class MapController extends Controller
     public function eliminar($id){
         try {
             $lista=DB::table('tbl_usuario')->where('id_us','=',$id)->delete();
-            return redirect('admin');
-            Session::flash('exito_eliminar','Usuario eliminado correctamente');
+            return response()->json(array('resultado'=> 'OK'));
         } catch (\Throwable $th) {
-            return redirect('admin');
-            Session::flash('error_eliminar','Error al eliminar el usuario'); 
+            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
         }
     }
 
+    public function eliminar2($id){
+        //return $id2[0]->id_direccion_fk;
+        try {
+            DB::beginTransaction();
+            $id2=DB::select('select id_direccion_fk from tbl_lugar where id_lu =?',[$id]);
+            // return $id2[0]->id_direccion_fk;
+            DB::table('tbl_lugar')->where('id_lu','=',$id)->delete();
+            DB::table('tbl_direccion')->where('id_di','=',$id2[0]->id_direccion_fk)->delete();
+            DB::commit();
+            return response()->json(array('resultado'=> 'OK'));
+        }catch(\Exception $th){
+            DB::rollBack();
+            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+        }
+}
 }

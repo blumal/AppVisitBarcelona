@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/css/style.css">
     <script defer src="../public/fontawesome/js/all.js"></script>
     <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
     <script src="../public/js/ajax.js"></script>
     <script src="../public/js/code.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../public/css/style.css">
+
     <title></title>
 </head>
 <body id="portada">
@@ -17,17 +18,18 @@
         <div class="titulo-admin">
             <h1>ZONA <b>ADMIN</b></h1>
         </div>
+        <div id="message" style="color:green"></div>
         <div class="select">
             <form method="post" onsubmit="return false;">
                 <input type="hidden" name="_method" value="POST" id="postFiltro">
                 <select class="select_input" name="nombre" type="search" id="search" aria-label="Search" onchange="filtro(); return false;">>
                     <option value="1"><b>USUARIOS</b></option>
-                    <option value="2"><b>LUGARES</b></option>
+                    <option value="2"><b>LUGARESS</b></option>
                 </select>
              </form>
         </div>
         <div class="crear" id="boton">
-            <button class="crear_input" name="Crear" value="Crear" onclick="abrirmodal_crear(); return false;"><b><i class="fa-solid fa-circle-plus"></i> CREAR</b></button>
+            <button class="crear_input" name="Crear" value="Crear" id="botoncrear"  ><b><i class="fa-solid fa-circle-plus"></i> CREAR</b></button>
         </div>
         <div class="logout">
             <form action="{{url('logout')}}" method="POST">
@@ -72,7 +74,7 @@
     <div class="modalbox_editar" id="modalbox_editar">
         <div class="modaleditar" id="modaleditar">
             <span class="close" onclick="closeModal_editar(); return false;">&times;</span>             
-            <h2><b>CRffEAR USUARIO</b></h2>
+            <h2><b>CREAR USUARIO</b></h2>
             <form action="{{url('crear')}}" method="post">
                 @csrf
                 <input class="inputregistro" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
@@ -94,7 +96,9 @@
                 <button class="botonregistro" type="submit" value="INICIAR SESION"><b>CREAR</b></button>
             </form>
     </div>
-    <div>pp
+    <div id="message" style="color:green"></div>
+
+    <div>
         <table class="table" id="table">
             <tr>
                 <th scope="col">#</th>

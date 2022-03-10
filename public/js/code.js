@@ -81,6 +81,27 @@ function mostrarContraseña2() {
     }
 }
 
+/* Modal ver mas lugar */
+
+function abrirmodal_direccion() {
+    modal = document.getElementById('modalbox_direccion')
+    modal.style.display = "block";
+    modal_login = document.getElementById('modaldireccion')
+    modal_login.style.display = "block";
+}
+
+function closeModal_direccion() {
+    let modal = document.getElementById("modalbox_direccion");
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("modalbox_direccion");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
 /* Validación iniciar sesion */
 
 function validar() {

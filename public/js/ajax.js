@@ -1,3 +1,7 @@
+window.onload = function() {
+    filtro();
+}
+
 function objetoAjax() {
     var xmlhttp = false;
     try {
@@ -53,6 +57,13 @@ function filtro() {
                 if (filtro == "1") {
                     /* Crear la estructura html que se devolverá dentro de una variable recarga*/
                     var recarga = '';
+                    var cre = document.getElementById('botoncrear');
+                    cre.onclick = function abr() {
+                        modal = document.getElementById('modalbox_crear')
+                        modal.style.display = "block";
+                        modal_login = document.getElementById('modalcrear')
+                        modal_login.style.display = "block";
+                    };
                     recarga += '<tr>';
                     recarga += '<th scope="col">#</th>';
                     recarga += '<th scope="col">Nombre</th>';
@@ -86,6 +97,13 @@ function filtro() {
 
                     /* Crear la estructura html que se devolverá dentro de una variable recarga*/
                     var recarga = '';
+                    var cre = document.getElementById('botoncrear');
+                    cre.onclick = function abrr() {
+                        modal = document.getElementById('modalbox_direccion')
+                        modal.style.display = "block";
+                        modal_login = document.getElementById('modaldireccion')
+                        modal_login.style.display = "block";
+                    };
                     recarga += '<tr>';
                     recarga += '<th scope="col">#</th>';
                     recarga += '<th scope="col">Nombre lugar</th>';
@@ -104,7 +122,6 @@ function filtro() {
                         recarga += '<td>';
                         // eliminar
                         recarga += '<form method="post">';
-                        recarga += '<input type="hidden" name="_method" value="DELETE" id="deleteNote">';
                         recarga += '<button class= "btn btn-danger" type="submit" value="Delete" onclick="eliminar2(' + respuesta[i].id_lu + ');return false;">Eliminar</button>';
                         recarga += '</form>';
                         recarga += '</td>';
@@ -185,7 +202,6 @@ function eliminar(id) {
     formData.append('clave', valor);
     */
     var token = document.getElementById('token').getAttribute("content");
-    var method = document.getElementById('deleteNote').value;
     var formData = new FormData();
     formData.append('_token', token);
     formData.append('_method', 'DELETE');
@@ -234,10 +250,9 @@ function eliminar2(id) {
     formData.append('clave', valor);
     */
     var token = document.getElementById('token').getAttribute("content");
-    var method = document.getElementById('deleteNote').value;
     var formData = new FormData();
     formData.append('_token', token);
-    formData.append('_method', method);
+    formData.append('_method', 'DELETE');
     /* Inicializar un objeto AJAX */
     var ajax = objetoAjax();
     /*
