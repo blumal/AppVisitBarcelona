@@ -40,6 +40,7 @@
 <!---->
     <div class="container">
         <div id="map"></div>
+        
             {{-- <script>
                 //Obtenemos la ubicación solicitándosela al usuario
                 /* if (navigator.geolocation) {
