@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-03-2022 a las 15:44:14
+-- Tiempo de generación: 11-03-2022 a las 16:14:26
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.11
 
@@ -143,24 +143,25 @@ INSERT INTO `tbl_lugar` (`id_lu`, `nombre_lu`, `descripcion_lu`, `id_foto_fk`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tbl_lugar_tags`
+-- Estructura de tabla para la tabla `tbl_lugar_tags_favs`
 --
 
-CREATE TABLE `tbl_lugar_tags` (
+CREATE TABLE `tbl_lugar_tags_favs` (
   `id_lt` int(11) NOT NULL,
   `id_usuario_fk` int(11) DEFAULT NULL,
   `id_lugar_fk` int(11) DEFAULT NULL,
-  `id_tag_fk` int(11) DEFAULT NULL
+  `id_tag_fk` int(11) DEFAULT NULL,
+  `fav_lt` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `tbl_lugar_tags`
+-- Volcado de datos para la tabla `tbl_lugar_tags_favs`
 --
 
-INSERT INTO `tbl_lugar_tags` (`id_lt`, `id_usuario_fk`, `id_lugar_fk`, `id_tag_fk`) VALUES
-(1, 1, 1, 1),
-(2, 1, 2, 2),
-(3, 2, 4, 1);
+INSERT INTO `tbl_lugar_tags_favs` (`id_lt`, `id_usuario_fk`, `id_lugar_fk`, `id_tag_fk`, `fav_lt`) VALUES
+(1, 1, 1, 1, NULL),
+(2, 1, 2, 2, NULL),
+(3, 2, 4, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -263,9 +264,9 @@ ALTER TABLE `tbl_lugar`
   ADD KEY `fk_lugar_icono_idx` (`id_icono_fk`);
 
 --
--- Indices de la tabla `tbl_lugar_tags`
+-- Indices de la tabla `tbl_lugar_tags_favs`
 --
-ALTER TABLE `tbl_lugar_tags`
+ALTER TABLE `tbl_lugar_tags_favs`
   ADD PRIMARY KEY (`id_lt`),
   ADD KEY `fk_lugar_fav_usuario_idx` (`id_usuario_fk`),
   ADD KEY `fk_lugar_fav_lugar_idx` (`id_lugar_fk`),
@@ -325,9 +326,9 @@ ALTER TABLE `tbl_lugar`
   MODIFY `id_lu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `tbl_lugar_tags`
+-- AUTO_INCREMENT de la tabla `tbl_lugar_tags_favs`
 --
-ALTER TABLE `tbl_lugar_tags`
+ALTER TABLE `tbl_lugar_tags_favs`
   MODIFY `id_lt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -362,9 +363,9 @@ ALTER TABLE `tbl_lugar`
   ADD CONSTRAINT `fk_lugar_icono` FOREIGN KEY (`id_icono_fk`) REFERENCES `tbl_icono` (`id_ic`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `tbl_lugar_tags`
+-- Filtros para la tabla `tbl_lugar_tags_favs`
 --
-ALTER TABLE `tbl_lugar_tags`
+ALTER TABLE `tbl_lugar_tags_favs`
   ADD CONSTRAINT `fk_lugar_tags_lugar` FOREIGN KEY (`id_lugar_fk`) REFERENCES `tbl_lugar` (`id_lu`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_lugar_tags_tag` FOREIGN KEY (`id_tag_fk`) REFERENCES `tbl_tag` (`id_ta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_lugar_tags_usuario` FOREIGN KEY (`id_usuario_fk`) REFERENCES `tbl_usuario` (`id_us`) ON DELETE NO ACTION ON UPDATE NO ACTION;
