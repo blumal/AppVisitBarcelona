@@ -30,8 +30,8 @@
                 <label for="Etiquetas">Mis etiquetas: </label>
                 <select class="nombre_lu" name="nombre_lu" onchange="favoritos()">
                     <option value=""></option>
-                    @foreach ($dbFavs as $item)
-                        <option value="{{$item->id_lu}}">{{$item->nombre_lu}}</option>
+                    @foreach ($dbTags as $item)
+                        <option value="{{$item->id_ta}}">{{$item->tag_ta}}</option>
                     @endforeach
                 </select>
         </form>

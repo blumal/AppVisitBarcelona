@@ -19,13 +19,20 @@ class MapController extends Controller
        try {
             $dbEtiquetas = DB::table('tbl_etiqueta')->select('*')->get();
             //Para saber los lugares favoritos del usuario, añadir el where
-            $dbFavs = DB::table('tbl_lugar_tags')
-                ->join('tbl_usuario', 'tbl_lugar_tags.id_usuario_fk', '=', 'tbl_usuario.id_us')
-                ->join('tbl_lugar', 'tbl_lugar_tags.id_lugar_fk', '=', 'tbl_lugar.id_lu')
+            $dbFavs = DB::table('tbl_lugar_tags_favs')
+                ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
+                ->join('tbl_lugar', 'tbl_lugar_tags_favs.id_lugar_fk', '=', 'tbl_lugar.id_lu')
                 ->select('tbl_lugar.*')
-                ->where('tbl_usuario.id_us','=', '2')
+                ->where('tbl_usuario.id_us','=', '1')
                 ->get();
-            return view('map', compact(/* 'dbLugar' */'dbEtiquetas', 'dbFavs'));
+            $dbTags = DB::table('tbl_lugar_tags_favs')
+                ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
+                ->join('tbl_lugar', 'tbl_lugar_tags_favs.id_lugar_fk', '=', 'tbl_lugar.id_lu')
+                ->join('tbl_tag', 'tbl_lugar_tags_favs.id_tag_fk', '=', 'tbl_tag.id_ta')
+                ->select('*')
+                ->where('tbl_usuario.id_us','=', '1')
+                ->get();
+            return view('map', compact('dbEtiquetas', 'dbFavs', 'dbTags'));
        } catch (\Throwable $e) {
             return $e->getMessage();
        }
@@ -44,10 +51,25 @@ class MapController extends Controller
         return response()->json($dbLugar);
     }
 
-    public function etiquetas($id){
+    public function filtro(){
+        /* SELECT tbl_etiqueta.etiqueta_et, tbl_tag.tag_ta, tbl_lugar_tags_favs.fav_lt 
+        FROM tbl_lugar_tags_favs 
+        INNER JOIN tbl_usuario ON tbl_lugar_tags_favs.id_usuario_fk = tbl_usuario.id_us 
+        INNER JOIN tbl_tag ON tbl_lugar_tags_favs.id_tag_fk = tbl_tag.id_ta 
+        INNER JOIN tbl_lugar ON tbl_lugar_tags_favs.id_lugar_fk = tbl_lugar.id_lu 
+        INNER JOIN tbl_etiqueta ON tbl_lugar.id_etiqueta_fk = tbl_lugar.id_lu 
+        WHERE tbl_etiqueta.id_et LIKE '%4%' AND tbl_tag.id_ta LIKE '%%' AND tbl_lugar_tags_favs.fav_lt LIKE '%%'; */
+
         try {
-            $dbExtractEtiquetas = "";
-            return response()->json(array('resultado'=> 'OK'));
+            $dbFiltro = DB::table('tbl_lugar_tags_favs')
+                ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
+                ->join('tbl_tag', 'tbl_lugar_tags_favs.id_tag_fk', '=', 'tbl_tag.id_ta')
+                ->join('tbl_lugar', 'tbl_lugar_tags_favs.id_lugar_fk', '=', 'tbl_lugar.id_lu')
+                ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_lugar.id_lu')
+                //->where('tbl_etiqueta.id_et', 'LIKE', '"%%"', )
+                ->select()
+                ->get();
+            return response()->json($dbFiltro);
         } catch (\Throwable $e) {
             return response()->json(array('resultado'=> 'NOK: '.$e->getMessage()));
         }
