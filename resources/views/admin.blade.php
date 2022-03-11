@@ -39,7 +39,35 @@
         </div>
     </div>
     <div>
-        <table class="table crud" id="table">
+        <table class="table" id="table">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Email</th>
+                <th scope="col" colspan="2">Acciones</th>
+            </tr>
+            @forelse ($listaUsuario as $usuario)
+            <tr>
+                <td scope="row">{{$usuario->id_us}}</td>
+                <td>{{$usuario->nombre_us}}</td>
+                <td>{{$usuario->apellido1_us}} {{$usuario->apellido2_us}}</td>
+                <td>{{$usuario->email_us}}</td>
+                <td>
+                    {{-- Route::get('/clientes/{cliente}/edit',[ClienteController::class,'edit'])->name('clientes.edit'); --}}
+                    <button class= "btn btn-secondary" type="submit" value="Edit" onclick="modalbox({{$usuario->id_us}},'{{$usuario->nombre_us}}','{{$usuario->apellido1_us}}','{{$usuario->email_us}}');return false;">Editar</button>
+                </td>
+                <td>
+                    {{-- Route::delete('/clientes/{cliente}',[ClienteController::class,'destroy'])->name('clientes.destroy'); --}}
+                    <form method="post">
+                        <input type="hidden" name="_method" value="DELETE" id="deleteNote">
+                        <button class="btn btn-danger" type="submit" value="Delete" onclick="eliminar({{$usuario->id_us}}); return false;">Eliminar</button>
+                     </form>
+                </td>
+            </tr>
+            @empty
+            <tr><td colspan="7">No hay registros</td></tr>
+            @endforelse
         </table>
     </div>
 
@@ -70,6 +98,32 @@
                 <button class="botonregistro" type="submit" value="INICIAR SESION"><b>CREAR</b></button>
             </form>
     </div>
+
+    <div class="modalbox_crearlugar" id="modalbox_crearlugar">
+        <div class="modalcrear_header">
+            <span class="close_crear" onclick="closeModal_crear_lugar(); return false;">&times;</span>
+            <h2 class="titulomodal">CREAR <b>USUARIO</b></h2>
+        </div>
+        <div class="modalcrear_lugar" id="modalcrear_lugar">
+            <form action="{{url('crearlugar')}}" method="post" onsubmit="return validar_registro();">
+                @csrf
+                <input class="inputcrear" type="text" name="nombre_lu" id="nombre_lu" placeholder="Nombre" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="descripcion_lu" id="descripcion_lu" placeholder="Descripcion" onfocus="error_registro()">
+                <input class="inputcrear" type="file" name="id_foto_fk" id="id_foto_fk" placeholder="Foto" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="id_direccion_fk" id="id_direccion_fk" placeholder="Direccion" onfocus="error_registro()">
+                <select class="inputcrear" name="id_etiqueta_fk" id="id_etiqueta_fk" onchange="etiquetas()" onfocus="error_registro()">
+                    <option value=""></option>
+                    {{-- @foreach ($dbEtiquetas as $item)
+                        <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
+                    @endforeach --}}
+                </select>
+                <input class="inputcrear" type="text" name="id_icono_fk" id="id_icono_fk" placeholder="Icono" onfocus="error_registro()">
+                <div id="mensaje_registro">
+                </div>
+                <button class="botoncrear" type="submit" value="CREAR" ><b>CREAR</b></button>
+            </form>
+    </div>
+
 
     <div class="modalbox_editar" id="modalbox_editar">
         <div class="modaleditar" id="modaleditar">

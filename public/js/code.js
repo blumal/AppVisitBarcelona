@@ -83,20 +83,20 @@ function mostrarContraseña2() {
 
 /* Modal ver mas lugar */
 
-function abrirmodal_direccion() {
-    modal = document.getElementById('modalbox_direccion')
+function abrirmodal_crear_lugar() {
+    modal = document.getElementById('modalbox_crearlugar')
     modal.style.display = "block";
-    modal_login = document.getElementById('modaldireccion')
+    modal_login = document.getElementById('modalcrear_lugar')
     modal_login.style.display = "block";
 }
 
-function closeModal_direccion() {
-    let modal = document.getElementById("modalbox_direccion");
+function closeModal_crear_lugar() {
+    let modal = document.getElementById("modalbox_crearlugar");
     modal.style.display = "none";
 }
 
 window.onclick = function(event) {
-    let modal = document.getElementById("modalbox_direccion");
+    let modal = document.getElementById("modalbox_crearlugar");
     if (event.target == modal) {
         modal.style.display = "none";
     }
@@ -208,4 +208,10 @@ function validar_registro() {
     } else {
         return true;
     }
+}
+
+function etiquetas_lugar() {
+    //Obtenemos el resultado del select, cada vez que cambie irá actualizando el dato
+    let a = document.querySelector('.id_etiqueta_fk').value;
+    alert(a);
 }

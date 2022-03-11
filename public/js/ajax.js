@@ -98,10 +98,10 @@ function filtro() {
                     /* Crear la estructura html que se devolverá dentro de una variable recarga*/
                     var recarga = '';
                     var cre = document.getElementById('botoncrear');
-                    cre.onclick = function abrr() {
-                        modal = document.getElementById('modalbox_direccion')
+                    cre.onclick = function abr() {
+                        modal = document.getElementById('modalbox_crearlugar')
                         modal.style.display = "block";
-                        modal_login = document.getElementById('modaldireccion')
+                        modal_login = document.getElementById('modalcrear_lugar')
                         modal_login.style.display = "block";
                     };
                     recarga += '<tr>';
