@@ -18,21 +18,22 @@ class MapController extends Controller
     {
        try {
             $dbEtiquetas = DB::table('tbl_etiqueta')->select('*')->get();
-            //Para saber los lugares favoritos del usuario, añadir el where
-            $dbFavs = DB::table('tbl_lugar_tags_favs')
-                ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
-                ->join('tbl_lugar', 'tbl_lugar_tags_favs.id_lugar_fk', '=', 'tbl_lugar.id_lu')
-                ->select('tbl_lugar.*')
-                ->where('tbl_usuario.id_us','=', '1')
-                ->get();
+            //Query de consulta de tags del usuario
+            /* SELECT tbl_usuario.nombre_us, tbl_tag.tag_ta
+            FROM tbl_lugar_tags_favs 
+            INNER JOIN tbl_usuario ON tbl_lugar_tags_favs.id_usuario_fk = tbl_usuario.id_us
+            INNER JOIN tbl_tag ON tbl_lugar_tags_favs.id_tag_fk = tbl_tag.id_ta
+            WHERE tbl_usuario.id_us = 1
+            GROUP BY tbl_tag.tag_ta */
             $dbTags = DB::table('tbl_lugar_tags_favs')
                 ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
-                ->join('tbl_lugar', 'tbl_lugar_tags_favs.id_lugar_fk', '=', 'tbl_lugar.id_lu')
                 ->join('tbl_tag', 'tbl_lugar_tags_favs.id_tag_fk', '=', 'tbl_tag.id_ta')
                 ->select('*')
                 ->where('tbl_usuario.id_us','=', '1')
+                //->groupBy('tbl_tag.tag_ta')
                 ->get();
-            return view('map', compact('dbEtiquetas', 'dbFavs', 'dbTags'));
+                //->groupBy('tbl_tag.tag_ta');
+            return view('map', compact('dbEtiquetas', 'dbTags'));
        } catch (\Throwable $e) {
             return $e->getMessage();
        }
@@ -52,24 +53,26 @@ class MapController extends Controller
     }
 
     public function filtro(){
-        /* SELECT tbl_etiqueta.etiqueta_et, tbl_tag.tag_ta, tbl_lugar_tags_favs.fav_lt 
+        /* SELECT tbl_usuario.nombre_us, tbl_lugar.id_lu, tbl_lugar.nombre_lu, tbl_etiqueta.etiqueta_et, tbl_tag.tag_ta, tbl_lugar_tags_favs.fav_lt
         FROM tbl_lugar_tags_favs 
         INNER JOIN tbl_usuario ON tbl_lugar_tags_favs.id_usuario_fk = tbl_usuario.id_us 
-        INNER JOIN tbl_tag ON tbl_lugar_tags_favs.id_tag_fk = tbl_tag.id_ta 
-        INNER JOIN tbl_lugar ON tbl_lugar_tags_favs.id_lugar_fk = tbl_lugar.id_lu 
-        INNER JOIN tbl_etiqueta ON tbl_lugar.id_etiqueta_fk = tbl_lugar.id_lu 
-        WHERE tbl_etiqueta.id_et LIKE '%4%' AND tbl_tag.id_ta LIKE '%%' AND tbl_lugar_tags_favs.fav_lt LIKE '%%'; */
+        INNER JOIN tbl_lugar ON tbl_lugar_tags_favs.id_lugar_fk = tbl_lugar.id_lu
+        INNER JOIN tbl_tag ON tbl_lugar_tags_favs.id_tag_fk = tbl_tag.id_ta
+        INNER JOIN tbl_etiqueta ON tbl_lugar.id_etiqueta_fk = tbl_etiqueta.id_et
+        WHERE
+        tbl_etiqueta.id_et = 8
+        AND tbl_usuario.id_us = 1 */
 
         try {
-            $dbFiltro = DB::table('tbl_lugar_tags_favs')
+            $dbFilter = DB::table('tbl_lugar_tags_favs')
                 ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
-                ->join('tbl_tag', 'tbl_lugar_tags_favs.id_tag_fk', '=', 'tbl_tag.id_ta')
                 ->join('tbl_lugar', 'tbl_lugar_tags_favs.id_lugar_fk', '=', 'tbl_lugar.id_lu')
-                ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_lugar.id_lu')
-                //->where('tbl_etiqueta.id_et', 'LIKE', '"%%"', )
-                ->select()
+                ->join('tbl_tag', 'tbl_lugar_tags_favs.id_tag_fk', '=', 'tbl_tag.id_ta')
+                ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
+                ->select('tbl_usuario.nombre_us', 'tbl_lugar.id_lu', 'tbl_lugar.nombre_lu', 'tbl_etiqueta.etiqueta_et', 'tbl_tag.tag_ta', 'tbl_lugar_tags_favs.fav_lt')
+                //->where('')
                 ->get();
-            return response()->json($dbFiltro);
+            return response()->json($dbFilter);
         } catch (\Throwable $e) {
             return response()->json(array('resultado'=> 'NOK: '.$e->getMessage()));
         }

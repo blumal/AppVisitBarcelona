@@ -128,21 +128,20 @@ function leerMarkets() {
 }
 
 
-
-
-//Obtenemos los resultados del select, para filtrar directamente por etiquetas del sistema
-function etiquetas() {
+function filter() {
     //Obtenemos el resultado del select, cada vez que cambie irá actualizando el dato
-    let a = document.querySelector('.etiqueta_et').value;
-    alert(a);
+    var a = document.querySelector('.etiqueta_et').value;
+    var b = document.querySelector('.tag_ta').value;
+    console.log(a, b);
+
 }
 
-//Obtenemos los resultados del select, para filtrar directamente por los sitios favoritos del usuario
+/* //Obtenemos los resultados del select, para filtrar directamente por los sitios favoritos del usuario
 function favoritos() {
-    /* let b = document.querySelector('.nombre_lu').value;
-    alert(b); */
+    //let b = document.querySelector('.nombre_lu').value;
+    //alert(b);
     alert('Favoritos is working');
-}
+} */
 
 //Api del mapa
 /* var map = L.map('map').

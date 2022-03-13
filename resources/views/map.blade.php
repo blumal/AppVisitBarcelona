@@ -15,23 +15,23 @@
 <!--Filtro-->
 <center>
     <div class="filtro">
-        <form action="{{url('etiquetas')}}" method="get">
+        <form action="{{url('filtro')}}" method="post">
             
             <label for="Etiquetas">Etiquetas: </label>
             <!--Método onchange, cada vez que se modifique algo del select se disparará-->
-                <select class="etiqueta_et" name="etiqueta_et" onchange="etiquetas()">
+                <select class="etiqueta_et" name="etiqueta_et" onchange="filter()">
                     <option value=""></option>
                     @foreach ($dbEtiquetas as $item)
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
                 <label for="Favoritos">Favoritos</label>
-                    <input type="checkbox" id="favorito" name="favorito" value="Favorito" onchange="favoritos()">
+                    <input type="checkbox" id="favoritos" name="favoritos" value="Favoritos" onchange="filter()">
                 <label for="Etiquetas">Mis etiquetas: </label>
-                <select class="nombre_lu" name="nombre_lu" onchange="favoritos()">
+                <select class="tag_ta" name="tag_ta" onchange="filter()">
                     <option value=""></option>
-                    @foreach ($dbTags as $item)
-                        <option value="{{$item->id_ta}}">{{$item->tag_ta}}</option>
+                    @foreach ($dbTags as $result)
+                        <option value="{{$result->id_ta}}">{{$result->tag_ta}}</option>
                     @endforeach
                 </select>
         </form>
