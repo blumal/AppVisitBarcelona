@@ -99,8 +99,6 @@ function filtro() {
                     var recarga = '';
                     var cre = document.getElementById('botoncrear');
                     cre.onclick = function abr() {
-                        alert('entra')
-
                         modal = document.getElementById('modalbox_crearlugar')
                         modal.style.display = "block";
                         modal_login = document.getElementById('modalcrear_lugar')

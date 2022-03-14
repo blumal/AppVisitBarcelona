@@ -44,7 +44,6 @@ window.onclick = function(event) {
 
 function abrirmodal_editar() {
     modal = document.getElementById('modalbox_editar')
-    alert('hey')
     modal.style.display = "block";
     modal_login = document.getElementById('modaleditar')
     modal_login.style.display = "block";
