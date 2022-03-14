@@ -60,7 +60,7 @@
                 <td>
                     {{-- Route::delete('/clientes/{cliente}',[ClienteController::class,'destroy'])->name('clientes.destroy'); --}}
                     <form method="post">
-                        <input type="hidden" name="_method" value="DELETE" id="deleteNote">
+                        <input type="hidden" name="_method" value="DELETE" id="deleteNotee">
                         <button class="btn btn-danger" type="submit" value="Delete" onclick="eliminar({{$usuario->id_us}}); return false;">Eliminar</button>
                      </form>
                 </td>
@@ -77,8 +77,7 @@
             <h2 class="titulomodal">CREAR <b>USUARIO</b></h2>
         </div>
         <div class="modalcrear" id="modalcrear">
-            <form action="{{url('crear')}}" method="post">
-                @csrf
+            <form onsubmit="crear();closeModal_crear();return false;" method="post" id="formcrear">
                 <input class="inputregistro" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
                 <input class="inputregistro" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
                 <input class="inputregistro" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
@@ -95,7 +94,8 @@
                 <input class="contraseñaregistro" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
                 <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
                 <input class="inputregistro" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña">
-                <button class="botonregistro" type="submit" value="INICIAR SESION"><b>CREAR</b></button>
+                <button class="botonregistro" type="submit" value="Crear"><b>CREAR</b></button>
+                <input type="hidden" name="_method" value="POST" id="createNote">
             </form>
     </div>
 
@@ -131,9 +131,9 @@
             <h2><b>CREAR USUARIO</b></h2>
             <form action="{{url('crear')}}" method="post">
                 @csrf
-                <input class="inputregistro" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
-                <input class="inputregistro" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
-                <input class="inputregistro" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
+                <input class="inputregistro" type="text" name="nombre_us" id="nombre_us_e" placeholder="Nombre">
+                <input class="inputregistro" type="text" name="apellido1_us" id="apellido1_us_e" placeholder="Apellido 1">
+                <input class="inputregistro" type="text" name="apellido2_us" id="apellido2_us_e" placeholder="Apellido 2">
                 <div class="hr1">
                     <hr>
                 </div>
@@ -143,10 +143,10 @@
                 <div class="hr2">
                     <hr>
                 </div>
-                <input class="inputregistro" type="email" name="email_us" id="email_us" placeholder="Usuario">
-                <input class="contraseñaregistro" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
+                <input class="inputregistro" type="email" name="email_us" id="email_us_e" placeholder="Usuario">
+                <input class="contraseñaregistro" type="password" name="pass_us" id="pass_us_e" placeholder="Contraseña">
                 <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
-                <input class="inputregistro" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña">
+                <input class="inputregistro" type="password" name="pass_us2" id="pass_us2_e" placeholder="Repite contraseña">
                 <button class="botonregistro" type="submit" value="INICIAR SESION"><b>CREAR</b></button>
             </form>
     </div>

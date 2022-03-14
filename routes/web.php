@@ -21,7 +21,7 @@ Route::get('login',[MapController::class,'login']);
 Route::post('loginpost',[MapController::class,'loginpost']);
 Route::post('registro',[MapController::class,'registro']);
 Route::post('filtro',[MapController::class,'show']);
-Route::post('crear',[MapController::class,'store']);
+Route::post('crear',[MapController::class,'crear']);
 Route::delete('eliminar2/{id}',[MapController::class,'eliminar2']);
 
 // Login (Inicio Sesion) //
@@ -42,7 +42,6 @@ Route::get('usuarios',[MapController::class,'mostrarUser']);
 Route::post('filtro',[MapController::class,'show']);
 
 // Crear usuarios //
-Route::post('crear',[MapController::class,'crear']);
 //Route::post('crear',[MapController::class,'crearPost']);
 
 // Modificar usuarios //
