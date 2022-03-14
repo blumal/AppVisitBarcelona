@@ -57,6 +57,7 @@ function filtro() {
                 if (filtro == "1") {
                     /* Crear la estructura html que se devolverá dentro de una variable recarga*/
                     var recarga = '';
+                    console.log(JSON.parse(this.responseText));
                     var cre = document.getElementById('botoncrear');
                     cre.onclick = function abr() {
                         modal = document.getElementById('modalbox_crear')
@@ -79,7 +80,7 @@ function filtro() {
                         recarga += '<td>' + respuesta[i].email_us + '</td>';
                         recarga += '<td>';
                         // editar
-                        recarga += '<button class="btn btn-secondary" type="submit" value="Edit" onclick="abrirmodal_editar();return false;">Editar</button>';
+                        recarga += '<button class="btn btn-secondary" type="submit" value="Edit" onclick="abrirmodal_editar(' + respuesta[i].id_us + ',\'' + respuesta[i].nombre_us + '\',\'' + respuesta[i].apellido1_us + '\',\'' + respuesta[i].apellido2_us + '\',\'' + respuesta[i].email_us + '\',\'' + respuesta[i].pass_us + '\');return false;">Editar</button>';
                         recarga += '</td>';
                         recarga += '<td>';
                         // eliminar
@@ -298,10 +299,9 @@ function actualizar() {
     formData.append('clave', valor);
     */
     var token = document.getElementById('token').getAttribute("content");
-    var method = document.getElementById('modifNote').value;
     var formData = new FormData(document.getElementById('formUpdate'));
     formData.append('_token', token);
-    formData.append('_method', method);
+    formData.append('_method', 'PUT');
     /* Inicializar un objeto AJAX */
     var ajax = objetoAjax();
     /*

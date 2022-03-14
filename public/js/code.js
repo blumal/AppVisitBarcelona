@@ -42,7 +42,13 @@ window.onclick = function(event) {
 
 /* Modal crear */
 
-function abrirmodal_editar() {
+function abrirmodal_editar(id_us, nombre_us, apellido1_us, apellido2_us, email_us, pass_us) {
+    document.getElementById('nombre_us_e').value = nombre_us;
+    document.getElementById('apellido1_us_e').value = apellido1_us;
+    document.getElementById('apellido2_us_e').value = apellido2_us;
+    document.getElementById('email_us_e').value = email_us;
+    document.getElementById('pass_us_e').value = pass_us;
+    document.getElementById('idUpdate').value = id_us;
     modal = document.getElementById('modalbox_editar')
     modal.style.display = "block";
     modal_login = document.getElementById('modaleditar')

@@ -100,7 +100,8 @@
         <div class="modaleditar" id="modaleditar">
             <span class="close" onclick="closeModal_editar(); return false;">&times;</span>             
             <h2><b>EDITAR USUARIO</b></h2>
-            <form action="{{url('crear')}}" method="post">
+            <form id="formUpdate" method="post" onsubmit="actualizar();closeModal_editar();return false;">
+                <input type="hidden" name="_method" value="PUT" id="modifNote">
                 <input class="inputcrear" type="text" name="nombre_us" id="nombre_us_e" placeholder="Nombre">
                 <input class="inputcrear" type="text" name="apellido1_us" id="apellido1_us_e" placeholder="Apellido 1">
                 <input class="inputcrear" type="text" name="apellido2_us" id="apellido2_us_e" placeholder="Apellido 2">
@@ -116,8 +117,8 @@
                 <input class="inputcrear" type="email" name="email_us" id="email_us_e" placeholder="Usuario">
                 <input class="contraseñacrear" type="password" name="pass_us" id="pass_us_e" placeholder="Contraseña">
                 <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
-                <input class="inputcrear" type="password" name="pass_us2" id="pass_us2_e" placeholder="Repite contraseña">
-                <button class="botoncrear" type="submit" value="INICIAR SESION"><b>EDITAR</b></button>
+                <button class="botoncrear" type="submit" value="Editar"><b>EDITAR</b></button>
+                <input type="hidden" name="id" id="idUpdate">
             </form>
         </div>
     </div>

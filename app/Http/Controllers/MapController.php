@@ -194,5 +194,15 @@ class MapController extends Controller
             DB::rollBack();
             return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
         }
-}
+    }
+
+    public function update(Request $request) {
+        try {
+            $que = DB::update('update tbl_usuario set nombre_us=?, apellido1_us=?, apellido2_us=?, email_us=?, pass_us =? where id_us=?',[$request->input('nombre_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),$request->input('email_us'),$request->input('pass_us'),$request->input('id_us')]);
+            return $que;
+            return response()->json(array('resultado'=> 'OK'));
+        } catch (\Throwable $th) {
+            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+        }
+    }
 }
