@@ -31,6 +31,7 @@
         <div class="crear" id="boton">
             <button class="crear_input" name="Crear" value="Crear" id="botoncrear"  ><b><i class="fa-solid fa-circle-plus"></i> CREAR</b></button>
         </div>
+        
         <div class="logout">
             <form action="{{url('logout')}}" method="POST">
                 @csrf
@@ -70,7 +71,56 @@
             @endforelse
         </table>
     </div>
-
+    <div class="modalbox_crearlugar" id="modalbox_crearlugar">
+        <div class="modalcrear_header">
+            <span class="close_crear" onclick="closeModal_crear_lugar(); return false;">&times;</span>
+            <h2 class="titulomodal">CREAR <b>LUGAR</b></h2>
+        </div>
+        <div class="modalcrear_lugar" id="modalcrear_lugar">
+            <form action="{{url('crearlugar')}}" method="post" onsubmit="return validar_registro();">
+                @csrf
+                <input class="inputcrear" type="text" name="nombre_lu" id="nombre_lu" placeholder="Nombre" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="descripcion_lu" id="descripcion_lu" placeholder="Descripcion" onfocus="error_registro()">
+                <input class="inputcrear" type="file" name="id_foto_fk" id="id_foto_fk" placeholder="Foto" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="id_direccion_fk" id="id_direccion_fk" placeholder="Direccion" onfocus="error_registro()">
+                <select class="inputcrear" name="id_etiqueta_fk" id="id_etiqueta_fk" onchange="etiquetas()" onfocus="error_registro()">
+                    <option value=""></option>
+                    {{-- @foreach ($dbEtiquetas as $item)
+                        <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
+                    @endforeach --}}
+                </select>
+                <input class="inputcrear" type="text" name="id_icono_fk" id="id_icono_fk" placeholder="Icono" onfocus="error_registro()">
+                <div id="mensaje_registro">
+                </div>
+                <button class="botoncrear" type="submit" value="CREAR" ><b>CREAR</b></button>
+            </form>
+        </div>
+    </div>
+    <div class="modalbox_editar" id="modalbox_editar">
+        <div class="modaleditar" id="modaleditar">
+            <span class="close" onclick="closeModal_editar(); return false;">&times;</span>             
+            <h2><b>EDITAR USUARIO</b></h2>
+            <form action="{{url('crear')}}" method="post">
+                <input class="inputcrear" type="text" name="nombre_us" id="nombre_us_e" placeholder="Nombre">
+                <input class="inputcrear" type="text" name="apellido1_us" id="apellido1_us_e" placeholder="Apellido 1">
+                <input class="inputcrear" type="text" name="apellido2_us" id="apellido2_us_e" placeholder="Apellido 2">
+                <div class="hr1">
+                    <hr>
+                </div>
+                <div class="no-cuenta-text">
+                    <p>Datos de inicio de sesion</p>
+                </div>
+                <div class="hr2">
+                    <hr>
+                </div>
+                <input class="inputcrear" type="email" name="email_us" id="email_us_e" placeholder="Usuario">
+                <input class="contraseñacrear" type="password" name="pass_us" id="pass_us_e" placeholder="Contraseña">
+                <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
+                <input class="inputcrear" type="password" name="pass_us2" id="pass_us2_e" placeholder="Repite contraseña">
+                <button class="botoncrear" type="submit" value="INICIAR SESION"><b>CREAR</b></button>
+            </form>
+        </div>
+    </div>
     <div class="modalbox_crear" id="modalbox_crear">
         <div class="modalcrear_header">
             <span class="close_crear" onclick="closeModal_crear(); return false;">&times;</span>             
@@ -78,7 +128,7 @@
         </div>
         <div class="modalcrear" id="modalcrear">
             <form onsubmit="crear();closeModal_crear();return false;" method="post" id="formcrear">
-                <input class="inputregistro" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
+                <input class="inputcrear" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
                 <input class="inputregistro" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
                 <input class="inputregistro" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
                 <div class="hr1">
@@ -99,57 +149,7 @@
             </form>
     </div>
 
-    <div class="modalbox_crearlugar" id="modalbox_crearlugar">
-        <div class="modalcrear_header">
-            <span class="close_crear" onclick="closeModal_crear_lugar(); return false;">&times;</span>
-            <h2 class="titulomodal">CREAR <b>USUARIO</b></h2>
-        </div>
-        <div class="modalcrear_lugar" id="modalcrear_lugar">
-            <form action="{{url('crearlugar')}}" method="post" onsubmit="return validar_registro();">
-                @csrf
-                <input class="inputcrear" type="text" name="nombre_lu" id="nombre_lu" placeholder="Nombre" onfocus="error_registro()">
-                <input class="inputcrear" type="text" name="descripcion_lu" id="descripcion_lu" placeholder="Descripcion" onfocus="error_registro()">
-                <input class="inputcrear" type="file" name="id_foto_fk" id="id_foto_fk" placeholder="Foto" onfocus="error_registro()">
-                <input class="inputcrear" type="text" name="id_direccion_fk" id="id_direccion_fk" placeholder="Direccion" onfocus="error_registro()">
-                <select class="inputcrear" name="id_etiqueta_fk" id="id_etiqueta_fk" onchange="etiquetas()" onfocus="error_registro()">
-                    <option value=""></option>
-                    {{-- @foreach ($dbEtiquetas as $item)
-                        <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
-                    @endforeach --}}
-                </select>
-                <input class="inputcrear" type="text" name="id_icono_fk" id="id_icono_fk" placeholder="Icono" onfocus="error_registro()">
-                <div id="mensaje_registro">
-                </div>
-                <button class="botoncrear" type="submit" value="CREAR" ><b>CREAR</b></button>
-            </form>
-    </div>
 
-
-    <div class="modalbox_editar" id="modalbox_editar">
-        <div class="modaleditar" id="modaleditar">
-            <span class="close" onclick="closeModal_editar(); return false;">&times;</span>             
-            <h2><b>CREAR USUARIO</b></h2>
-            <form action="{{url('crear')}}" method="post">
-                @csrf
-                <input class="inputregistro" type="text" name="nombre_us" id="nombre_us_e" placeholder="Nombre">
-                <input class="inputregistro" type="text" name="apellido1_us" id="apellido1_us_e" placeholder="Apellido 1">
-                <input class="inputregistro" type="text" name="apellido2_us" id="apellido2_us_e" placeholder="Apellido 2">
-                <div class="hr1">
-                    <hr>
-                </div>
-                <div class="no-cuenta-text">
-                    <p>Datos de inicio de sesion</p>
-                </div>
-                <div class="hr2">
-                    <hr>
-                </div>
-                <input class="inputregistro" type="email" name="email_us" id="email_us_e" placeholder="Usuario">
-                <input class="contraseñaregistro" type="password" name="pass_us" id="pass_us_e" placeholder="Contraseña">
-                <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
-                <input class="inputregistro" type="password" name="pass_us2" id="pass_us2_e" placeholder="Repite contraseña">
-                <button class="botonregistro" type="submit" value="INICIAR SESION"><b>CREAR</b></button>
-            </form>
-    </div>
     <div id="message" style="color:green"></div>
 
     <div>
