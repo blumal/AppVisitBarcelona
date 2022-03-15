@@ -22,6 +22,7 @@ Route::post('loginpost',[MapController::class,'loginpost']);
 Route::post('registro',[MapController::class,'registro']);
 Route::post('filtro',[MapController::class,'show']);
 Route::post('crear',[MapController::class,'crear']);
+Route::post('crear2',[MapController::class,'crear2']);
 Route::delete('eliminar2/{id}',[MapController::class,'eliminar2']);
 Route::put('actualizar',[MapController::class,'update']);
 

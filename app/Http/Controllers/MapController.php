@@ -12,7 +12,8 @@ class MapController extends Controller
 {
     public function mostrarUser(){
         $listaUsuario=DB::select('select * from tbl_usuario;');
-        return view('admin', compact('listaUsuario'));
+        $dbEtiquetas=DB::select('select * from tbl_etiqueta;');
+        return view('admin', compact('listaUsuario'), compact('dbEtiquetas'));
     }
 
     // Entrar al login //
@@ -198,10 +199,38 @@ class MapController extends Controller
 
     public function update(Request $request) {
         try {
-            $que = DB::update('update tbl_usuario set nombre_us=?, apellido1_us=?, apellido2_us=?, email_us=?, pass_us =? where id_us=?',[$request->input('nombre_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),$request->input('email_us'),$request->input('pass_us'),$request->input('id_us')]);
-            return $que;
+            DB::update('update tbl_usuario set nombre_us=?, apellido1_us=?, apellido2_us=?, email_us=?, pass_us =? where id_us=?',[$request->input('nombre_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),$request->input('email_us'),$request->input('pass_us'),$request->input('id_us')]);
+            //return response()->json(array('resultado'=> 'NOK: '.$request->input('id_us')));
             return response()->json(array('resultado'=> 'OK'));
         } catch (\Throwable $th) {
+            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+        }
+    }
+    public function crear2(Request $request) {
+        try{
+            // DB::beginTransaction();
+            $searchTerm = '1600 Pennsylvania Ave NW, Washington DC';
+
+            $buildQuery = http_build_query([
+                'access_key' => 'b8111de4735489d0a0fae87b9e92b473',
+                'query' => $searchTerm
+            ]);
+
+            $ch = curl_init(sprintf('%s?%s', 'https://api.positionstack.com/v1/forward', $buildQuery));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $responseData = curl_exec($ch);
+            curl_close($ch);
+
+            $resultData = json_decode($responseData, true);
+
+            return response()->json(array('resultado'=> 'NOK: '.$responseData));
+            DB::insert('inseet into tbl_direccion (direccion_di,latitud_di,longitud_di) values (?,?,?)',[$request->input('direccion_di'),(''),('')]);
+            // DB::insert('insert into tbl_lugar (nombre_lu,descripcion_lu,apellido2_us,email_us,pass_us,id_rol_fk) values (?,?,?,?,?,?)',[$request->input('nombre_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),$request->input('email_us'),$request->input('pass_us'),('2')]);  
+            DB::commit();
+            return response()->json(array('resultado'=> 'OK'));
+        }catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
         }
     }
