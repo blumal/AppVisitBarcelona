@@ -42,6 +42,13 @@ function leerMarkets() {
             /* L.marker([41.38724300721724, 2.184340276522324], { draggable: true }).addTo(map); */
             L.marker([lat, long], { draggable: true }).addTo(map);
 
+            /* L.Routing.control({
+                waypoints: [
+                    L.latLng(lat, long),
+                    L.latLng(57.6792, 11.949)
+                ]
+            }).addTo(map); */
+
             //----Polígono---ZONA asignada
             var polygon = L.polygon([
                 [41.38848031881683, 2.1728329066133387],
@@ -118,17 +125,29 @@ function leerMarkets() {
 function filter() {
     if (arr_markers != []) {
         for (let i = 0; i < arr_markers.length; i++) {
+            //Eliminamos el contenido del array
             map.removeLayer(arr_markers[i]);
             console.log('Eliminando array: ' + arr_markers.length)
         }
     }
+    //Definimos el array vacío
     arr_markers = [];
+
     var formData = new FormData();
     formData.append('_token', document.getElementById('token').getAttribute("content"));
     //--------Filtro--------
     formData.append('etiqueta_et', document.querySelector('.etiqueta_et').value);
-    formData.append('favoritos', document.getElementById('favoritos').checked);
+    var fav = document.getElementById('favoritos');
+    if (fav.checked == true) {
+        fav = 1;
+        formData.append('favoritos', fav);
+    } else {
+        fav = 0;
+        formData.append('favoritos', fav);
+    }
+
     formData.append('tag_ta', document.querySelector('.tag_ta').value);
+    //formData.append('favoritos', document.getElementById('favoritos').checked);
     /* alert(formData.append('etiqueta_et', document.querySelector('.etiqueta_et').value));
     alert(formData.append('favoritos', document.getElementById('favoritos').checked));
     alert(formData.append('tag_ta', document.querySelector('.tag_ta').value)); */
@@ -170,6 +189,7 @@ function filter() {
                 //Marker juntando Popup
                 var m = L.marker([respuesta[i].latitud_di, respuesta[i].longitud_di], { icon: markerIcon }).bindPopup(markerIconPopup).addTo(map);
                 //L.marker([41.39147730418495, 2.1867770464946505], { draggable: true }).addTo(map);
+                //Añadimos elementos de m al array
                 arr_markers.push(m);
 
             }

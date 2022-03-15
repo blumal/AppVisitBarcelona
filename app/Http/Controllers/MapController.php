@@ -102,8 +102,11 @@ class MapController extends Controller
                 INNER JOIN tbl_direccion ON tbl_lugar.id_direccion_fk = tbl_direccion.id_di
                 INNER JOIN tbl_icono ON tbl_lugar.id_icono_fk = tbl_icono.id_ic
                 INNER JOIN tbl_foto ON tbl_lugar.id_foto_fk = tbl_foto.id_fo
-                WHERE tbl_etiqueta.id_et LIKE ? AND tbl_tag.id_ta LIKE ?  AND tbl_usuario.id_us = 1',
-                ['%'.$request->input('etiqueta_et').'%', '%'.$request->input('tag_ta').'%']);
+                WHERE tbl_etiqueta.id_et LIKE ? AND tbl_tag.id_ta LIKE ? AND tbl_lugar_tags_favs.fav_lt LIKE ? AND tbl_usuario.id_us = 1',
+                ['%'.$request->input('etiqueta_et').'%', '%'.$request->input('tag_ta').'%', '%'.$request->input('fav').'%']);
+
+                /* WHERE tbl_etiqueta.id_et LIKE ? AND tbl_tag.id_ta LIKE ? AND tbl_lugar_tags_favs.fav_lt LIKE ? AND tbl_usuario.id_us = 1',
+                ['%'.$request->input('etiqueta_et').'%', '%'.$request->input('tag_ta').'%', '%'.$request->input('fav').'%']); */
 
                 
             /* $dbFilter = DB::table('tbl_lugar_tags_favs')
