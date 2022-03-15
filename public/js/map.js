@@ -42,13 +42,6 @@ function leerMarkets() {
             /* L.marker([41.38724300721724, 2.184340276522324], { draggable: true }).addTo(map); */
             L.marker([lat, long], { draggable: true }).addTo(map);
 
-            /* L.Routing.control({
-                waypoints: [
-                    L.latLng(lat, long),
-                    L.latLng(57.6792, 11.949)
-                ]
-            }).addTo(map); */
-
             //----Polígono---ZONA asignada
             var polygon = L.polygon([
                 [41.38848031881683, 2.1728329066133387],
@@ -83,7 +76,6 @@ function leerMarkets() {
                     //var recarga = '';
 
                     for (let i = 0; i < respuesta.length; i++) {
-
                         var markerIcon = L.icon({
                                 //Fotos de la carpeta proyecto
                                 iconUrl: 'media/icon/' + respuesta[i].path_ic,
@@ -97,7 +89,7 @@ function leerMarkets() {
                             '<img src="media/picture/' + respuesta[i].foto_fo + '" width="150px">' + '<br/><br/>' +
                             '<button>Saber más</button>' +
                             '<br/><br/>' +
-                            '<button>¿Cómo llegar?</button>' +
+                            '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
                             '</center>'
                         );
                         //Marker juntando Popup
@@ -140,12 +132,8 @@ function filter() {
     var fav = document.getElementById('favoritos');
     if (fav.checked == true) {
         fav = 1;
-        formData.append('favoritos', fav);
-    } else {
-        fav = 0;
-        formData.append('favoritos', fav);
+        formData.append('fav', fav);
     }
-
     formData.append('tag_ta', document.querySelector('.tag_ta').value);
     //formData.append('favoritos', document.getElementById('favoritos').checked);
     /* alert(formData.append('etiqueta_et', document.querySelector('.etiqueta_et').value));
@@ -199,6 +187,16 @@ function filter() {
     }
 
     ajax.send(formData);
+}
+//Asigno los valores pasados desde el botón, a los valores a y b
+function routingMap(a, b) {
+    L.Routing.control({
+        waypoints: [
+            L.latLng(lat, long),
+            L.latLng(a, b)
+        ],
+        language: 'es',
+    }).addTo(map);
 }
 
 /* //Obtenemos los resultados del select, para filtrar directamente por los sitios favoritos del usuario
