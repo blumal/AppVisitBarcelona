@@ -25,14 +25,15 @@ class MapController extends Controller
             INNER JOIN tbl_tag ON tbl_lugar_tags_favs.id_tag_fk = tbl_tag.id_ta
             WHERE tbl_usuario.id_us = 1
             GROUP BY tbl_tag.tag_ta */
+            //Error Group By
+            //https://www.feynmandigital.com/problemas-con-group-by-en-laravel-eloquent.html
             $dbTags = DB::table('tbl_lugar_tags_favs')
                 ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
                 ->join('tbl_tag', 'tbl_lugar_tags_favs.id_tag_fk', '=', 'tbl_tag.id_ta')
                 ->select('*')
                 ->where('tbl_usuario.id_us','=', '1')
-                //->groupBy('tbl_tag.tag_ta')
+                ->groupBy('tbl_tag.tag_ta')
                 ->get();
-                //->groupBy('tbl_tag.tag_ta');
             return view('map', compact('dbEtiquetas', 'dbTags'));
        } catch (\Throwable $e) {
             return $e->getMessage();
@@ -40,19 +41,46 @@ class MapController extends Controller
     }
     //Función orientada a obtener todos los datos de los markets, para posteriormente insertarlos en el mapa mediante ajax, y todos estos datos los pasaremos a JS con la variable generada
     //dbLugar mediante una respuesta JSON
-    public function montarMarkets()
+    public function montarMarkets(Request $request)
     {
-        $dbLugar = DB::table('tbl_lugar')
-            ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
-            ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
-            ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
-            ->join('tbl_foto', 'tbl_lugar.id_foto_fk', '=', 'tbl_foto.id_fo')
-            ->select('*')
-            ->get();
-        return response()->json($dbLugar);
+        //if ($request->input('etiqueta_et') == '' && $request->input('favoritos') == false && $request->input('tag_ta') == ''){
+            $dbLugar = DB::table('tbl_lugar')
+                ->join('tbl_direccion', 'tbl_lugar.id_direccion_fk', '=', 'tbl_direccion.id_di')
+                ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
+                ->join('tbl_icono', 'tbl_lugar.id_icono_fk', '=', 'tbl_icono.id_ic')
+                ->join('tbl_foto', 'tbl_lugar.id_foto_fk', '=', 'tbl_foto.id_fo')
+                ->select('*')
+                ->get();
+            return response()->json($dbLugar);
+        /* }else{
+            $dbFiltro = DB::select('SELECT *
+                FROM tbl_lugar_tags_favs 
+                INNER JOIN tbl_usuario ON tbl_lugar_tags_favs.id_usuario_fk = tbl_usuario.id_us 
+                INNER JOIN tbl_lugar ON tbl_lugar_tags_favs.id_lugar_fk = tbl_lugar.id_lu
+                INNER JOIN tbl_tag ON tbl_lugar_tags_favs.id_tag_fk = tbl_tag.id_ta
+                INNER JOIN tbl_etiqueta ON tbl_lugar.id_etiqueta_fk = tbl_etiqueta.id_et
+                INNER JOIN tbl_direccion ON tbl_lugar.id_direccion_fk = tbl_direccion.id_di
+                INNER JOIN tbl_icono ON tbl_lugar.id_icono_fk = tbl_icono.id_ic
+                INNER JOIN tbl_foto ON tbl_lugar.id_foto_fk = tbl_foto.id_fo
+                WHERE tbl_etiqueta.id_et LIKE ? AND tbl_tag.id_ta LIKE ? AND tbl_lugar_tags_favs.fav_lt LIKE ? AND tbl_usuario.id_us = 1',
+                ['%'.$request->input('etiqueta_et').'%', '%'.$request->input('tag_ta').'%', '%'.$request->input('favoritos').'%']);
+
+            /* $dbFilter = DB::table('tbl_lugar_tags_favs')
+                ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
+                ->join('tbl_lugar', 'tbl_lugar_tags_favs.id_lugar_fk', '=', 'tbl_lugar.id_lu')
+                ->join('tbl_tag', 'tbl_lugar_tags_favs.id_tag_fk', '=', 'tbl_tag.id_ta')
+                ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
+                ->select('*')
+                //->select('tbl_usuario.nombre_us', 'tbl_lugar.id_lu', 'tbl_lugar.nombre_lu', 'tbl_etiqueta.etiqueta_et', 'tbl_tag.tag_ta', 'tbl_lugar_tags_favs.fav_lt')
+                ->where('tbl_etiqueta.id_et', 'like', '%'.$request->input('etiqueta_et').'%')
+                ->where('tbl_usuario.id_us = 1')
+                ->get(); */
+            //return response()->json($dbFiltro); */
+        //}
+        
     }
 
-    public function filtro(){
+    public function filtro(Request $request){
         /* SELECT tbl_usuario.nombre_us, tbl_lugar.id_lu, tbl_lugar.nombre_lu, tbl_etiqueta.etiqueta_et, tbl_tag.tag_ta, tbl_lugar_tags_favs.fav_lt
         FROM tbl_lugar_tags_favs 
         INNER JOIN tbl_usuario ON tbl_lugar_tags_favs.id_usuario_fk = tbl_usuario.id_us 
@@ -64,15 +92,29 @@ class MapController extends Controller
         AND tbl_usuario.id_us = 1 */
 
         try {
-            $dbFilter = DB::table('tbl_lugar_tags_favs')
+
+            $dbFiltro = DB::select('SELECT *
+                FROM tbl_lugar_tags_favs 
+                INNER JOIN tbl_usuario ON tbl_lugar_tags_favs.id_usuario_fk = tbl_usuario.id_us 
+                INNER JOIN tbl_lugar ON tbl_lugar_tags_favs.id_lugar_fk = tbl_lugar.id_lu
+                INNER JOIN tbl_tag ON tbl_lugar_tags_favs.id_tag_fk = tbl_tag.id_ta
+                INNER JOIN tbl_etiqueta ON tbl_lugar.id_etiqueta_fk = tbl_etiqueta.id_et
+                INNER JOIN tbl_direccion ON tbl_lugar.id_direccion_fk = tbl_direccion.id_di
+                INNER JOIN tbl_icono ON tbl_lugar.id_icono_fk = tbl_icono.id_ic
+                INNER JOIN tbl_foto ON tbl_lugar.id_foto_fk = tbl_foto.id_fo
+                WHERE tbl_etiqueta.id_et LIKE ? AND tbl_tag.id_ta LIKE ?  AND tbl_usuario.id_us = 1',
+                ['%'.$request->input('etiqueta_et').'%', '%'.$request->input('tag_ta').'%']);
+
+                
+            /* $dbFilter = DB::table('tbl_lugar_tags_favs')
                 ->join('tbl_usuario', 'tbl_lugar_tags_favs.id_usuario_fk', '=', 'tbl_usuario.id_us')
                 ->join('tbl_lugar', 'tbl_lugar_tags_favs.id_lugar_fk', '=', 'tbl_lugar.id_lu')
                 ->join('tbl_tag', 'tbl_lugar_tags_favs.id_tag_fk', '=', 'tbl_tag.id_ta')
                 ->join('tbl_etiqueta', 'tbl_lugar.id_etiqueta_fk', '=', 'tbl_etiqueta.id_et')
                 ->select('tbl_usuario.nombre_us', 'tbl_lugar.id_lu', 'tbl_lugar.nombre_lu', 'tbl_etiqueta.etiqueta_et', 'tbl_tag.tag_ta', 'tbl_lugar_tags_favs.fav_lt')
                 //->where('')
-                ->get();
-            return response()->json($dbFilter);
+                ->get(); */
+            return response()->json($dbFiltro);
         } catch (\Throwable $e) {
             return response()->json(array('resultado'=> 'NOK: '.$e->getMessage()));
         }

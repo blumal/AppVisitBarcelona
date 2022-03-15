@@ -15,7 +15,7 @@
 <!--Filtro-->
 <center>
     <div class="filtro">
-        <form action="{{url('filtro')}}" method="post">
+        <form action="{{url('markets')}}" method="post">
             
             <label for="Etiquetas">Etiquetas: </label>
             <!--Método onchange, cada vez que se modifique algo del select se disparará-->
@@ -25,8 +25,8 @@
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
-                <label for="Favoritos">Favoritos</label>
-                    <input type="checkbox" id="favoritos" name="favoritos" value="Favoritos" onchange="filter()">
+                <label for="Favoritos">Mis favoritos</label>
+                    <input type="checkbox" id="favoritos" name="favoritos" value="favoritos" onclick="filter()">
                 <label for="Etiquetas">Mis etiquetas: </label>
                 <select class="tag_ta" name="tag_ta" onchange="filter()">
                     <option value=""></option>

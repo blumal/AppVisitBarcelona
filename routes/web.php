@@ -23,5 +23,5 @@ Route::get('map', [MapController::class, 'index']);
 //Obtenemos todos los marcadores en el mapa
 Route::post('markets', [MapController::class, 'montarMarkets']);
 //Vista filtrando por etiquetas
-Route::post('filtro/{id}', [MapController::class, 'etiquetas']);
+Route::post('filtro', [MapController::class, 'filtro']);
 //Vista filtrando por favoritos
