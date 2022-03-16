@@ -2,6 +2,7 @@
 window.onload = function() {
     leerMarkets();
     arr_markers = [];
+    routingControl = null
 }
 
 function objetoAjax() {
@@ -171,7 +172,7 @@ function filter() {
                     '<img src="media/picture/' + respuesta[i].foto_fo + '" width="150px">' + '<br/><br/>' +
                     '<button>Saber más</button>' +
                     '<br/><br/>' +
-                    '<button>¿Cómo llegar?</button>' +
+                    '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
                     '</center>'
                 );
                 //Marker juntando Popup
@@ -188,15 +189,21 @@ function filter() {
 
     ajax.send(formData);
 }
+
 //Asigno los valores pasados desde el botón, a los valores a y b
 function routingMap(a, b) {
-    L.Routing.control({
-        waypoints: [
-            L.latLng(lat, long),
-            L.latLng(a, b)
-        ],
-        language: 'es',
-    }).addTo(map);
+    //Si routing control no es nulo, significa que hay datos, por lo que eliminará todo el routing control
+    if (routingControl != null) {
+        map.removeControl(routingControl)
+    }
+    routingControl =
+        L.Routing.control({
+            waypoints: [
+                L.latLng(lat, long),
+                L.latLng(a, b)
+            ],
+            language: 'es',
+        }).addTo(map);
 }
 
 /* //Obtenemos los resultados del select, para filtrar directamente por los sitios favoritos del usuario
