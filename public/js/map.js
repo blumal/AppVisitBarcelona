@@ -2,7 +2,8 @@
 window.onload = function() {
     leerMarkets();
     arr_markers = [];
-    routingControl = null
+    routingControl = null;
+    zoom = null;
 }
 
 function objetoAjax() {
@@ -204,6 +205,10 @@ function routingMap(a, b) {
             ],
             language: 'es',
         }).addTo(map);
+}
+
+function backToCenter() {
+    map.setView([lat, long], 16);
 }
 
 /* //Obtenemos los resultados del select, para filtrar directamente por los sitios favoritos del usuario

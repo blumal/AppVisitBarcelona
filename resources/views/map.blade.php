@@ -37,6 +37,7 @@
                     @endforeach
                 </select>
         </form>
+        <button onclick="backToCenter()">Centrar</button>
     </div>
     
 <!---->
