@@ -40,7 +40,7 @@ window.onclick = function(event) {
     }
 }
 
-/* Modal crear */
+/* Modal editar */
 
 function abrirmodal_editar(id_us, nombre_us, apellido1_us, apellido2_us, email_us, pass_us) {
     document.getElementById('nombre_us_e').value = nombre_us;
@@ -62,6 +62,35 @@ function closeModal_editar() {
 
 window.onclick = function(event) {
     let modal = document.getElementById("modalbox_editar");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+/*Modal editar lugar*/
+
+function abrirmodal_editarlugar(id_lu, nombre_lu, descripcion_lu, direccion_di, id_etiqueta_fk, id_icono_fk) {
+    document.getElementById('nombre_lu_e').value = nombre_lu;
+    document.getElementById('descripcion_lu_e').value = descripcion_lu;
+    // document.getElementById('foto_e').value = foto_fo;
+    document.getElementById('direccion_di_e').value = direccion_di;
+    document.getElementById('id_etiqueta_fk_e').value = id_etiqueta_fk;
+    console.log(id_etiqueta_fk)
+        // document.getElementById('icono_e').value = id_icono_fk;
+    document.getElementById('idUpdate2').value = id_lu;
+    modal = document.getElementById('modalbox_editar_lugar')
+    modal.style.display = "block";
+    modal_login = document.getElementById('modaleditar_lugar')
+    modal_login.style.display = "block";
+}
+
+function closeModal_editarlugar() {
+    let modal = document.getElementById("modalbox_editar_lugar");
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("modalbox_editar_lugar");
     if (event.target == modal) {
         modal.style.display = "none";
     }

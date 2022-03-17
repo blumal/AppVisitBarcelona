@@ -25,6 +25,7 @@ Route::post('crear',[MapController::class,'crear']);
 Route::post('crear2',[MapController::class,'crear2']);
 Route::delete('eliminar2/{id}',[MapController::class,'eliminar2']);
 Route::put('actualizar',[MapController::class,'update']);
+Route::put('actualizar2',[MapController::class,'update2']);
 
 // Login (Inicio Sesion) //
 Route::get('login',[MapController::class,'login']);

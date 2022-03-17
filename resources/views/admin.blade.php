@@ -96,6 +96,29 @@
             </form>
         </div>
     </div>
+    <div class="modalbox_editar_lugar" id="modalbox_editar_lugar">
+        <div class="modaleditar_lugar" id="modaleditar_lugar">
+            <span class="close" onclick="closeModal_editarlugar(); return false;">&times;</span>             
+            <h2><b>EDITAR LUGAR</b></h2>
+            <form id="formUpdate2" method="post" onsubmit="actualizar2();closeModal_editar();return false;" enctype="multipart/form-data">
+                <input class="inputcrear" type="text" name="nombre_lu_e" id="nombre_lu_e" placeholder="Nombre" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="descripcion_lu_e" id="descripcion_lu_e" placeholder="Descripcion" onfocus="error_registro()">
+                <input class="inputcrear" type="file" name="foto_e" id="foto_e" placeholder="Foto" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="direccion_di_e" id="direccion_di_e" placeholder="Direccion" onfocus="error_registro()">
+                <select class="inputcrear" name="id_etiqueta_fk_e" id="id_etiqueta_fk_e" onchange="etiquetas()" onfocus="error_registro()">
+                    <option></option>
+                     @foreach ($dbEtiquetas as $item)
+                        <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
+                    @endforeach
+                </select>
+                <input class="inputcrear" type="file" name="icono_e" id="icono_e" placeholder="Icono" onfocus="error_registro()">
+                <div id="mensaje_registro">
+                </div>
+                <button class="botoncrear" type="submit" value="Editar"><b>EDITAR</b></button>
+                <input type="hidden" name="id_lu_e" id="idUpdate2">
+            </form>
+        </div>
+    </div>
     <div class="modalbox_editar" id="modalbox_editar">
         <div class="modaleditar" id="modaleditar">
             <span class="close" onclick="closeModal_editar(); return false;">&times;</span>             
