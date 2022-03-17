@@ -99,7 +99,16 @@ class MapController extends Controller
                 ->where('tbl_usuario.id_us','=', '1')
                 ->groupBy('tbl_tag.tag_ta')
                 ->get();
-            return view('map', compact('dbEtiquetas', 'dbTags'));
+            $dbAll = DB::select('SELECT *
+                FROM tbl_lugar_tags_favs 
+                INNER JOIN tbl_usuario ON tbl_lugar_tags_favs.id_usuario_fk = tbl_usuario.id_us 
+                INNER JOIN tbl_lugar ON tbl_lugar_tags_favs.id_lugar_fk = tbl_lugar.id_lu
+                INNER JOIN tbl_tag ON tbl_lugar_tags_favs.id_tag_fk = tbl_tag.id_ta
+                INNER JOIN tbl_etiqueta ON tbl_lugar.id_etiqueta_fk = tbl_etiqueta.id_et
+                INNER JOIN tbl_direccion ON tbl_lugar.id_direccion_fk = tbl_direccion.id_di
+                INNER JOIN tbl_icono ON tbl_lugar.id_icono_fk = tbl_icono.id_ic
+                INNER JOIN tbl_foto ON tbl_lugar.id_foto_fk = tbl_foto.id_fo');
+            return view('map', compact('dbEtiquetas', 'dbTags', 'dbAll'));
        } catch (\Throwable $e) {
             return $e->getMessage();
        }

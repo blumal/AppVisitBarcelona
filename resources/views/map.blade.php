@@ -16,29 +16,50 @@
 </head>
 <body>
 <!--Filtro-->
-<center>
-    <div class="filtro">
-        <form action="{{url('markets')}}" method="post">
-            
-            <label for="Etiquetas">Etiquetas: </label>
-            <!--Método onchange, cada vez que se modifique algo del select se disparará-->
-                <select class="etiqueta_et" name="etiqueta_et" onchange="filter()">
-                    <option value=""></option>
-                    @foreach ($dbEtiquetas as $item)
-                        <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
-                    @endforeach
-                </select>
-                <label for="Favoritos">Mis favoritos</label>
-                    <input type="checkbox" id="favoritos" name="favoritos" value="favoritos" onclick="filter()">
-                <label for="Etiquetas">Mis etiquetas: </label>
-                <select class="tag_ta" name="tag_ta" onchange="filter()">
-                    <option value=""></option>
-                    @foreach ($dbTags as $result)
-                        <option value="{{$result->id_ta}}">{{$result->tag_ta}}</option>
-                    @endforeach
-                </select>
+    <div class="header">
+            <form action="{{url('markets')}}" method="post">
+                <label for="Etiquetas"></label>
+                <!--Método onchange, cada vez que se modifique algo del select se disparará-->
+                    <select class="etiqueta_et" name="etiqueta_et" onchange="filter()">
+                        <option value=""></option>
+                        @foreach ($dbEtiquetas as $item)
+                            <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
+                        @endforeach
+                    </select>
+                <label for="Favoritos"></label>
+                    <label onchange="favoritos()"><input type="checkbox" id="favoritos" name="favoritos" value="Favorito" onclick="filter()"><div class="checkbox" id="estrella"><i class="fa-regular fa-star"></i></div></label>
+                <label for="Etiquetas"></label>
+                    <select class="tag_ta" name="tag_ta" onchange="filter()">
+                        <option value=""></option>
+                        @foreach ($dbTags as $result)
+                            <option value="{{$result->id_ta}}">{{$result->tag_ta}}</option>
+                        @endforeach
+                    </select>
         </form>
-        <button onclick="backToCenter()">Centrar</button>
+    </div>
+
+    @foreach ($dbAll as $row)@endforeach
+
+    <div class="modalbox_lugar" id="modalbox_lugar">
+        <div class="modallugar" id="modallugar">
+            <span class="close" onclick="closeModal_lugar(); return false;">&times;</span>
+            <div class="fotos">
+                <img class="foto_modal" src="media/picture/{{$row->foto_fo}}">                
+            </div>
+            <hr>
+            <div class="titulo">
+                <h1>{{$row->nombre_lu}}</h1>
+            </div>
+            <div class="categoria">
+                <h3>{{$row->etiqueta_et}}</h3>
+            </div>
+            <div class="descripcion">
+                <p>{{$row->descripcion_lu}}</p>
+            </div>
+            <div class="favoritos">
+                <label onchange="favoritos()"><input type="checkbox" id="favoritos" name="favoritos" value="Favorito" onclick="filter()"><div class="checkbox" id="estrella"><i class="fa-regular fa-star"></i></div></label>
+            </div>
+        </div>
     </div>
     
 <!---->
@@ -104,17 +125,14 @@
             </script> --}}
     </div>
     <div class="footer">
-        <div class="select">
+        <div class="logout">
             <form action="{{url('logout')}}" method="POST">
                 @csrf
-                <button class="logout_input" type="submit" name="logout" value="logout"><b>LOGOUT</b>   <i class="fa-solid fa-right-from-bracket"></i></button>
+                <button class="logout_input" type="submit" name="logout" value="logout"><i class="fa-solid fa-right-from-bracket"></i></button>
             </form>
         </div>
         <div class="favoritos">
-            <form method="get">
-                @csrf
-                <button class="centrar_ubicacion" type="submit" name="centrar" value="centrar" onclick="backToCenter()"><i class="fa-solid fa-location-crosshairs"></i></button>
-            </form>
+            <button class="centrar_ubicacion" name="centrar" value="centrar" onclick="backToCenter()"><i class="fa-solid fa-location-crosshairs"></i></button>
         </div>
     </div>
 </center>
