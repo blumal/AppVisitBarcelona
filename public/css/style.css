@@ -1,3 +1,6 @@
+/* ----------------------------------------------- ESTILOS DEL LOGIN ----------------------------------------------- */
+
+
 /* Fondo del login */
 
 body {
@@ -38,6 +41,9 @@ body {
 }
 
 
+/* ----------------------------------------------- CONTENIDO DIV DEL LOGIN ----------------------------------------------- */
+
+
 /* Input login */
 
 .inputlogin {
@@ -50,14 +56,28 @@ body {
     padding: 2vh;
 }
 
+.divcontraseña {
+    background-color: rgb(255, 255, 255);
+    width: 49.4vh;
+    border-radius: 1vh;
+    border-width: 1px;
+    border-color: black;
+    padding: 0;
+    border-style: solid;
+    border-width: 2px;
+}
+
 .inputcontraseña {
     color: rgb(0, 0, 0);
     width: 40vh;
-    border-radius: 1vh;
-    background-color: rgb(255, 255, 255);
-    margin-top: 0.5vh;
-    margin-bottom: 0.5vh;
+    background-color: rgba(255, 255, 255, 0);
     padding: 2vh;
+    border-width: 0;
+}
+
+.inputcontraseña:focus {
+    outline: none;
+    border-width: 0;
 }
 
 .mostrarcontraseña {
@@ -72,11 +92,16 @@ body {
     padding: 1vh;
 }
 
-
-/* Error incio sesion */
-
-.error_inicio {
-    color: red;
+.mostrarcontraseña2 {
+    height: 7.75vh;
+    width: 5.5vh;
+    margin: 0;
+    float: right;
+    border-radius: 1vh;
+    background-color: rgb(255, 255, 255);
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    padding: 1vh;
 }
 
 
@@ -90,6 +115,40 @@ body {
 }
 
 
+/* ----------------------------------------------- MENSAJES DE INFORMACION O ERROR DEL LOGIN ----------------------------------------------- */
+
+
+/* Error incio sesion */
+
+.error_inicio {
+    color: red;
+}
+
+.correo_enviado {
+    color: rgb(78, 78, 78);
+}
+
+
+/* CHECKBOX MOSTRAR CONTRASEÑA */
+
+input[type=checkbox] {
+    display: none;
+}
+
+.checkbox {
+    display: inline-block;
+    padding: 3px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+input[type=checkbox]:checked+.label {
+    background: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    border-width: 0px;
+}
+
+
 /* Mensaje Login "¿No tienes cuenta?" */
 
 .no-cuenta-text {
@@ -99,6 +158,30 @@ body {
     text-align: center;
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
 }
+
+
+/* Mensaje Login "¿Has olvidado la contraseña?" */
+
+.contraseña-olvidada {
+    font-size: 2vh;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    text-align: left;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+}
+
+.contraseña-olvidada-btn {
+    background-color: white;
+    border-width: 0px;
+    cursor: pointer;
+}
+
+.contraseña-olvidada-btn:hover {
+    opacity: 50%;
+}
+
+
+/* ----------------------------------------------- BOTONES DEL LOGIN ----------------------------------------------- */
 
 
 /* Boton login */
@@ -171,6 +254,9 @@ body {
 }
 
 
+/* ----------------------------------------------- INPUT MODAL REGISTRO DEL LOGIN ----------------------------------------------- */
+
+
 /* Input y botones modal registro */
 
 .inputregistro {
@@ -214,6 +300,9 @@ body {
 }
 
 
+/* ----------------------------------------------- MODAL BOX DEL LOGIN ----------------------------------------------- */
+
+
 /* Modal box */
 
 .modalbox {
@@ -248,6 +337,45 @@ body {
 .close:hover {
     opacity: 50%;
 }
+
+
+/* Modal box olvido contraseña */
+
+.modalbox_olvido {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modalolvido {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    width: 30%;
+    height: 35vh;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+}
+
+.close {
+    font-size: 2.5vh;
+    margin-left: 61vh;
+    margin-bottom: 11vh;
+    cursor: pointer;
+}
+
+.close:hover {
+    opacity: 50%;
+}
+
+
+/* ----------------------------------------------- ESTILOS ZONA ADMIN ----------------------------------------------- */
 
 
 /* Zona admin */
@@ -286,6 +414,9 @@ body {
 }
 
 
+/* ----------------------------------------------- DIVS DEL HEADER ----------------------------------------------- */
+
+
 /* Div inputs */
 
 .select {
@@ -315,7 +446,7 @@ body {
     display: inline-block;
     border-radius: 0.5vh;
     background-color: rgb(255, 255, 255);
-    padding: 1vh;
+    padding: 1.35vh;
     font-weight: bold;
     cursor: pointer;
     border-width: 0;
@@ -362,11 +493,7 @@ body {
 }
 
 
-/* Tabla */
-
-.crud {
-    padding: 5vh;
-}
+/* ----------------------------------------------- MODAL BOX DE LA ZONA ADMIN ----------------------------------------------- */
 
 
 /* Modal box crear */
@@ -471,14 +598,31 @@ body {
     padding: 2vh;
 }
 
+.divcontraseña_crear {
+    background-color: rgb(255, 255, 255);
+    width: 95vh;
+    border-radius: 1vh;
+    border-width: 1px;
+    border-color: black;
+    padding: 0;
+    border-style: solid;
+    border-width: 2px;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
 .contraseñacrear {
     color: rgb(0, 0, 0);
     width: 89vh;
     border-radius: 1vh;
     background-color: rgb(255, 255, 255);
-    margin-top: 0.5vh;
-    margin-bottom: 0.5vh;
     padding: 2vh;
+    border-width: 0;
+}
+
+.contraseñacrear:focus {
+    outline: none;
+    border-width: 0;
 }
 
 .botoncrear {
@@ -498,9 +642,9 @@ body {
 }
 
 
-/* Modal box lugar */
+/* Modal box crear lugar */
 
-.modalbox_direccion {
+.modalbox_crearlugar {
     display: none;
     position: fixed;
     z-index: 1;
@@ -509,26 +653,30 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
+    padding-left: 55vh;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modaldireccion {
+.modalcrear_lugar {
     background-color: #fefefe;
-    margin: 5% auto;
+    margin-top: 0;
     padding: 20px;
-    width: 30%;
+    width: 100vh;
     height: 90vh;
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
 }
 
-.close {
+.close_crear {
     font-size: 2.5vh;
-    margin-left: 61vh;
+    margin-left: 95vh;
     margin-bottom: 11vh;
     cursor: pointer;
+    color: white;
 }
 
-.close:hover {
+.close_crear:hover {
     opacity: 50%;
 }

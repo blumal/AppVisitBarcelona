@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <script defer src="../public/fontawesome/js/all.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
@@ -19,7 +18,7 @@
 <center>
     <div class="header">
         <div class="select">
-            <form action="{{url('markets')}}" method="post">   
+            <form action="{{url('markets')}}" method="post">
                 <label for="Etiquetas"></label>
                 <!--Método onchange, cada vez que se modifique algo del select se disparará-->
                     <select class="filtro_input" name="etiqueta_et" onchange="filter()">
@@ -33,14 +32,37 @@
             <label onchange="favoritos()"><input type="checkbox" id="favoritos" name="favoritos" value="Favorito"><div class="checkbox" id="estrella" onclick="filter()"><i class="fa-regular fa-star"></i></div></label>
         </div>
         <div class="etiquetas">
+            <label for="Etiquetas"></label>
                 <select class="filtro_input" name="tag_ta" onchange="filter()">
                     <option disabled selected><p class='filtro_text'>Mis Etiquetas</p></option>
                     @foreach ($dbTags as $result)
                         <option value="{{$result->id_ta}}">{{$result->tag_ta}}</option>
                     @endforeach
                 </select>
-            </form>
+            </form>                
         </div>          
+    </div>
+
+    <div class="modalbox_lugar" id="modalbox_lugar">
+        <div class="modallugar" id="modallugar">
+            <span class="close" onclick="closeModal_lugar(); return false;">&times;</span>
+            <div class="fotos">
+                {{-- <img class="foto_modal" src="media/picture/{{$result->foto_fo}}">                
+            </div>
+            <hr>
+            <div class="titulo">
+                <h1>{{$result->nombre_lu}}</h1>
+            </div>
+            <div class="categoria">
+                <h3>{{$result->etiqueta_et}}</h3>
+            </div>
+            <div class="descripcion">
+                <p>{{$result->descripcion_lu}}</p>
+            </div> --}}
+            {{-- <div class="favoritos">
+                <i class="fa-regular fa-star"></i>
+            </div> --}}
+        </div>
     </div>
     
 <!---->
@@ -106,14 +128,14 @@
             </script> --}}
     </div>
     <div class="footer">
-        <div class="select">
+        <div class="logout">
             <form action="{{url('logout')}}" method="POST">
                 @csrf
                 <button class="logout_input" type="submit" name="logout" value="logout"><b>LOGOUT</b>   <i class="fa-solid fa-right-from-bracket"></i></button>
             </form>
         </div>
-        <div class="favoritos">
-            <form method="get">
+        <div class="centrar">
+            <form method="POST">
                 @csrf
                 <button class="centrar_ubicacion" type="submit" name="centrar" value="centrar" onclick="backToCenter()"><i class="fa-solid fa-location-crosshairs"></i></button>
             </form>

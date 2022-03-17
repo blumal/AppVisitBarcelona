@@ -15,8 +15,6 @@ use App\Http\Controllers\DB;
 |
 */
 
-//Vista
-
 // Login (Inicio Sesion) //
 Route::get('login',[MapController::class,'login']);
 Route::post('loginpost',[MapController::class,'loginpost']);
@@ -28,27 +26,34 @@ Route::post('logout',[MapController::class,'logout']);
 Route::post('registro',[MapController::class,'registro']);
 
 // Si el usuario logueado es Admin ira a esta página //
-Route::get('admin',[MapController::class,'admin']);
+Route::get('admin',[MapController::class,'mostrarUser']);
 
 // Mostrar usuarios AJAX //
 Route::get('usuarios',[MapController::class,'mostrarUser']);
 Route::post('filtro',[MapController::class,'show']);
 
-// Crear usuarios //
+// Crear //
 Route::post('crear',[MapController::class,'crear']);
+Route::post('crear2',[MapController::class,'crear2']);
 
-// Modificar usuarios //
+// Modificar //
 Route::get('modificar/{id}',[MapController::class,'modificar']);
 Route::put('modificar',[MapController::class,'modificarPut']);
 
-// Eliminar Usuarios //
+// Eliminar //
 Route::delete('eliminar/{id}',[MapController::class,'eliminar']);
+Route::delete('eliminar2/{id}',[MapController::class,'eliminar2']);
 
-//  Si el usuario logueado es Customer ira a esta página //
+// Si el usuario logueado es Customer ira a esta página //
 Route::get('map', [MapController::class, 'index']);
+
 //Obtenemos todos los marcadores en el mapa //
 Route::post('markets', [MapController::class, 'montarMarkets']);
-//Vista filtrando por etiquetas
+
+//Vista filtrando por etiquetas //
 Route::post('etiquetas/{id}', [MapController::class, 'etiquetas']);
 
 // Vista filtrando por favoritos
+
+// Enviar correo al usuario //
+route::get('envio', [MapController::class, 'envio']);
