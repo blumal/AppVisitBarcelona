@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-03-2022 a las 16:14:26
+-- Tiempo de generación: 17-03-2022 a las 15:39:31
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.11
 
@@ -67,10 +67,8 @@ INSERT INTO `tbl_etiqueta` (`id_et`, `etiqueta_et`) VALUES
 (4, 'Museo'),
 (5, 'Discoteca'),
 (6, 'Centro comercial'),
-(7, 'Favoritos'),
 (8, 'Transporte-Metro'),
 (9, 'Transporte-Bus'),
-(10, 'Museo'),
 (11, 'Iglesia');
 
 -- --------------------------------------------------------
@@ -134,8 +132,6 @@ CREATE TABLE `tbl_lugar` (
 --
 
 INSERT INTO `tbl_lugar` (`id_lu`, `nombre_lu`, `descripcion_lu`, `id_foto_fk`, `id_direccion_fk`, `id_etiqueta_fk`, `id_icono_fk`) VALUES
-(1, 'Gran vía 2', 'Centro comercial', NULL, NULL, NULL, NULL),
-(2, 'Catalina Gava Mar', 'Restaurante', NULL, NULL, NULL, NULL),
 (3, 'Metro Barceloneta', NULL, 2, 4, 8, 1),
 (4, 'Museo Martorell', NULL, 1, 5, 4, 2),
 (5, 'Metro Urquinaona', NULL, 3, 6, 8, 1);
@@ -159,9 +155,10 @@ CREATE TABLE `tbl_lugar_tags_favs` (
 --
 
 INSERT INTO `tbl_lugar_tags_favs` (`id_lt`, `id_usuario_fk`, `id_lugar_fk`, `id_tag_fk`, `fav_lt`) VALUES
-(1, 1, 1, 1, NULL),
-(2, 1, 2, 2, NULL),
-(3, 2, 4, 1, NULL);
+(1, 1, 4, 2, 1),
+(3, 2, 4, 2, 0),
+(4, 1, 5, 1, 1),
+(5, 1, 3, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -329,7 +326,7 @@ ALTER TABLE `tbl_lugar`
 -- AUTO_INCREMENT de la tabla `tbl_lugar_tags_favs`
 --
 ALTER TABLE `tbl_lugar_tags_favs`
-  MODIFY `id_lt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_lt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_rol_us`
