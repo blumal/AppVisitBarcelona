@@ -130,6 +130,7 @@ function filter() {
     var formData = new FormData();
     formData.append('_token', document.getElementById('token').getAttribute("content"));
     //--------Filtro--------
+    //Comprobamos la variable, favoritos, la llamamos y si se ha presionado(checked) la convertimos a uno para el filtro, si no, se queda igual
     formData.append('etiqueta_et', document.querySelector('.etiqueta_et').value);
     var fav = document.getElementById('favoritos');
     if (fav.checked == true) {
@@ -190,7 +191,7 @@ function filter() {
 
     ajax.send(formData);
 }
-
+//Finalidad: Generar rutas hacia los lugares, dentro de la
 //Asigno los valores pasados desde el botón, a los valores a y b
 function routingMap(a, b) {
     //Si routing control no es nulo, significa que hay datos, por lo que eliminará todo el routing control
@@ -207,38 +208,16 @@ function routingMap(a, b) {
         }).addTo(map);
 }
 
+//Función para centrar el mapa
 function backToCenter() {
     map.setView([lat, long], 16);
 }
 
-/* //Obtenemos los resultados del select, para filtrar directamente por los sitios favoritos del usuario
-function favoritos() {
-    //let b = document.querySelector('.nombre_lu').value;
-    //alert(b);
-    alert('Favoritos is working');
-} */
-
-//Api del mapa
-/* var map = L.map('map').
-setView([41.66, -4.72],
-    14);
-
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
-}).addTo(map);
-
-L.control.scale().addTo(map);
-L.marker([41.66, -4.71], { draggable: true }).addTo(map); */
-
-//alert("Hola");
-//Preguntar geolocalización
-/* if (navigator.geolocation) {
-    var success = function(position) {
-        var latitud = position.coords.latitude,
-            longitud = position.coords.longitude;
-    }
-    navigator.geolocation.getCurrentPosition(success, function(msg) {
-        console.error(msg);
-    });
-} */
+/* setInterval(function routingMap() {
+    var newLat = routingControl.options.waypoints[0].lat + 0.01;
+    var newLng = routingControl.options.waypoints[0].long + 0.01;
+    routingControl.options.waypoints = [
+        L.latLng(newLat, newLng),
+        routingControl.options.waypoints[1]
+    ];
+}, 1000); */
