@@ -3,7 +3,6 @@ window.onload = function() {
     leerMarkets();
     arr_markers = [];
     routingControl = null;
-    zoom = null;
 }
 
 function objetoAjax() {
@@ -93,6 +92,7 @@ function leerMarkets() {
                             '<br/><br/>' +
                             '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
                             '</center>'
+
                         );
                         //Marker juntando Popup
                         var m = L.marker([respuesta[i].latitud_di, respuesta[i].longitud_di], { icon: markerIcon }).bindPopup(markerIconPopup).addTo(map);
@@ -176,6 +176,7 @@ function filter() {
                     '<br/><br/>' +
                     '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
                     '</center>'
+                    //'<label onchange="addToFavs()"><input type="checkbox" id="addtofav" name="addtofav" value="Favorito"><div class="checkbox" id="estrella" onclick="filter()"><i class="fa-regular fa-star"></i></div></label>'
                 );
                 //Marker juntando Popup
                 var m = L.marker([respuesta[i].latitud_di, respuesta[i].longitud_di], { icon: markerIcon }).bindPopup(markerIconPopup).addTo(map);
@@ -211,6 +212,16 @@ function routingMap(a, b) {
 //Función para centrar el mapa
 function backToCenter() {
     map.setView([lat, long], 16);
+}
+
+function addToFavs() {
+    var favoritos = document.getElementById('favoritos');
+    var estrella = document.getElementById('estrella');
+    if (favoritos.checked == true) {
+        estrella.innerHTML = "<i class='fa-regular fa-star'></i>";
+    } else {
+        estrella.innerHTML = "<i class='fa-solid fa-star'></i>";
+    }
 }
 
 /* setInterval(function routingMap() {
