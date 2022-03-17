@@ -77,18 +77,18 @@
             <h2 class="titulomodal">CREAR <b>LUGAR</b></h2>
         </div>
         <div class="modalcrear_lugar" id="modalcrear_lugar">
-            <form onsubmit="crear2();closeModal_crear();return false;" method="post" id="formcrear2">
+            <form onsubmit="crear2();closeModal_crear();return false;" method="post" id="formcrear2" enctype="multipart/form-data">
                 <input class="inputcrear" type="text" name="nombre_lu" id="nombre_lu" placeholder="Nombre" onfocus="error_registro()">
                 <input class="inputcrear" type="text" name="descripcion_lu" id="descripcion_lu" placeholder="Descripcion" onfocus="error_registro()">
-                <input class="inputcrear" type="file" name="id_foto_fk" id="id_foto_fk" placeholder="Foto" onfocus="error_registro()">
-                <input class="inputcrear" type="text" name="id_direccion_fk" id="id_direccion_fk" placeholder="Direccion" onfocus="error_registro()">
+                <input class="inputcrear" type="file" name="foto" id="foto" placeholder="Foto" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="direccion_di" id="direccion_di" placeholder="Direccion" onfocus="error_registro()">
                 <select class="inputcrear" name="id_etiqueta_fk" id="id_etiqueta_fk" onchange="etiquetas()" onfocus="error_registro()">
                     <option value=""></option>
                      @foreach ($dbEtiquetas as $item)
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
-                <input class="inputcrear" type="text" name="id_icono_fk" id="id_icono_fk" placeholder="Icono" onfocus="error_registro()">
+                <input class="inputcrear" type="file" name="icono" id="icono" placeholder="Icono" onfocus="error_registro()">
                 <div id="mensaje_registro">
                 </div>
                 <button class="botoncrear" type="submit" value="CREAR" ><b>CREAR</b></button>

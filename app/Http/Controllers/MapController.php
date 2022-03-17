@@ -7,6 +7,7 @@ use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class MapController extends Controller
 {
@@ -186,9 +187,13 @@ class MapController extends Controller
         try {
             DB::beginTransaction();
             $id2=DB::select('select id_direccion_fk from tbl_lugar where id_lu =?',[$id]);
+            $id3=DB::select('select id_foto_fk from tbl_lugar where id_lu =?',[$id]);
+            $id4=DB::select('select id_icono_fk from tbl_lugar where id_lu =?',[$id]);
             // return $id2[0]->id_direccion_fk;
             DB::table('tbl_lugar')->where('id_lu','=',$id)->delete();
             DB::table('tbl_direccion')->where('id_di','=',$id2[0]->id_direccion_fk)->delete();
+            DB::table('tbl_foto')->where('id_fo','=',$id3[0]->id_foto_fk)->delete();
+            DB::table('tbl_icono')->where('id_ic','=',$id4[0]->id_icono_fk)->delete();
             DB::commit();
             return response()->json(array('resultado'=> 'OK'));
         }catch(\Exception $th){
@@ -208,26 +213,37 @@ class MapController extends Controller
     }
     public function crear2(Request $request) {
         try{
-            // DB::beginTransaction();
-            $searchTerm = '1600 Pennsylvania Ave NW, Washington DC';
+            DB::beginTransaction();	
+            $datos = $request->except('_token');
+            $vara =  $request->input('direccion_di');
+            $url = "https://geokeo.com/geocode/v1/search.php?q=".urlencode($vara)."&api=78bac5213ba4d91f97794e4e4f5c1543";
 
-            $buildQuery = http_build_query([
-                'access_key' => 'b8111de4735489d0a0fae87b9e92b473',
-                'query' => $searchTerm
-            ]);
-
-            $ch = curl_init(sprintf('%s?%s', 'https://api.positionstack.com/v1/forward', $buildQuery));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            $responseData = curl_exec($ch);
-            curl_close($ch);
-
-            $resultData = json_decode($responseData, true);
-
-            return response()->json(array('resultado'=> 'NOK: '.$responseData));
-            DB::insert('inseet into tbl_direccion (direccion_di,latitud_di,longitud_di) values (?,?,?)',[$request->input('direccion_di'),(''),('')]);
-            // DB::insert('insert into tbl_lugar (nombre_lu,descripcion_lu,apellido2_us,email_us,pass_us,id_rol_fk) values (?,?,?,?,?,?)',[$request->input('nombre_us'),$request->input('apellido1_us'),$request->input('apellido2_us'),$request->input('email_us'),$request->input('pass_us'),('2')]);  
+            //call api
+            $json = file_get_contents($url);
+            $json = json_decode($json);
+	
+		    $address = $json->results[0]->formatted_address;
+		    $latitude = $json->results[0]->geometry->location->lat;
+		    $longitude = $json->results[0]->geometry->location->lng;
+            if($request->hasFile('foto')){
+                $ffoto = $request->file('foto')->store('uploads','public');
+            }else{
+                $datos['foto'] = NULL;
+            }
+            if($request->hasFile('icono')){
+                $iicono = $request->file('icono')->store('uploads','public');
+            }else{
+                $datos['icono'] = NULL;
+            }
+            DB::insert('insert into tbl_icono (icono_ic) values(?)',[$iicono]);
+            $id5 = DB::select('select id_ic from tbl_icono where icono_ic =?',[$iicono]);
+			DB::insert('insert into tbl_foto (foto_fo) values(?)',[$ffoto]);
+            $id4 = DB::select('select id_fo from tbl_foto where foto_fo =?',[$ffoto]);
+            DB::insert('insert into tbl_direccion (direccion_di,latitud_di,longitud_di) values (?,?,?)',[$request->input('direccion_di'),($latitude),($longitude)]);
+            $id3 = DB::select('select id_di from tbl_direccion where direccion_di =?',[$vara]);
+            DB::insert('insert into tbl_lugar (nombre_lu,descripcion_lu,id_foto_fk,id_direccion_fk,id_etiqueta_fk,id_icono_fk) values (?,?,?,?,?,?)',[$request->input('nombre_lu'),$request->input('descripcion_lu'),($id4[0]->id_fo),($id3[0]->id_di),$request->input('id_etiqueta_fk'),($id5[0]->id_ic)]);  
             DB::commit();
+            
             return response()->json(array('resultado'=> 'OK'));
         }catch (\Throwable $th) {
             DB::rollBack();

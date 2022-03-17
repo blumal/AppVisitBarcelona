@@ -219,6 +219,7 @@ function crear2() {
     ajax.onreadystatechange = function() {
             if (ajax.readyState == 4 && ajax.status == 200) {
                 var respuesta = JSON.parse(this.responseText);
+                console.log(this.responseText)
                 if (respuesta.resultado == "OK") {
                     /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
                     /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */
@@ -227,7 +228,6 @@ function crear2() {
                 } else {
                     /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
                     //    /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */
-                    console.log(respuesta.resultado)
                     message.innerHTML = 'Ha habido un error:' + respuesta.resultado;
                 }
                 filtro();
