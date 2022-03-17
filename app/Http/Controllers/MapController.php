@@ -254,7 +254,7 @@ class MapController extends Controller
             $id7 = DB::select('select id_direccion_fk from tbl_lugar where id_lu =?',[$request->input('id_lu_e')]);
             DB::update('update tbl_direccion set direccion_di=?, latitud_di=?, longitud_di=? where id_di=?',[$request->input('direccion_di_e'),($latitude),($longitude),($id7[0]->id_direccion_fk)]);
             $id3 = DB::select('select id_di from tbl_direccion where direccion_di =?',[$vara]);
-            DB::update('update tbl_lugar set nombre_lu=?, descripcion_lu=?, id_foto_fk=?, id_direccion_fk=?, id_etiqueta_fk =?, where id_lu=?',[$request->input('nombre_lu_e'),$request->input('descripcion_lu_e'),($id4[0]->id_fo),($id3[0]->id_di),$request->input('id_etiqueta_fk_e'),($request->input('id_lu_e'))]);
+            DB::update('update tbl_lugar set nombre_lu=?, descripcion_lu=?, id_foto_fk=?, id_direccion_fk=?, id_etiqueta_fk =? where id_lu=?',[$request->input('nombre_lu_e'),$request->input('descripcion_lu_e'),($id4[0]->id_fo),($id3[0]->id_di),$request->input('id_etiqueta_fk_e'),($request->input('id_lu_e'))]);
             //return response()->json(array('resultado'=> 'NOK: '.$request->input('id_us')));
             DB::commit();
             return response()->json(array('resultado'=> 'OK'));
