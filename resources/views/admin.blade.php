@@ -88,7 +88,6 @@
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
-                <input class="inputcrear" type="file" name="icono" id="icono" placeholder="Icono" onfocus="error_registro()">
                 <div id="mensaje_registro">
                 </div>
                 <button class="botoncrear" type="submit" value="CREAR" ><b>CREAR</b></button>
@@ -111,7 +110,6 @@
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
-                <input class="inputcrear" type="file" name="icono_e" id="icono_e" placeholder="Icono" onfocus="error_registro()">
                 <div id="mensaje_registro">
                 </div>
                 <button class="botoncrear" type="submit" value="Editar"><b>EDITAR</b></button>
