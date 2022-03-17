@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script type="text/javascript" src="{{asset('js/map.js')}}"></script>
+    <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{asset('css/map.css')}}">
     <title>Home</title>
 </head>
@@ -14,34 +17,34 @@
 <!--Filtro-->
 <center>
     <div class="filtro">
-        <form action="{{url('etiquetas')}}" method="get">
+        <form action="{{url('markets')}}" method="post">
             
             <label for="Etiquetas">Etiquetas: </label>
             <!--Método onchange, cada vez que se modifique algo del select se disparará-->
-                <select class="etiqueta_et" name="etiqueta_et" onchange="etiquetas()">
+                <select class="etiqueta_et" name="etiqueta_et" onchange="filter()">
                     <option value=""></option>
                     @foreach ($dbEtiquetas as $item)
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
-                <label for="Favoritos">Favoritos</label>
-                    <input type="checkbox" id="favorito" name="favorito" value="Favorito" onchange="favoritos()">
+                <label for="Favoritos">Mis favoritos</label>
+                    <input type="checkbox" id="favoritos" name="favoritos" value="favoritos" onclick="filter()">
                 <label for="Etiquetas">Mis etiquetas: </label>
-                <select class="nombre_lu" name="nombre_lu" onchange="favoritos()">
+                <select class="tag_ta" name="tag_ta" onchange="filter()">
                     <option value=""></option>
-                    @foreach ($dbFavs as $item)
-                        <option value="{{$item->id_lu}}">{{$item->nombre_lu}}</option>
+                    @foreach ($dbTags as $result)
+                        <option value="{{$result->id_ta}}">{{$result->tag_ta}}</option>
                     @endforeach
                 </select>
         </form>
+        <button onclick="backToCenter()">Centrar</button>
     </div>
     
 <!---->
     <div class="container">
         <div id="map"></div>
-        <!--Extracción de datos, query lugar-->
-        @foreach ($dbLugar as $result)@endforeach
-            <script>
+        
+            {{-- <script>
                 //Obtenemos la ubicación solicitándosela al usuario
                 /* if (navigator.geolocation) {
                     var success = function(position) {
@@ -97,7 +100,7 @@
                         alert.error(msg);
                     });
                 } */
-            </script>
+            </script> --}}
     </div>
 </center>
 </body>

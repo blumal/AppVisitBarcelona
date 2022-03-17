@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-03-2022 a las 15:25:34
+-- Tiempo de generación: 17-03-2022 a las 15:39:31
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.11
 
@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `tbl_direccion` (
   `id_di` int(11) NOT NULL,
   `direccion_di` varchar(150) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `latitud_di` decimal(5,3) DEFAULT NULL,
-  `longitud_di` decimal(5,3) DEFAULT NULL
+  `latitud_di` decimal(16,14) DEFAULT NULL,
+  `longitud_di` decimal(16,14) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -39,8 +39,11 @@ CREATE TABLE `tbl_direccion` (
 --
 
 INSERT INTO `tbl_direccion` (`id_di`, `direccion_di`, `latitud_di`, `longitud_di`) VALUES
-(1, 'Avinguda de la Granvia de l’Hospitalet, 75, 08908 L\'Hospitalet de Llobregat, Barcelona', '41.359', '2.130'),
-(3, 'Carrer de Calafell, 21, 08850 Gavà, Barcelona', '41.266', '2.009');
+(1, 'Avinguda de la Granvia de l’Hospitalet, 75, 08908 L\'Hospitalet de Llobregat, Barcelona', '41.35900000000000', '2.13000000000000'),
+(3, 'Carrer de Calafell, 21, 08850 Gavà, Barcelona', '41.26600000000000', '2.00900000000000'),
+(4, 'Carrer del Dr. Aiguader, 1X, 08003 Barcelona', '41.38240463970294', '2.18579911515072'),
+(5, 'Parc de la Ciutadella, s/n, 08003 Barcelona', '41.38702802640444', '2.18460802648461'),
+(6, 'Ronda de San Pere', '41.38887421024607', '2.17281937271737');
 
 -- --------------------------------------------------------
 
@@ -63,7 +66,10 @@ INSERT INTO `tbl_etiqueta` (`id_et`, `etiqueta_et`) VALUES
 (3, 'Bar'),
 (4, 'Museo'),
 (5, 'Discoteca'),
-(6, 'Centro comercial');
+(6, 'Centro comercial'),
+(8, 'Transporte-Metro'),
+(9, 'Transporte-Bus'),
+(11, 'Iglesia');
 
 -- --------------------------------------------------------
 
@@ -76,6 +82,15 @@ CREATE TABLE `tbl_foto` (
   `foto_fo` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `tbl_foto`
+--
+
+INSERT INTO `tbl_foto` (`id_fo`, `foto_fo`) VALUES
+(1, 'museu_martorell_de_geologia.jpg'),
+(2, 'barceloneta.png'),
+(3, 'urquinaona.png');
+
 -- --------------------------------------------------------
 
 --
@@ -84,8 +99,17 @@ CREATE TABLE `tbl_foto` (
 
 CREATE TABLE `tbl_icono` (
   `id_ic` int(11) NOT NULL,
-  `icono_ic` varchar(150) DEFAULT NULL
+  `tipo_icono_ic` varchar(60) DEFAULT NULL,
+  `path_ic` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbl_icono`
+--
+
+INSERT INTO `tbl_icono` (`id_ic`, `tipo_icono_ic`, `path_ic`) VALUES
+(1, 'Metro', 'train-subway-solid.svg'),
+(2, 'Museo', 'museum.svg');
 
 -- --------------------------------------------------------
 
@@ -108,29 +132,33 @@ CREATE TABLE `tbl_lugar` (
 --
 
 INSERT INTO `tbl_lugar` (`id_lu`, `nombre_lu`, `descripcion_lu`, `id_foto_fk`, `id_direccion_fk`, `id_etiqueta_fk`, `id_icono_fk`) VALUES
-(1, 'Gran vía 2', 'Centro comercial', NULL, 1, 6, NULL),
-(2, 'Catalina Gava Mar', 'Restaurante', NULL, 3, 2, NULL);
+(3, 'Metro Barceloneta', NULL, 2, 4, 8, 1),
+(4, 'Museo Martorell', NULL, 1, 5, 4, 2),
+(5, 'Metro Urquinaona', NULL, 3, 6, 8, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tbl_lugar_tags`
+-- Estructura de tabla para la tabla `tbl_lugar_tags_favs`
 --
 
-CREATE TABLE `tbl_lugar_tags` (
+CREATE TABLE `tbl_lugar_tags_favs` (
   `id_lt` int(11) NOT NULL,
   `id_usuario_fk` int(11) DEFAULT NULL,
   `id_lugar_fk` int(11) DEFAULT NULL,
-  `id_tag_fk` int(11) DEFAULT NULL
+  `id_tag_fk` int(11) DEFAULT NULL,
+  `fav_lt` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `tbl_lugar_tags`
+-- Volcado de datos para la tabla `tbl_lugar_tags_favs`
 --
 
-INSERT INTO `tbl_lugar_tags` (`id_lt`, `id_usuario_fk`, `id_lugar_fk`, `id_tag_fk`) VALUES
-(1, 1, 1, 1),
-(2, 1, 2, 2);
+INSERT INTO `tbl_lugar_tags_favs` (`id_lt`, `id_usuario_fk`, `id_lugar_fk`, `id_tag_fk`, `fav_lt`) VALUES
+(1, 1, 4, 2, 1),
+(3, 2, 4, 2, 0),
+(4, 1, 5, 1, 1),
+(5, 1, 3, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -233,9 +261,9 @@ ALTER TABLE `tbl_lugar`
   ADD KEY `fk_lugar_icono_idx` (`id_icono_fk`);
 
 --
--- Indices de la tabla `tbl_lugar_tags`
+-- Indices de la tabla `tbl_lugar_tags_favs`
 --
-ALTER TABLE `tbl_lugar_tags`
+ALTER TABLE `tbl_lugar_tags_favs`
   ADD PRIMARY KEY (`id_lt`),
   ADD KEY `fk_lugar_fav_usuario_idx` (`id_usuario_fk`),
   ADD KEY `fk_lugar_fav_lugar_idx` (`id_lugar_fk`),
@@ -268,37 +296,37 @@ ALTER TABLE `tbl_usuario`
 -- AUTO_INCREMENT de la tabla `tbl_direccion`
 --
 ALTER TABLE `tbl_direccion`
-  MODIFY `id_di` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_di` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etiqueta`
 --
 ALTER TABLE `tbl_etiqueta`
-  MODIFY `id_et` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_et` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_foto`
 --
 ALTER TABLE `tbl_foto`
-  MODIFY `id_fo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_fo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_icono`
 --
 ALTER TABLE `tbl_icono`
-  MODIFY `id_ic` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ic` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_lugar`
 --
 ALTER TABLE `tbl_lugar`
-  MODIFY `id_lu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_lu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `tbl_lugar_tags`
+-- AUTO_INCREMENT de la tabla `tbl_lugar_tags_favs`
 --
-ALTER TABLE `tbl_lugar_tags`
-  MODIFY `id_lt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `tbl_lugar_tags_favs`
+  MODIFY `id_lt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_rol_us`
@@ -332,9 +360,9 @@ ALTER TABLE `tbl_lugar`
   ADD CONSTRAINT `fk_lugar_icono` FOREIGN KEY (`id_icono_fk`) REFERENCES `tbl_icono` (`id_ic`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `tbl_lugar_tags`
+-- Filtros para la tabla `tbl_lugar_tags_favs`
 --
-ALTER TABLE `tbl_lugar_tags`
+ALTER TABLE `tbl_lugar_tags_favs`
   ADD CONSTRAINT `fk_lugar_tags_lugar` FOREIGN KEY (`id_lugar_fk`) REFERENCES `tbl_lugar` (`id_lu`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_lugar_tags_tag` FOREIGN KEY (`id_tag_fk`) REFERENCES `tbl_tag` (`id_ta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_lugar_tags_usuario` FOREIGN KEY (`id_usuario_fk`) REFERENCES `tbl_usuario` (`id_us`) ON DELETE NO ACTION ON UPDATE NO ACTION;
