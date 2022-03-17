@@ -3,7 +3,6 @@ window.onload = function() {
     leerMarkets();
     arr_markers = [];
     routingControl = null;
-    zoom = null;
 }
 
 function objetoAjax() {
@@ -98,6 +97,10 @@ function leerMarkets() {
                             '<br>' +
                             '<br>' +
                             '</center>'
+                            // '<button>Saber más</button>' +
+                            // '<br/><br/>' +
+                            // '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
+                            // '</center>'
                         );
                         //Marker juntando Popup
                         var m = L.marker([respuesta[i].latitud_di, respuesta[i].longitud_di], { icon: markerIcon }).bindPopup(markerIconPopup).addTo(map);
@@ -135,6 +138,7 @@ function filter() {
     var formData = new FormData();
     formData.append('_token', document.getElementById('token').getAttribute("content"));
     //--------Filtro--------
+    //Comprobamos la variable, favoritos, la llamamos y si se ha presionado(checked) la convertimos a uno para el filtro, si no, se queda igual
     formData.append('etiqueta_et', document.querySelector('.etiqueta_et').value);
     var fav = document.getElementById('favoritos');
     if (fav.checked == true) {
@@ -176,15 +180,11 @@ function filter() {
                 var markerIconPopup = L.popup().setContent(
                     '<center>' + '<h1>' + respuesta[i].nombre_lu + '</h1>' +
                     '<img src="media/picture/' + respuesta[i].foto_fo + '" width="150px">' + '<br/><br/>' +
-                    '<div class="vermas">' +
-                    '<button class="ver" onclick="abrirmodal_lugar(' + respuesta[i].id_lu + ',\'' + respuesta[i].nombre_lu + '\',\'' + respuesta[i].descripcion_lu + '\',\'' + respuesta[i].foto_fo + '\',\'' + respuesta[i].etiqueta_et + '\'); return false;">Ver mas...</button>' +
-                    '</div>' +
-                    '<div class="comollegar">' +
-                    '<button class="crosshair" onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">><i class="fa-solid fa-location-crosshairs"></i></button>' +
-                    '</div>' +
-                    '<br>' +
-                    '<br>' +
+                    '<button>Saber más</button>' +
+                    '<br/><br/>' +
+                    '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
                     '</center>'
+                    //'<label onchange="addToFavs()"><input type="checkbox" id="addtofav" name="addtofav" value="Favorito"><div class="checkbox" id="estrella" onclick="filter()"><i class="fa-regular fa-star"></i></div></label>'
                 );
                 //Marker juntando Popup
                 var m = L.marker([respuesta[i].latitud_di, respuesta[i].longitud_di], { icon: markerIcon }).bindPopup(markerIconPopup).addTo(map);
@@ -200,7 +200,7 @@ function filter() {
 
     ajax.send(formData);
 }
-
+//Finalidad: Generar rutas hacia los lugares, dentro de la
 //Asigno los valores pasados desde el botón, a los valores a y b
 function routingMap(a, b) {
     //Si routing control no es nulo, significa que hay datos, por lo que eliminará todo el routing control
@@ -217,44 +217,12 @@ function routingMap(a, b) {
         }).addTo(map);
 }
 
+//Función para centrar el mapa
 function backToCenter() {
     map.setView([lat, long], 16);
 }
 
-/* //Obtenemos los resultados del select, para filtrar directamente por los sitios favoritos del usuario
-function favoritos() {
-    //let b = document.querySelector('.nombre_lu').value;
-    //alert(b);
-    alert('Favoritos is working');
-} */
-
-//Api del mapa
-/* var map = L.map('map').
-setView([41.66, -4.72],
-    14);
-
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
-}).addTo(map);
-
-L.control.scale().addTo(map);
-L.marker([41.66, -4.71], { draggable: true }).addTo(map); */
-
-//alert("Hola");
-//Preguntar geolocalización
-/* if (navigator.geolocation) {
-    var success = function(position) {
-        var latitud = position.coords.latitude,
-            longitud = position.coords.longitude;
-    }
-    navigator.geolocation.getCurrentPosition(success, function(msg) {
-        console.error(msg);
-    });
-} */
-
-//Obtenemos los resultados del select, para filtrar directamente por los sitios favoritos del usuario
-function favoritos() {
+function addToFavs() {
     var favoritos = document.getElementById('favoritos');
     var estrella = document.getElementById('estrella');
     if (favoritos.checked == true) {
@@ -264,23 +232,11 @@ function favoritos() {
     }
 }
 
-/* Modal ver mas lugar */
-
-function abrirmodal_lugar() {
-    modal = document.getElementById('modalbox_lugar')
-    modal.style.display = "block";
-    modal_login = document.getElementById('modallugar')
-    modal_login.style.display = "block";
-}
-
-function closeModal_lugar() {
-    let modal = document.getElementById("modalbox_lugar");
-    modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-    let modal = document.getElementById("modalbox_lugar");
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+/* setInterval(function routingMap() {
+    var newLat = routingControl.options.waypoints[0].lat + 0.01;
+    var newLng = routingControl.options.waypoints[0].long + 0.01;
+    routingControl.options.waypoints = [
+        L.latLng(newLat, newLng),
+        routingControl.options.waypoints[1]
+    ];
+}, 1000); */

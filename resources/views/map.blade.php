@@ -17,30 +17,28 @@
 <body>
 <!--Filtro-->
 <center>
-    <div class="header">
-        <div class="select">
-            <form action="{{url('markets')}}" method="post">   
-                <label for="Etiquetas"></label>
-                <!--Método onchange, cada vez que se modifique algo del select se disparará-->
-                    <select class="filtro_input" name="etiqueta_et" onchange="filter()">
-                        <option value=""></option>
-                        @foreach ($dbEtiquetas as $item)
-                            <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
-                        @endforeach
-                    </select>
-        </div>
-        <div class="favoritos">
-            <label onchange="favoritos()"><input type="checkbox" id="favoritos" name="favoritos" value="Favorito"><div class="checkbox" id="estrella" onclick="filter()"><i class="fa-regular fa-star"></i></div></label>
-        </div>
-        <div class="etiquetas">
-                <select class="filtro_input" name="tag_ta" onchange="filter()">
-                    <option disabled selected><p class='filtro_text'>Mis Etiquetas</p></option>
+    <div class="filtro">
+        <form action="{{url('markets')}}" method="post">
+            
+            <label for="Etiquetas">Etiquetas: </label>
+            <!--Método onchange, cada vez que se modifique algo del select se disparará-->
+                <select class="etiqueta_et" name="etiqueta_et" onchange="filter()">
+                    <option value=""></option>
+                    @foreach ($dbEtiquetas as $item)
+                        <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
+                    @endforeach
+                </select>
+                <label for="Favoritos">Mis favoritos</label>
+                    <input type="checkbox" id="favoritos" name="favoritos" value="favoritos" onclick="filter()">
+                <label for="Etiquetas">Mis etiquetas: </label>
+                <select class="tag_ta" name="tag_ta" onchange="filter()">
+                    <option value=""></option>
                     @foreach ($dbTags as $result)
                         <option value="{{$result->id_ta}}">{{$result->tag_ta}}</option>
                     @endforeach
                 </select>
-            </form>
-        </div>          
+        </form>
+        <button onclick="backToCenter()">Centrar</button>
     </div>
     
 <!---->
