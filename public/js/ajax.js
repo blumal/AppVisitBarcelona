@@ -118,7 +118,7 @@ function filtro() {
                         recarga += '<td>' + respuesta[i].direccion_di + '</td>';
                         recarga += '<td>';
                         // editar
-                        recarga += '<button class="btn btn-secondary" type="submit" value="Edit" onclick="modalbox(' + respuesta[i].id + ',\'' + respuesta[i].nombre + '\',\'' + respuesta[i].peso + '\'' + respuesta[i].num_serie + '\');return false;">Editar</button>';
+                        recarga += '<button class="btn btn-secondary" type="submit" value="Edit" onclick="abrirmodal_editarlugar(' + respuesta[i].id_lu + ',\'' + respuesta[i].nombre_lu + '\',\'' + respuesta[i].descripcion_lu + '\',\'' + respuesta[i].direccion_di + '\',\'' + respuesta[i].id_etiqueta_fk + '\');return false;">Editar</button>';
                         recarga += '</td>';
                         recarga += '<td>';
                         // eliminar
@@ -219,6 +219,7 @@ function crear2() {
     ajax.onreadystatechange = function() {
             if (ajax.readyState == 4 && ajax.status == 200) {
                 var respuesta = JSON.parse(this.responseText);
+                console.log(this.responseText)
                 if (respuesta.resultado == "OK") {
                     /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
                     /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */
@@ -227,7 +228,6 @@ function crear2() {
                 } else {
                     /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
                     //    /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */
-                    console.log(respuesta.resultado)
                     message.innerHTML = 'Ha habido un error:' + respuesta.resultado;
                 }
                 filtro();
@@ -361,6 +361,55 @@ function actualizar() {
     true -> asynchronous
     */
     ajax.open("POST", "actualizar", true);
+    ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                var respuesta = JSON.parse(this.responseText);
+                if (respuesta.resultado == "OK") {
+                    /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
+                    //    /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */
+                    message.innerHTML = '<p>Nota modificada correctamente.</p>';
+
+                } else {
+                    //    /* creación de estructura: la estructura que creamos no ha de contener código php ni código blade*/
+                    /* utilizamos innerHTML para introduciremos la recarga en el elemento html pertinente */
+                    message.innerHTML = 'Ha habido un error:' + respuesta.resultado;
+                }
+            }
+            filtro();
+        }
+        /*
+        send(string)->Sends the request to the server (used for POST)
+        */
+    ajax.send(formData)
+
+}
+
+function actualizar2() {
+    var message = document.getElementById('message');
+    /* Obtener elemento html donde introduciremos la recarga (datos o mensajes) */
+
+    /* 
+    Obtener elemento/s que se pasarán como parámetros: token, method, inputs... 
+    var token = document.getElementById('token').getAttribute("content");
+ 
+    Usar el objeto FormData para guardar los parámetros que se enviarán:
+    var formData = new FormData();
+    formData.append('_token', token);
+    formData.append('clave', valor);
+    */
+    var token = document.getElementById('token').getAttribute("content");
+    var formData = new FormData(document.getElementById('formUpdate2'));
+    formData.append('_token', token);
+    formData.append('_method', 'PUT');
+    /* Inicializar un objeto AJAX */
+    var ajax = objetoAjax();
+    /*
+    ajax.open("method", "rutaURL", true);
+    GET  -> No envía parámetros
+    POST -> Sí envía parámetros
+    true -> asynchronous
+    */
+    ajax.open("POST", "actualizar2", true);
     ajax.onreadystatechange = function() {
             if (ajax.readyState == 4 && ajax.status == 200) {
                 var respuesta = JSON.parse(this.responseText);

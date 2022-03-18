@@ -32,25 +32,24 @@ Route::get('admin',[MapController::class,'mostrarUser']);
 Route::get('usuarios',[MapController::class,'mostrarUser']);
 Route::post('filtro',[MapController::class,'show']);
 
-// Crear //
+// CREAR RECURSOS //
+Route::post('crear',[MapController::class,'crearPost']);
 Route::post('crear',[MapController::class,'crear']);
 Route::post('crear2',[MapController::class,'crear2']);
 
-// Modificar //
-Route::get('modificar/{id}',[MapController::class,'modificar']);
-Route::put('modificar',[MapController::class,'modificarPut']);
-
-// Eliminar //
+// ELIMINAR RECURSOS //
 Route::delete('eliminar/{id}',[MapController::class,'eliminar']);
 Route::delete('eliminar2/{id}',[MapController::class,'eliminar2']);
+
+// ACTUALIZAR RECURSOS //
+Route::put('actualizar',[MapController::class,'update']);
+Route::put('actualizar2',[MapController::class,'update2']);
 
 // Si el usuario logueado es Customer ira a esta página //
 Route::get('map', [MapController::class, 'index']);
 
-//Obtenemos todos los marcadores en el mapa //
-Route::post('markets', [MapController::class, 'montarMarkets']);
+// Vista filtrando por etiquetas //
+Route::post('etiquetas/{id}', [MapController::class, 'etiquetas']);
 
-//Vista filtrando por etiquetas
+// Vista filtrando por favoritos
 
-Route::post('filtro', [MapController::class, 'filtro']);
-//Vista filtrando por favoritos

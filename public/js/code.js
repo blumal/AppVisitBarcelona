@@ -92,10 +92,38 @@ window.onclick = function(event) {
     }
 }
 
-/* -------------------------------------------------- FUNCIONES PARA PARA MOSTRAR LAS CONTRASEÑAS -------------------------------------------------- */
+/* -------------------------------------------- MODAL BOX PARA CREAR/EDITAR UN LUGAR EN EL ADMIN ZONE -------------------------------------------- */
 
+/*Modal editar lugar*/
 
-/* Boton mostrar contraseña en login */
+function abrirmodal_editarlugar(id_lu, nombre_lu, descripcion_lu, direccion_di, id_etiqueta_fk, id_icono_fk) {
+    document.getElementById('nombre_lu_e').value = nombre_lu;
+    document.getElementById('descripcion_lu_e').value = descripcion_lu;
+    // document.getElementById('foto_e').value = foto_fo;
+    document.getElementById('direccion_di_e').value = direccion_di;
+    document.getElementById('id_etiqueta_fk_e').value = id_etiqueta_fk;
+    console.log(id_etiqueta_fk)
+        // document.getElementById('icono_e').value = id_icono_fk;
+    document.getElementById('idUpdate2').value = id_lu;
+    modal = document.getElementById('modalbox_editar_lugar')
+    modal.style.display = "block";
+    modal_login = document.getElementById('modaleditar_lugar')
+    modal_login.style.display = "block";
+}
+
+function closeModal_editarlugar() {
+    let modal = document.getElementById("modalbox_editar_lugar");
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("modalbox_editar_lugar");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+/* Boton mostrar contraseña */
 
 function mostrarContraseña() {
     var tipo = document.getElementById("password");
@@ -117,6 +145,24 @@ function mostrarContraseña_registro() {
     } else {
         tipo.type = "password";
         tipo2.type = "password";
+    }
+}
+
+function mostrarContraseña_crear() {
+    var tipo = document.getElementById("pass_us");
+    if (tipo.type == "password") {
+        tipo.type = "text";
+    } else {
+        tipo.type = "password";
+    }
+}
+
+function mostrarContraseña_editar() {
+    var tipo_e = document.getElementById("pass_us_e");
+    if (tipo_e.type == "password") {
+        tipo_e.type = "text";
+    } else {
+        tipo_e.type = "password";
     }
 }
 
@@ -292,7 +338,7 @@ function validar_crear() {
 }
 
 
-/* Validación registro lugar */
+/* Validación crear lugar */
 
 function validar_crear_lugar() {
     var nombre = document.getElementById('nombre_lu').value;
@@ -316,7 +362,63 @@ function validar_crear_lugar() {
         return false;
 
     } else {
-        crear2();
+        actualizar2();
+        closeModal_editarlugar();
+    }
+}
+
+/* Validación crear usuario */
+
+function validar_editar() {
+    var nombre = document.getElementById('nombre_us').value;
+    var apellido1 = document.getElementById('apellido1_us').value;
+    var apellido2 = document.getElementById('apellido2_us').value;
+    var email = document.getElementById('email_us').value;
+    var pass_us = document.getElementById('pass_us').value;
+
+    if (nombre == "" || apellido1 == "" || apellido2 == "" || email == "" || pass_us == "") {
+
+        document.getElementById('mensaje_error_editar').innerHTML = "<p>Faltan campos por rellenar</p>";
+        document.getElementById('mensaje_error_editar').style.color = "red";
+        document.getElementById('nombre_us').style.border = "2px solid red";
+        document.getElementById('apellido1_us').style.border = "2px solid red";
+        document.getElementById('apellido2_us').style.border = "2px solid red";
+        document.getElementById('email_us').style.border = "2px solid red";
+        document.getElementById('div_password_crear').style.border = "2px solid red";
+        return false;
+
+    } else {
+        actualizar();
+        closeModal_crear();
+    }
+}
+
+
+/* Validación crear lugar */
+
+function validar_editar_lugar() {
+    var nombre = document.getElementById('nombre_lu').value;
+    var descripcion = document.getElementById('descripcion_lu').value;
+    var foto = document.getElementById('id_foto_fk').value;
+    var direccion = document.getElementById('id_direccion_fk').value;
+    var etiqueta = document.getElementById('id_etiqueta_fk').value;
+    var icono = document.getElementById('id_icono_fk').value;
+
+    if (nombre == "" || descripcion == "" || foto == "" || direccion == "" || etiqueta == "" || icono == "") {
+
+        document.getElementById('mensaje_error_editar_lugar').innerHTML = "<p>Faltan campos por rellenar</p>";
+        document.getElementById('mensaje_error_editar_lugar').style.color = "red";
+        document.getElementById('nombre_lu').style.border = "2px solid red";
+        document.getElementById('descripcion_lu').style.border = "2px solid red";
+        document.getElementById('apellido1_us').style.border = "2px solid red";
+        document.getElementById('id_foto_fk').style.border = "2px solid red";
+        document.getElementById('id_direccion_fk').style.border = "2px solid red";
+        document.getElementById('id_etiqueta_fk').style.border = "2px solid red";
+        document.getElementById('id_icono_fk').style.border = "2px solid red";
+        return false;
+
+    } else {
+        actualizar2();
         closeModal_crear_lugar();
     }
 }

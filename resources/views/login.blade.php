@@ -60,7 +60,7 @@
 
     <div class="modalbox" id="modalbox">
         <div class="modalregistro" id="modalregistro">
-            <span class="close" onclick="closeModal(); return false;">&times;</span>             
+            <span class="closeregistro" onclick="closeModal(); return false;">&times;</span>             
             <h2>Bienvenido</h2>
             <form action="{{url('registro')}}" method="post" onsubmit="validar_registro(); return false;">
                 @csrf
@@ -92,7 +92,7 @@
 
     <div class="modalbox_olvido" id="modalbox_olvido">
         <div class="modalolvido" id="modalolvido">
-            <span class="close" onclick="closeModal_olvido_contraseña(); return false;">&times;</span>             
+            <span class="closeregistro" onclick="closeModal_olvido_contraseña(); return false;">&times;</span>             
             <h2>Contraseña olvidada</h2>
             <form action="{{url('envio')}}" method="get" onsubmit="return validar_olvido_contraseña();">
                 @csrf

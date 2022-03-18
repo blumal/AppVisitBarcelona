@@ -13,9 +13,6 @@
 
     <title></title>
 </head>
-
-{{------------------------------------------------------------ HEADER ADMIN ----------------------------------------------------------------}}
-
 <body id="portada">
     <div class="header">
         <div class="titulo-admin">
@@ -26,8 +23,8 @@
             <form method="post" onsubmit="return false;">
                 <input type="hidden" name="_method" value="POST" id="postFiltro">
                 <select class="select_input" name="nombre" type="search" id="search" aria-label="Search" onchange="filtro(); return false;">>
-                    <option value="1"><i class="fa-solid fa-user"></i><b>USUARIOS</b></option>
-                    <option value="2"><b>LUGARES</b></option>
+                    <option value="1"><b>USUARIOS</b></option>
+                    <option value="2"><b>LUGARESS</b></option>
                 </select>
              </form>
         </div>
@@ -42,9 +39,6 @@
             </form>
         </div>
     </div>
-
-    {{--------------------------------------------------------------- TABLA -------------------------------------------------------------------}}
-
     <div>
         <table class="table" id="table">
             <tr>
@@ -73,77 +67,61 @@
                 </td>
             </tr>
             @empty
+            <tr><td colspan="7">No hay registros</td></tr>
             @endforelse
         </table>
     </div>
-
-    {{------------------------------------------------------- MODAL BOX CREAR USUARIO -----------------------------------------------------------}}
-
-    <div class="modalbox_crear" id="modalbox_crear">
-        <div class="modalcrear_header">
-            <span class="close_crear" onclick="closeModal_crear(); return false;">&times;</span>             
-            <h2 class="titulomodal">CREAR <b>USUARIO</b></h2>
-        </div>
-        <div class="modalcrear" id="modalcrear">
-            <form method="get" id="formcrear" onsubmit="return validar_crear();">
-                <input class="inputcrear" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre" onfocus="error_crear()">
-                <input class="inputcrear" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1" onfocus="error_crear()">
-                <input class="inputcrear" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2" onfocus="error_crear()">
-                <div class="hr1">
-                    <hr>
-                </div>
-                <div class="no-cuenta-text">
-                    <p>Datos de inicio de sesion</p>
-                </div>
-                <div class="hr2">
-                    <hr>
-                </div>
-                <input class="inputcrear" type="email" name="email_us" id="email_us" placeholder="Usuario" onfocus="error_crear()">
-                <div class="divcontraseña_crear" id="div_password_crear">
-                    <input class="contraseñacrear" type="password" id="pass_us" name="pass_us"placeholder="Contraseña" onfocus="error_crear()">
-                    <label onchange="mostrar_contraseña_icono2()"><input id="ojo" class="mostrarcontraseña" type="checkbox" onclick="mostrarContraseña_registro()"><div class="checkbox" id="mostrar_contraseña"><i class="fa-solid fa-eye-slash"></i></div></label>
-                </div>
-                <div id="mensaje_error_crear">
-                </div>
-                <button class="botoncrear" type="submit" value="Crear"><b>CREAR</b></button>
-                <input type="hidden" name="_method" value="POST" id="createNote">
-            </form>
-        </div>
-    </div>
-
-    {{------------------------------------------------------- MODAL BOX CREAR LUGAR -----------------------------------------------------------}}
-
     <div class="modalbox_crearlugar" id="modalbox_crearlugar">
         <div class="modalcrear_header">
             <span class="close_crear" onclick="closeModal_crear_lugar(); return false;">&times;</span>
             <h2 class="titulomodal">CREAR <b>LUGAR</b></h2>
         </div>
         <div class="modalcrear_lugar" id="modalcrear_lugar">
-            <form onsubmit="return validar_crear_lugar();" method="get" id="formcrear2" >
-                <input class="inputcrear" type="text" name="nombre_lu" id="nombre_lu" placeholder="Nombre" onfocus="error_crear_lugar()">
-                <input class="inputcrear" type="text" name="descripcion_lu" id="descripcion_lu" placeholder="Descripcion" onfocus="error_crear_lugar()">
-                <input class="inputcrear" type="file" name="id_foto_fk" id="id_foto_fk" placeholder="Foto" onfocus="error_crear_lugar()">
-                <input class="inputcrear" type="text" name="id_direccion_fk" id="id_direccion_fk" placeholder="Direccion" onfocus="error_crear_lugar()">
-                <select class="inputcrear" name="id_etiqueta_fk" id="id_etiqueta_fk" onchange="etiquetas()" onfocus="error_crear_lugar()">
+            <form onsubmit="crear2();closeModal_crearlugar();return false;" method="get" id="formcrear2" enctype="multipart/form-data">
+                <input class="inputcrear" type="text" name="nombre_lu" id="nombre_lu" placeholder="Nombre" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="descripcion_lu" id="descripcion_lu" placeholder="Descripcion" onfocus="error_registro()">
+                <input class="inputcrear" type="file" name="foto" id="foto" placeholder="Foto" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="direccion_di" id="direccion_di" placeholder="Direccion" onfocus="error_registro()">
+                <select class="inputcrear" name="id_etiqueta_fk" id="id_etiqueta_fk" onchange="etiquetas()" onfocus="error_registro()">
                     <option value=""></option>
                      @foreach ($dbEtiquetas as $item)
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
-                <input class="inputcrear" type="text" name="id_icono_fk" id="id_icono_fk" placeholder="Icono" onfocus="error_crear_lugar()">
-                <div id="mensaje_error_crear_lugar">
+                <div id="mensaje_registro">
                 </div>
                 <button class="botoncrear" type="submit" value="CREAR" ><b>CREAR</b></button>
                 <input type="hidden" name="_method" value="POST" id="createNote2">
             </form>
         </div>
     </div>
-
-    {{------------------------------------------------------- MODAL BOX EDITAR USUARIO -----------------------------------------------------------}}
-
+    <div class="modalbox_editar_lugar" id="modalbox_editar_lugar">
+        <div class="modalcrear_header">
+            <span class="close_crear" onclick="closeModal_editarlugar(); return false;">&times;</span>             
+            <h2 class="titulomodal">EDITAR <b>LUGAR</b></h2>
+        </div>
+        <div class="modaleditar_lugar" id="modaleditar_lugar">
+            <form id="formUpdate2" method="post" onsubmit="actualizar2();closeModal_editarlugar();return false;" enctype="multipart/form-data">
+                <input class="inputcrear" type="text" name="nombre_lu_e" id="nombre_lu_e" placeholder="Nombre" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="descripcion_lu_e" id="descripcion_lu_e" placeholder="Descripcion" onfocus="error_registro()">
+                <input class="inputcrear" type="file" name="foto_e" id="foto_e" placeholder="Foto" onfocus="error_registro()">
+                <input class="inputcrear" type="text" name="direccion_di_e" id="direccion_di_e" placeholder="Direccion" onfocus="error_registro()">
+                <select class="inputcrear" name="id_etiqueta_fk_e" id="id_etiqueta_fk_e" onchange="etiquetas()" onfocus="error_registro()">
+                    <option></option>
+                     @foreach ($dbEtiquetas as $item)
+                        <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
+                    @endforeach
+                </select>
+                <div id="mensaje_registro">
+                </div>
+                <button class="botoncrear" type="submit" value="Editar"><b>EDITAR</b></button>
+                <input type="hidden" name="id_lu_e" id="idUpdate2">
+            </form>
+        </div>
+    </div>
     <div class="modalbox_editar" id="modalbox_editar">
         <div class="modalcrear_header">
-            <span class="close_crear" onclick="closeModal_editar(); return false;">&times;</span>
+            <span class="close_crear" onclick="closeModal_editar(); return false;">&times;</span>             
             <h2 class="titulomodal">EDITAR <b>USUARIO</b></h2>
         </div>
         <div class="modaleditar" id="modaleditar">
@@ -162,10 +140,41 @@
                     <hr>
                 </div>
                 <input class="inputcrear" type="email" name="email_us" id="email_us_e" placeholder="Usuario">
-                <input class="contraseñacrear" type="password" name="pass_us" id="pass_us_e" placeholder="Contraseña">
-                <button class="mostrarcontraseña2" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
+                <div class="divcontraseña_crear" id="div_password">
+                    <input class="contraseñacrear" type="password" name="pass_us" id="pass_us_e" placeholder="Contraseña">
+                    <label onchange="mostrar_contraseña_icono2()"><input id="ojo2" class="mostrarcontraseña" type="checkbox" onclick="mostrarContraseña_editar()"><div class="checkbox" id="mostrar_contraseña2"><i class="fa-solid fa-eye-slash"></i></div></label>
+                </div>
                 <button class="botoncrear" type="submit" value="Editar"><b>EDITAR</b></button>
                 <input type="hidden" name="id_us" id="idUpdate">
+            </form>
+        </div>
+    </div>
+    <div class="modalbox_crear" id="modalbox_crear">
+        <div class="modalcrear_header">
+            <span class="close_crear" onclick="closeModal_crear(); return false;">&times;</span>             
+            <h2 class="titulomodal">CREAR <b>USUARIO</b></h2>
+        </div>
+        <div class="modalcrear" id="modalcrear">
+            <form onsubmit="crear();closeModal_crear();return false;" method="post" id="formcrear">
+                <input class="inputcrear" type="text" name="nombre_us" id="nombre_us" placeholder="Nombre">
+                <input class="inputcrear" type="text" name="apellido1_us" id="apellido1_us" placeholder="Apellido 1">
+                <input class="inputcrear" type="text" name="apellido2_us" id="apellido2_us" placeholder="Apellido 2">
+                <div class="hr1">
+                    <hr>
+                </div>
+                <div class="no-cuenta-text">
+                    <p>Datos de inicio de sesion</p>
+                </div>
+                <div class="hr2">
+                    <hr>
+                </div>
+                <input class="inputcrear" type="email" name="email_us" id="email_us" placeholder="Usuario">
+                <div class="divcontraseña_crear" id="div_password">
+                    <input class="contraseñacrear" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
+                    <label onchange="mostrar_contraseña_icono2()"><input id="ojo2" class="mostrarcontraseña" type="checkbox" onclick="mostrarContraseña_crear()"><div class="checkbox" id="mostrar_contraseña2"><i class="fa-solid fa-eye-slash"></i></div></label>
+                </div>
+                <button class="botoncrear" type="submit" value="Crear"><b>CREAR</b></button>
+                <input type="hidden" name="_method" value="POST" id="createNote">
             </form>
         </div>
     </div>
