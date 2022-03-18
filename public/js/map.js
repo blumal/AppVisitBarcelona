@@ -88,11 +88,19 @@ function leerMarkets() {
                         var markerIconPopup = L.popup().setContent(
                             '<center>' + '<h1>' + respuesta[i].nombre_lu + '</h1>' +
                             '<img src="media/picture/' + respuesta[i].foto_fo + '" width="150px">' + '<br/><br/>' +
-                            '<button>Saber más</button>' +
-                            '<br/><br/>' +
-                            '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
+                            '<div class="vermas">' +
+                            '<button class="ver" onclick="abrirmodal_lugar(' + respuesta[i].id_lu + ',\'' + respuesta[i].nombre_lu + '\',\'' + respuesta[i].descripcion_lu + '\',\'' + respuesta[i].foto_fo + '\',\'' + respuesta[i].etiqueta_et + '\'); return false;">Ver mas...</button>' +
+                            '</div>' +
+                            '<div class="comollegar">' +
+                            '<button class="crosshair" onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')"><i class="fa-solid fa-location-dot"></i></button>' +
+                            '</div>' +
+                            '<br>' +
+                            '<br>' +
                             '</center>'
-
+                            // '<button>Saber más</button>' +
+                            // '<br/><br/>' +
+                            // '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
+                            // '</center>'
                         );
                         //Marker juntando Popup
                         var m = L.marker([respuesta[i].latitud_di, respuesta[i].longitud_di], { icon: markerIcon }).bindPopup(markerIconPopup).addTo(map);
@@ -172,9 +180,14 @@ function filter() {
                 var markerIconPopup = L.popup().setContent(
                     '<center>' + '<h1>' + respuesta[i].nombre_lu + '</h1>' +
                     '<img src="media/picture/' + respuesta[i].foto_fo + '" width="150px">' + '<br/><br/>' +
-                    '<button>Saber más</button>' +
-                    '<br/><br/>' +
-                    '<button onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">¿Cómo llegar?</button>' +
+                    '<div class="vermas">' +
+                    '<button class="ver" onclick="abrirmodal_lugar(' + respuesta[i].id_lu + ',\'' + respuesta[i].nombre_lu + '\',\'' + respuesta[i].descripcion_lu + '\',\'' + respuesta[i].foto_fo + '\',\'' + respuesta[i].etiqueta_et + '\'); return false;">Ver mas...</button>' +
+                    '</div>' +
+                    '<div class="comollegar">' +
+                    '<button class="crosshair" onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')"><i class="fa-solid fa-location-dot"></i></button>' +
+                    '</div>' +
+                    '<br>' +
+                    '<br>' +
                     '</center>'
                     //'<label onchange="addToFavs()"><input type="checkbox" id="addtofav" name="addtofav" value="Favorito"><div class="checkbox" id="estrella" onclick="filter()"><i class="fa-regular fa-star"></i></div></label>'
                 );
@@ -232,3 +245,32 @@ function addToFavs() {
         routingControl.options.waypoints[1]
     ];
 }, 1000); */
+
+function abrirmodal_lugar() {
+    modal = document.getElementById('modalbox_lugar')
+    modal.style.display = "block";
+    modal_login = document.getElementById('modallugar')
+    modal_login.style.display = "block";
+}
+
+function closeModal_lugar() {
+    let modal = document.getElementById("modalbox_lugar");
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("modalbox_lugar");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+function favoritos() {
+    var favoritos = document.getElementById('favoritos');
+    var estrella = document.getElementById('estrella');
+    if (favoritos.checked == true) {
+        estrella.innerHTML = "<i class='fa-solid fa-star'></i>";
+    } else {
+        estrella.innerHTML = "<i class='fa-regular fa-star'></i>";
+    }
+}

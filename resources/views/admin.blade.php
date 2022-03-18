@@ -77,7 +77,7 @@
             <h2 class="titulomodal">CREAR <b>LUGAR</b></h2>
         </div>
         <div class="modalcrear_lugar" id="modalcrear_lugar">
-            <form onsubmit="crear2();closeModal_crear();return false;" method="post" id="formcrear2" enctype="multipart/form-data">
+            <form onsubmit="crear2();closeModal_crearlugar();return false;" method="get" id="formcrear2" enctype="multipart/form-data">
                 <input class="inputcrear" type="text" name="nombre_lu" id="nombre_lu" placeholder="Nombre" onfocus="error_registro()">
                 <input class="inputcrear" type="text" name="descripcion_lu" id="descripcion_lu" placeholder="Descripcion" onfocus="error_registro()">
                 <input class="inputcrear" type="file" name="foto" id="foto" placeholder="Foto" onfocus="error_registro()">
@@ -88,7 +88,6 @@
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
-                <input class="inputcrear" type="file" name="icono" id="icono" placeholder="Icono" onfocus="error_registro()">
                 <div id="mensaje_registro">
                 </div>
                 <button class="botoncrear" type="submit" value="CREAR" ><b>CREAR</b></button>
@@ -97,10 +96,12 @@
         </div>
     </div>
     <div class="modalbox_editar_lugar" id="modalbox_editar_lugar">
+        <div class="modalcrear_header">
+            <span class="close_crear" onclick="closeModal_editarlugar(); return false;">&times;</span>             
+            <h2 class="titulomodal">EDITAR <b>LUGAR</b></h2>
+        </div>
         <div class="modaleditar_lugar" id="modaleditar_lugar">
-            <span class="close" onclick="closeModal_editarlugar(); return false;">&times;</span>             
-            <h2><b>EDITAR LUGAR</b></h2>
-            <form id="formUpdate2" method="post" onsubmit="actualizar2();closeModal_editar();return false;" enctype="multipart/form-data">
+            <form id="formUpdate2" method="post" onsubmit="actualizar2();closeModal_editarlugar();return false;" enctype="multipart/form-data">
                 <input class="inputcrear" type="text" name="nombre_lu_e" id="nombre_lu_e" placeholder="Nombre" onfocus="error_registro()">
                 <input class="inputcrear" type="text" name="descripcion_lu_e" id="descripcion_lu_e" placeholder="Descripcion" onfocus="error_registro()">
                 <input class="inputcrear" type="file" name="foto_e" id="foto_e" placeholder="Foto" onfocus="error_registro()">
@@ -111,7 +112,6 @@
                         <option value="{{$item->id_et}}">{{$item->etiqueta_et}}</option>
                     @endforeach
                 </select>
-                <input class="inputcrear" type="file" name="icono_e" id="icono_e" placeholder="Icono" onfocus="error_registro()">
                 <div id="mensaje_registro">
                 </div>
                 <button class="botoncrear" type="submit" value="Editar"><b>EDITAR</b></button>
@@ -120,9 +120,11 @@
         </div>
     </div>
     <div class="modalbox_editar" id="modalbox_editar">
+        <div class="modalcrear_header">
+            <span class="close_crear" onclick="closeModal_editar(); return false;">&times;</span>             
+            <h2 class="titulomodal">EDITAR <b>USUARIO</b></h2>
+        </div>
         <div class="modaleditar" id="modaleditar">
-            <span class="close" onclick="closeModal_editar(); return false;">&times;</span>             
-            <h2><b>EDITAR USUARIO</b></h2>
             <form id="formUpdate" method="post" onsubmit="actualizar();closeModal_editar();return false;">
                 <input type="hidden" name="_method" value="PUT" id="modifNote">
                 <input class="inputcrear" type="text" name="nombre_us" id="nombre_us_e" placeholder="Nombre">
@@ -138,8 +140,10 @@
                     <hr>
                 </div>
                 <input class="inputcrear" type="email" name="email_us" id="email_us_e" placeholder="Usuario">
-                <input class="contraseñacrear" type="password" name="pass_us" id="pass_us_e" placeholder="Contraseña">
-                <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
+                <div class="divcontraseña_crear" id="div_password">
+                    <input class="contraseñacrear" type="password" name="pass_us" id="pass_us_e" placeholder="Contraseña">
+                    <label onchange="mostrar_contraseña_icono2()"><input id="ojo2" class="mostrarcontraseña" type="checkbox" onclick="mostrarContraseña_editar()"><div class="checkbox" id="mostrar_contraseña2"><i class="fa-solid fa-eye-slash"></i></div></label>
+                </div>
                 <button class="botoncrear" type="submit" value="Editar"><b>EDITAR</b></button>
                 <input type="hidden" name="id_us" id="idUpdate">
             </form>
@@ -165,9 +169,10 @@
                     <hr>
                 </div>
                 <input class="inputcrear" type="email" name="email_us" id="email_us" placeholder="Usuario">
-                <input class="contraseñacrear" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
-                <button class="mostrarcontraseña" type="button" onclick=""><i id="eye" class="fa-solid fa-eye"></i></button>
-                <input class="inputcrear" type="password" name="pass_us2" id="pass_us2" placeholder="Repite contraseña">
+                <div class="divcontraseña_crear" id="div_password">
+                    <input class="contraseñacrear" type="password" name="pass_us" id="pass_us" placeholder="Contraseña">
+                    <label onchange="mostrar_contraseña_icono2()"><input id="ojo2" class="mostrarcontraseña" type="checkbox" onclick="mostrarContraseña_crear()"><div class="checkbox" id="mostrar_contraseña2"><i class="fa-solid fa-eye-slash"></i></div></label>
+                </div>
                 <button class="botoncrear" type="submit" value="Crear"><b>CREAR</b></button>
                 <input type="hidden" name="_method" value="POST" id="createNote">
             </form>

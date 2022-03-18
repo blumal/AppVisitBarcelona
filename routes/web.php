@@ -15,18 +15,6 @@ use App\Http\Controllers\DB;
 |
 */
 
-//Vista
-Route::get('admin',[MapController::class,'mostrarUser']);
-Route::get('login',[MapController::class,'login']);
-Route::post('loginpost',[MapController::class,'loginpost']);
-Route::post('registro',[MapController::class,'registro']);
-Route::post('filtro',[MapController::class,'show']);
-Route::post('crear',[MapController::class,'crear']);
-Route::post('crear2',[MapController::class,'crear2']);
-Route::delete('eliminar2/{id}',[MapController::class,'eliminar2']);
-Route::put('actualizar',[MapController::class,'update']);
-Route::put('actualizar2',[MapController::class,'update2']);
-
 // Login (Inicio Sesion) //
 Route::get('login',[MapController::class,'login']);
 Route::post('loginpost',[MapController::class,'loginpost']);
@@ -38,23 +26,30 @@ Route::post('logout',[MapController::class,'logout']);
 Route::post('registro',[MapController::class,'registro']);
 
 // Si el usuario logueado es Admin ira a esta página //
-//Route::get('admin',[MapController::class,'admin']);
+Route::get('admin',[MapController::class,'mostrarUser']);
 
 // Mostrar usuarios AJAX //
 Route::get('usuarios',[MapController::class,'mostrarUser']);
 Route::post('filtro',[MapController::class,'show']);
 
-// Crear usuarios //
-//Route::post('crear',[MapController::class,'crearPost']);
+// CREAR RECURSOS //
+Route::post('crear',[MapController::class,'crearPost']);
+Route::post('crear',[MapController::class,'crear']);
+Route::post('crear2',[MapController::class,'crear2']);
 
-// Eliminar Usuarios //
+// ELIMINAR RECURSOS //
 Route::delete('eliminar/{id}',[MapController::class,'eliminar']);
+Route::delete('eliminar2/{id}',[MapController::class,'eliminar2']);
 
-//  Si el usuario logueado es Customer ira a esta página //
+// ACTUALIZAR RECURSOS //
+Route::put('actualizar',[MapController::class,'update']);
+Route::put('actualizar2',[MapController::class,'update2']);
+
+// Si el usuario logueado es Customer ira a esta página //
 Route::get('map', [MapController::class, 'index']);
 
-//Obtenemos todos los marcadores en el mapa
-Route::post('markets', [MapController::class, 'montarMarkets']);
-//Vista filtrando por etiquetas
-Route::post('filtro', [MapController::class, 'filtro']);
-//Vista filtrando por favoritos
+// Vista filtrando por etiquetas //
+Route::post('etiquetas/{id}', [MapController::class, 'etiquetas']);
+
+// Vista filtrando por favoritos
+
