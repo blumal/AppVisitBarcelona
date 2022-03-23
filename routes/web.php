@@ -18,6 +18,9 @@ use App\Http\Controllers\DB;
 // Login (Inicio Sesion) //
 Route::get('login',[MapController::class,'login']);
 Route::post('loginpost',[MapController::class,'loginpost']);
+//
+//Obtenemos todos los marcadores en el mapa
+Route::post('markets', [MapController::class, 'montarMarkets']);
 
 // Logout (Cerrar Sesion) //
 Route::post('logout',[MapController::class,'logout']);
