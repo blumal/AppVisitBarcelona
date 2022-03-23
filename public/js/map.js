@@ -92,7 +92,7 @@ function leerMarkets() {
                             '<button class="ver" onclick="abrirmodal_lugar(' + respuesta[i].id_lu + ',\'' + respuesta[i].nombre_lu + '\',\'' + respuesta[i].descripcion_lu + '\',\'' + respuesta[i].foto_fo + '\',\'' + respuesta[i].etiqueta_et + '\'); return false;">Ver mas...</button>' +
                             '</div>' +
                             '<div class="comollegar">' +
-                            '<button class="crosshair" onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')"><i class="fa-solid fa-location-dot"></i></button>' +
+                            '<button class="crosshair" onclick="routingMap(' + respuesta[i].latitud_di + ',' + respuesta[i].longitud_di + ')">Como llegar?<i class="fa-solid fa-location-dot"></i></button>' +
                             '</div>' +
                             '<br>' +
                             '<br>' +

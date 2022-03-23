@@ -30,7 +30,7 @@ Route::get('admin',[MapController::class,'mostrarUser']);
 
 // Mostrar usuarios AJAX //
 Route::get('usuarios',[MapController::class,'mostrarUser']);
-Route::post('filtro',[MapController::class,'show']);
+Route::post('filtro',[MapController::class,'filtro']);
 
 // CREAR RECURSOS //
 Route::post('crear',[MapController::class,'crearPost']);
